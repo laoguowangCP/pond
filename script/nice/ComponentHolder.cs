@@ -1,0 +1,714 @@
+using Godot;
+using System;
+using System.Collections.Generic;
+using LGWCP.Util.Collecty;
+using LGWCP.Extension;
+using System.Linq;
+using GodotTask;
+
+namespace LGWCP.Nice.Godot;
+
+[GlobalClass]
+public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>
+{
+    public static readonly Action<Node, bool>[] SetNodeActivitys = [
+        NodeExtension.StaicSetProcess,
+        NodeExtension.StaicSetPhysicsProcess,
+        NodeExtension.StaicSetProcessInput,
+        NodeExtension.StaicSetProcessShortcutInput,
+        NodeExtension.StaicSetProcessUnhandledKeyInput,
+        NodeExtension.StaicSetProcessUnhandledInput
+    ];
+
+    public static readonly NodePath NodePath = new("ComponentHolder");
+
+    // [Export] protected ComponentResourceSlot ComponentResourceSlot;
+    [Export] protected ComponentResource Component00;
+    [Export] protected ComponentResource Component01;
+    [Export] protected ComponentResource Component02;
+    [Export] protected ComponentResource Component03;
+
+    public readonly Dictionary<Type, IComponent> KVComponents;
+    public readonly int[] OscillatorsTickLocal;
+    public readonly InverseIndexList<IComponent>[] ComponentsTickLocal;
+    public readonly Dictionary<TagEnum, InverseIndexList<TagIndexable>> KVTagIdxabs;
+    protected bool IsEntityReady = false;
+    protected Node Entity;
+    protected TickContext TickContext = new();
+    protected Queue<(IComponent, IComponent)> TickAfterComponents = new();
+    protected bool IsFreeOnExitTree = false;
+
+    // Recursive free on exit tree
+    protected ComponentHolder DirectAncestorHolder;
+    protected InverseIndexList<ComponentHolder> DirectDescendantHolders = new();
+    public int InverseIndex { get; set; } = -1;
+    public InverseIndexList<ComponentHolder> InverseIndexList { get; set; }
+
+
+    public ComponentHolder()
+    {
+        KVComponents = new();
+        OscillatorsTickLocal = new int[(int)TickGroupEnum.LocalGroupCount];
+        ComponentsTickLocal = new InverseIndexList<IComponent>[(int)TickGroupEnum.LocalGroupCount];
+        for (int i = 0; i < ComponentsTickLocal.Length; ++i)
+        {
+            OscillatorsTickLocal[i] = 0;
+            ComponentsTickLocal[i] = new();
+        }
+    }
+
+    public override void _EnterTree()
+    {
+        Entity = GetParentOrNull<Node>();
+
+        Node ancestor = Entity.GetParentOrNull<Node>();
+        while (ancestor != null)
+        {
+            if (ancestor.TryGetComponentHolder(out var ancestorHolder))
+            {
+                ancestorHolder.AddDirectDescendantHolder(this);
+                DirectAncestorHolder = ancestorHolder;
+                break;
+            }
+            ancestor = ancestor.GetParentOrNull<Node>();
+        }
+    }
+
+    public override void _ExitTree()
+    {
+        if (IsFreeOnExitTree)
+        {
+            Callable.From(this.DeferedFree).CallDeferred();
+        }
+        DirectAncestorHolder?.RemoveDirectDescendantHolder(this);
+    }
+
+    protected void DeferedFree()
+    {
+        // Remove all components
+        var components = KVComponents.Values.ToArray();
+        foreach (var comp in components)
+        {
+            TryRemoveComponent(comp);
+        }
+    }
+
+    /*
+    public override void _Notification(int what)
+    {
+        if (what == NotificationPredelete)
+        {
+            // Remove all components
+            var components = KVComponents.Values.ToArray();
+            foreach (var component in components)
+            {
+                TryRemoveComponent(component);
+            }
+            GD.Print(what);
+        }
+    }
+    */
+
+    public void HintFreeOnExitTree()
+    {
+        if (!IsFreeOnExitTree)
+        {
+            foreach (var holder in DirectDescendantHolders)
+            {
+                holder.HintFreeOnExitTree();
+            }
+            IsFreeOnExitTree = true;
+        }
+    }
+
+    public void CancelFreeOnExitTree()
+    {
+        if (IsFreeOnExitTree)
+        {
+            foreach (var holder in DirectDescendantHolders)
+            {
+                holder.CancelFreeOnExitTree();
+            }
+            IsFreeOnExitTree = false;
+        }
+    }
+
+    public void AddDirectDescendantHolder(ComponentHolder holder)
+        => DirectDescendantHolders.TryAdd(holder);
+
+    public void RemoveDirectDescendantHolder(ComponentHolder holder)
+        => DirectDescendantHolders.TryRemove(holder);
+
+    public override void _Ready()
+    {
+        // GD.Print(GetPath(), ": ready!");
+        // Deactive node loops by default
+        for (int i = 0; i < SetNodeActivitys.Length; ++i)
+        {
+            SetNodeActivitys[i](this, false);
+        }
+
+        if (Component00 != null)
+        {
+            TryAddComponent(Component00);
+        }
+        if (Component01 != null)
+        {
+            TryAddComponent(Component01);
+        }
+        if (Component02 != null)
+        {
+            TryAddComponent(Component02);
+        }
+        if (Component03 != null)
+        {
+            TryAddComponent(Component03);
+        }
+
+        // On entity ready
+        OnEntityReadyAsync();
+    }
+
+    protected async void OnEntityReadyAsync()
+    {
+        if (!Entity.IsNodeReady())
+        {
+            // await ToSignal(Entity, Node.SignalName.Ready);
+            await GDTask.FromSignal(Entity, Node.SignalName.Ready);
+        }
+        // GD.Print(GetPath(), ": entity ready!");
+
+        IsEntityReady = true;
+
+        var comps = KVComponents.Values.ToArray();
+        foreach (var comp in comps)
+        {
+            comp.OnEntityReady();
+        }
+    }
+
+    public bool TryGetEntity<T>(out T entity)
+        where T : Node
+    {
+        entity = Entity as T;
+        return entity == null;
+    }
+
+    public bool TryAddComponent(IComponent comp)
+    {
+        if (comp.OnHolderTryAdd(this))
+        {
+            if (KVComponents.TryAdd(comp.ComponentType, comp))
+            {
+                // Add tick group
+                AddTickGroup(comp);
+                // Regist Nice
+                if (comp.IsRegist)
+                {
+                    Nice.I.Regist(comp);
+                }
+
+                if (IsEntityReady)
+                {
+                    comp.OnEntityReady();
+                }
+                // else, wait entity to be ready.
+            }
+        }
+
+        return false;
+    }
+
+    public bool TryRemoveComponent(IComponent comp)
+    {
+        if (comp.OnHolderTryRemove())
+        {
+            if (KVComponents.Remove(comp.ComponentType))
+            {
+                // Remove tags
+                RemoveAllTags(comp);
+                // Clear tick orders
+                ClearTickOrders(comp);
+                // Remove tick group
+                RemoveTickGroup(comp);
+                // Regist Nice
+                if (comp.IsRegist)
+                {
+                    Nice.I.Unregist(comp);
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public bool TryRemoveComponent<T>()
+    {
+        if (KVComponents.TryGetValue(typeof(T), out var comp))
+        {
+            return TryRemoveComponent(comp);
+        }
+
+        return false;
+    }
+
+    public bool TryGetComponent<T>(out T comp)
+        where T : IComponent
+    {
+        if (KVComponents.TryGetValue(typeof(T), out var value))
+        {
+            comp = (T)value;
+            return true;
+        }
+#if DEBUG
+        else
+        {
+            GD.PushWarning(GetPath(), ": component <", typeof(T), "> is expected but not exist");
+        }
+#endif
+        comp = default;
+        return false;
+    }
+
+    protected void AddTickGroup(IComponent comp)
+    {
+        var tickGroup = comp.TickGroup;
+        if (tickGroup < TickGroupEnum.LowerCheckLocalGroup)
+        {
+            // Add local group
+            comp.TickOscillator = OscillatorsTickLocal[(int)tickGroup];
+            ComponentsTickLocal[(int)tickGroup].TryAdd(comp);
+            CheckGroupEmptyAndSetActivity(tickGroup);
+        }
+        else if (tickGroup > TickGroupEnum.LowerCheckLocalGroup
+            && tickGroup < TickGroupEnum.LowerCheckGlobalGroup)
+        {
+            // Add global group
+            Nice.I.AddTickGroupGlobal(comp);
+        }
+    }
+
+    protected void RemoveTickGroup(IComponent comp)
+    {
+        var tickGroup = comp.TickGroup;
+        if (tickGroup < TickGroupEnum.LowerCheckLocalGroup)
+        {
+            // Remove local group
+            comp.TickOscillator = -1;
+            ComponentsTickLocal[(int)tickGroup].TryRemove(comp);
+            CheckGroupEmptyAndSetActivity(tickGroup);
+        }
+        else if (tickGroup > TickGroupEnum.LowerCheckLocalGroup
+            && tickGroup < TickGroupEnum.LowerCheckGlobalGroup)
+        {
+            // Add global group
+            Nice.I.RemoveTickGroupGlobal(comp);
+        }
+    }
+
+    protected void CheckGroupEmptyAndSetActivity(TickGroupEnum tickGroup)
+    {
+        int tickGroupIdx = (int)tickGroup;
+        bool isNotEmpty = ComponentsTickLocal[tickGroupIdx].Count > 0;
+        var setAction = SetNodeActivitys[tickGroupIdx];
+        setAction(this, isNotEmpty);
+    }
+
+    public bool TryAddTag(IComponent comp, TagEnum tag)
+    {
+        bool isNewTag = true;
+        var tagIdxabs = comp.TagIdxabs;
+        if (tagIdxabs != null)
+        {
+            for (int i = 0; i < tagIdxabs.Count; ++i)
+            {
+                if (tag == tagIdxabs[i].Tag)
+                {
+                    isNewTag = false;
+                    break;
+                }
+            }
+        }
+
+        if (isNewTag)
+        {
+            AddTagNoCheck(comp, tag);
+        }
+
+        return isNewTag;
+    }
+
+    public void AddTagNoCheck(IComponent comp, TagEnum tag)
+    {
+        // TODO: pool it maybe
+        TagIndexable tagIdxab = new(tag, comp);
+        if (comp.TagIdxabs == null)
+        {
+            comp.TagIdxabs = new();
+        }
+        comp.TagIdxabs.Add(tagIdxab);
+        OnComponentAddTag(tagIdxab);
+    }
+
+    public bool TryRemoveTag(IComponent comp, TagEnum tag)
+    {
+        bool isHasTag = false;
+        var tagIdxabs = comp.TagIdxabs;
+        if (tagIdxabs != null)
+        {
+            int count = tagIdxabs.Count;
+            for (int i = 0; i < count; ++i)
+            {
+                if (tag == tagIdxabs[i].Tag)
+                {
+                    isHasTag = true;
+                    OnComponentRemoveTag(tagIdxabs[i]);
+                    tagIdxabs[i] = tagIdxabs[count - 1];
+                    tagIdxabs.RemoveAt(count - 1);
+                    break;
+                }
+            }
+        }
+
+        return isHasTag;
+    }
+
+    public void RemoveAllTags(IComponent comp)
+    {
+        var tagIdxabs = comp.TagIdxabs;
+        if (tagIdxabs != null)
+        {
+            for (int i = 0; i < tagIdxabs.Count; ++i)
+            {
+                OnComponentRemoveTag(tagIdxabs[i]);
+            }
+        }
+        tagIdxabs.Clear();
+    }
+
+    // Map tag indexable: called whenever component has a tag added, during start up or running.
+    public void OnComponentAddTag(TagIndexable tagIdxab)
+    {
+        InverseIndexList<TagIndexable> tagIdxabs;
+        if (KVTagIdxabs.TryGetValue(tagIdxab.Tag, out tagIdxabs))
+        {
+            tagIdxabs.TryAdd(tagIdxab);
+        }
+        else
+        {
+            tagIdxabs = new();
+            tagIdxabs.TryAdd(tagIdxab);
+            KVTagIdxabs[tagIdxab.Tag] = tagIdxabs;
+        }
+    }
+
+    public void OnComponentRemoveTag(TagIndexable tagIdxab)
+    {
+        if (KVTagIdxabs.TryGetValue(tagIdxab.Tag, out var tagIdxabs))
+        {
+            tagIdxabs.TryRemove(tagIdxab);
+        }
+    }
+
+    public void Block(IComponent comp)
+    {
+        ++comp.BlockCount;
+        // Handle none tick component
+        if (comp.TickGroup == TickGroupEnum.None && comp.BlockCount == 1)
+        {
+            // comp.IsBlocked = true;
+            comp.OnActivated();
+        }
+    }
+
+    public void Unblock(IComponent comp)
+    {
+        if (comp.BlockCount > 0)
+        {
+            --comp.BlockCount;
+            if (comp.TickGroup == TickGroupEnum.None && comp.BlockCount == 0)
+            {
+                // comp.IsBlocked = false;
+                comp.OnDeactivated();
+            }
+        }
+#if DEBUG
+        else
+        {
+            GD.PushWarning(GetPath(), ": component [", comp.ComponentType, "] is over unblocked.");
+        }
+#endif
+    }
+
+    public void BlockByTag(TagEnum tag)
+    {
+        if (KVTagIdxabs.TryGetValue(tag, out var tagIdxabs))
+        {
+            foreach (var tagIdxab in tagIdxabs)
+            {
+                Block(tagIdxab.Component);
+            }
+        }
+    }
+
+    public void BlockByTagExcept(TagEnum tag, IComponent except)
+    {
+        if (KVTagIdxabs.TryGetValue(tag, out var tagIdxabs))
+        {
+            foreach (var tagIdxab in tagIdxabs)
+            {
+                var comp = tagIdxab.Component;
+                if (comp != except)
+                {
+                    Block(comp);
+                }
+            }
+        }
+    }
+
+    public void UnblockByTag(TagEnum tag)
+    {
+        if (KVTagIdxabs.TryGetValue(tag, out var tagIdxabs))
+        {
+            foreach (var tagIdxab in tagIdxabs)
+            {
+                Unblock(tagIdxab.Component);
+            }
+        }
+    }
+
+    public void UnblockByTagExcept(TagEnum tag, IComponent except)
+    {
+        if (KVTagIdxabs.TryGetValue(tag, out var tagIdxabs))
+        {
+            foreach (var tagIdxab in tagIdxabs)
+            {
+                var comp = tagIdxab.Component;
+                if (comp != except)
+                {
+                    Unblock(comp);
+                }
+            }
+        }
+    }
+
+    // Comp should tick after T
+    public void ShouldTickAfter<T>(IComponent comp)
+        where T : IComponent
+    {
+        if (TryGetComponent<T>(out var wait))
+        {
+            ShouldTickOrder(from: comp, wait);
+        }
+    }
+
+    // Comp should tick before T
+    public void ShouldTickBefore<T>(IComponent comp)
+        where T : IComponent
+    {
+        if (TryGetComponent<T>(out var from))
+        {
+            ShouldTickOrder(from, wait: comp);
+        }
+    }
+
+    public void ShouldTickOrder(IComponent from, IComponent wait)
+    {
+        if (from.TickGroup != wait.TickGroup)
+        {
+#if DEBUG
+            GD.PushWarning(GetPath(), ": should tick order ", from.ComponentType, " after ", wait.ComponentType, " not in same tick group.");
+#endif
+            return;
+        }
+
+        TryTickAfterIndexable idxab = new(from, wait);
+        if (from.TryTickAfterWaits == null)
+        {
+            from.TryTickAfterWaits = new();
+        }
+        from.TryTickAfterWaits.TryAdd(idxab);
+
+        if (wait.TryTickAfterFroms == null)
+        {
+            wait.TryTickAfterFroms = new();
+        }
+        wait.TryTickAfterFroms.Add(idxab);
+    }
+
+    protected void ClearTickOrders(IComponent comp)
+    {
+        // Don't wait me anymore
+        var tryTickAfterFroms = comp.TryTickAfterFroms;
+        if (tryTickAfterFroms != null)
+        {
+            for (int i = 0; i < tryTickAfterFroms.Count; ++i)
+            {
+                var idxab = tryTickAfterFroms[i];
+                idxab.InverseIndexList.TryRemove(idxab);
+            }
+            tryTickAfterFroms.Clear();
+        }
+    }
+
+    public override void _Process(double delta)
+    {
+        TickContext.AnyDelta = (float)delta;
+        DoCheckAndTick(TickGroupEnum.Process);
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        TickContext.AnyDelta = (float)delta;
+        DoCheckAndTick(TickGroupEnum.PhysicsProcess);
+    }
+
+    public override void _Input(InputEvent input)
+    {
+        using (input)
+        {
+            TickContext.AnyInput = input;
+            DoCheckAndTick(TickGroupEnum.Input);
+        }
+    }
+
+    public override void _ShortcutInput(InputEvent input)
+    {
+        using (input)
+        {
+            TickContext.AnyInput = input;
+            DoCheckAndTick(TickGroupEnum.ShortcutInput);
+        }
+    }
+
+    public override void _UnhandledKeyInput(InputEvent input)
+    {
+        using (input)
+        {
+            TickContext.AnyInput = input;
+            DoCheckAndTick(TickGroupEnum.UnhandledKeyInput);
+        }
+    }
+
+    public override void _UnhandledInput(InputEvent input)
+    {
+        using (input)
+        {
+            TickContext.AnyInput = input;
+            DoCheckAndTick(TickGroupEnum.UnhandledInput);
+        }
+    }
+
+    protected void DoCheckAndTick(TickGroupEnum tickGroup)
+    {
+        int tickGroupIdx = (int)tickGroup;
+        int tickOscillator = OscillatorsTickLocal[tickGroupIdx] == 1 ? 0 : 1;
+        OscillatorsTickLocal[tickGroupIdx] = tickOscillator;
+        var comps = ComponentsTickLocal[tickGroupIdx];
+
+        foreach (var comp in comps)
+        {
+            if (TryTickAfter(comp, out var wait, tickOscillator))
+            {
+                TickAfterComponents.Enqueue((comp, wait));
+            }
+            else
+            {
+                HandleBlockStateTickStateAndDoTick(comp, tickOscillator);
+            }
+        }
+
+        // Handle components trying to wait the other.
+        int remainCnt = TickAfterComponents.Count;
+        int iterCnt = 0;
+        while (remainCnt > 0)
+        {
+            // Detect cyclic wait
+            if (iterCnt == remainCnt) // Cyclic
+            {
+#if DEBUG
+                var (cyclicCompTryWait, cyclicCompBeWaited) = TickAfterComponents.Peek();
+                GD.PushWarning(this.GetPath(), ": cyclic component try tick after, ", cyclicCompTryWait.ComponentType, " is waiting ", cyclicCompBeWaited.ComponentType);
+#endif
+                // Tick ignoring order.
+                while (TickAfterComponents.TryDequeue(out var compPair))
+                {
+                    var (comp, _) = compPair;
+                    HandleBlockStateTickStateAndDoTick(comp, tickOscillator);
+                }
+                break;
+            }
+            else // No cyclic
+            {
+                var (comp, wait) = TickAfterComponents.Dequeue();
+                // Swap
+                comps.TrySwap(comp, wait);
+                // GD.Print("Swap!");
+                if (TryTickAfter(comp, out var waitNext, tickOscillator))
+                {
+                    // Still wait
+                    TickAfterComponents.Enqueue((comp, waitNext));
+                    ++iterCnt;
+                }
+                else
+                {
+                    HandleBlockStateTickStateAndDoTick(comp, tickOscillator);
+                    // Reset iter count.
+                    iterCnt = 0;
+                    --remainCnt;
+                }
+            }
+        }
+    }
+    
+    protected bool TryTickAfter(IComponent comp, out IComponent wait, int tickOscillator)
+    {
+        var tryTickAfterWaits = comp.TryTickAfterWaits;
+        int tryIdx = comp.TryTickAfterWaitsIdx;
+        if (tryTickAfterWaits != null)
+        {
+            for (; tryIdx < tryTickAfterWaits.Count; ++tryIdx)
+            {
+                var idxab = tryTickAfterWaits[tryIdx];
+                // if (!idxab.Wait.IsTicked)
+                if (!(idxab.Wait.TickOscillator == tickOscillator))
+                {
+                    wait = idxab.Wait;
+                    comp.TryTickAfterWaitsIdx = tryIdx; // Give back idx
+                    return true;
+                }
+            }
+            tryIdx = 0;
+        }
+        wait = null;
+        comp.TryTickAfterWaitsIdx = tryIdx; // Give back idx
+        return false;
+    }
+
+    protected void HandleBlockStateTickStateAndDoTick(IComponent comp, int tickOscillator)
+    {
+        if (comp.IsActivated)
+        {
+            if (comp.IsBlocked || comp.ShouldDeactivate())
+            {
+                comp.IsActivated = false;
+                comp.OnDeactivated();
+            }
+            else
+            {
+                comp.Tick(TickContext);
+            }
+        }
+        else // not activated
+        {
+            if (!comp.IsBlocked && comp.ShouldActivate())
+            {
+                comp.IsActivated = true;
+                comp.OnActivated();
+                comp.Tick(TickContext);
+            }
+        }
+
+        comp.TickOscillator = tickOscillator;
+    }
+}
