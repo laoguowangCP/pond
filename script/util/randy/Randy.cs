@@ -58,13 +58,13 @@ public static class Randy
 
 public interface IRNG32
 {
-    public UInt32 Next();
+    public uint Next();
 }
 
 public interface IRNGStateful
 {
-    public UInt64 GetRNGState();
-    public void SetRNGState(UInt64 state);
+    public ulong GetRNGState();
+    public void SetRNGState(ulong state);
 }
 
 #endregion
@@ -74,12 +74,12 @@ public interface IRNGStateful
 
 public class PCG32Fast : IRNG32, IRNGStateful
 {
-    protected const UInt64 mul = 6364136223846793005UL;
-    protected const UInt64 inc = 1442695040888963407UL;
+    protected const ulong mul = 6364136223846793005UL;
+    protected const ulong inc = 1442695040888963407UL;
 
-    protected UInt64 _state;
+    protected ulong _state;
 
-    public PCG32Fast(UInt64 state)
+    public PCG32Fast(ulong state)
     {
         // seed is modified to ord
         bool isStateOrd = state << 63 >> 63 == 1UL;
@@ -92,27 +92,27 @@ public class PCG32Fast : IRNG32, IRNGStateful
     public PCG32Fast(int seed = 0)
     {
         // seed is modified to odd
-        _state = ((UInt64)seed << 1) + inc;
+        _state = ((ulong)seed << 1) + inc;
     }
 
-    public UInt32 Next()
+    public uint Next()
     {
         unchecked
         {
-            UInt64 x = _state;
+            ulong x = _state;
             int count = (int)(x >> 61);	// 61 = 64 - 3
             _state = x * mul;
             x ^= x >> 22;
-            return (UInt32)(x >> (22 + count)); // 22 = 32 - 3 - 7
+            return (uint)(x >> (22 + count)); // 22 = 32 - 3 - 7
         }
     }
 
-    public UInt64 GetRNGState()
+    public ulong GetRNGState()
     {
         return _state;
     }
 
-    public void SetRNGState(UInt64 state)
+    public void SetRNGState(ulong state)
     {
         _state = state;
     }
@@ -126,12 +126,12 @@ public class PCG32Fast : IRNG32, IRNGStateful
 public class PCG32 : IRNG32, IRNGStateful
 {
     // PCG-XSH-RR with 64-bit state and 32-bit output
-    protected const UInt64 mul = 6364136223846793005UL;
-    protected const UInt64 inc = 1442695040888963407UL;
+    protected const ulong mul = 6364136223846793005UL;
+    protected const ulong inc = 1442695040888963407UL;
 
-    protected UInt64 _state;
+    protected ulong _state;
 
-    public PCG32(UInt64 state)
+    public PCG32(ulong state)
     {
         // seed is modified to ord
         _state = state;
@@ -143,24 +143,24 @@ public class PCG32 : IRNG32, IRNGStateful
         _state = (ulong)seed + inc;
     }
 
-    public UInt32 Next()
+    public uint Next()
     {
         unchecked
         {
-            UInt64 x = _state;
+            ulong x = _state;
             _state = _state * mul + inc;
             int count = (int)(x >> 59);	// 59 = 64 - 5
-            UInt32 y = (UInt32)((x ^ (x >> 18)) >> 27);
+            uint y = (uint)((x ^ (x >> 18)) >> 27);
             return y >> count | y << (-count & 31); // 22 = 32 - 3 - 7
         }
     }
 
-    public UInt64 GetRNGState()
+    public ulong GetRNGState()
     {
         return _state;
     }
 
-    public void SetRNGState(UInt64 state)
+    public void SetRNGState(ulong state)
     {
         _state = state;
     }

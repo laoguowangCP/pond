@@ -9,7 +9,8 @@ using GodotTask;
 namespace LGWCP.Nice.Godot;
 
 [GlobalClass]
-public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>
+[Tool]
+public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>, IComponentSheet
 {
     public static readonly Action<Node, bool>[] SetNodeActivitys = [
         NodeExtension.StaicSetProcess,
@@ -23,10 +24,10 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>
     public static readonly NodePath NodePath = new("ComponentHolder");
 
     // [Export] protected ComponentResourceSlot ComponentResourceSlot;
-    [Export] protected ComponentResource Component00;
-    [Export] protected ComponentResource Component01;
-    [Export] protected ComponentResource Component02;
-    [Export] protected ComponentResource Component03;
+    [Export] public ComponentResource Component00;
+    [Export] public ComponentResource Component01;
+    [Export] public ComponentResource Component02;
+    [Export] public ComponentResource Component03;
 
     public readonly Dictionary<Type, IComponent> KVComponents;
     public readonly int[] OscillatorsTickLocal;
@@ -61,6 +62,7 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>
     {
         Entity = GetParentOrNull<Node>();
 
+        // Find nearest ancestor holder
         Node ancestor = Entity.GetParentOrNull<Node>();
         while (ancestor != null)
         {
@@ -196,7 +198,7 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>
 
     public bool TryAddComponent(IComponent comp)
     {
-        if (comp.OnHolderTryAdd(this))
+        if (comp != null && comp.OnHolderTryAdd(this))
         {
             if (KVComponents.TryAdd(comp.ComponentType, comp))
             {
@@ -221,7 +223,7 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>
 
     public bool TryRemoveComponent(IComponent comp)
     {
-        if (comp.OnHolderTryRemove())
+        if (comp != null && comp.OnHolderTryRemove())
         {
             if (KVComponents.Remove(comp.ComponentType))
             {
@@ -268,6 +270,16 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>
 #endif
         comp = default;
         return false;
+    }
+
+    public IComponent[] GetSheetComponents()
+    {
+        return [
+            Component00,
+            Component01,
+            Component02,
+            Component03
+        ];
     }
 
     protected void AddTickGroup(IComponent comp)

@@ -7,6 +7,7 @@ using LGWCP.Util.Collecty;
 namespace LGWCP.Nice.Godot;
 
 [GlobalClass]
+[Tool]
 public abstract partial class ComponentResource : Resource, IComponent
 {
     public abstract Type ComponentType { get; }

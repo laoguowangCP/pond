@@ -3,39 +3,38 @@ using Godot;
 using LGWCP.Nice;
 using LGWCP.Nice.Godot;
 
-namespace LGWCP.Gameplay;
+namespace LGWCP.Nice;
 
 [GlobalClass]
-public partial class ComponentResExt4X : ComponentResource
+[Tool]
+public partial class ComponentResExt4X : ComponentResource, IComponentSheet
 {
     public override Type ComponentType => typeof(ComponentResExt4X);
     public override TickGroupEnum TickGroup => TickGroupEnum.None;
     public override bool IsRegist => false;
 
-    [Export] protected ComponentResource Component00;
-    [Export] protected ComponentResource Component01;
-    [Export] protected ComponentResource Component02;
-    [Export] protected ComponentResource Component03;
+    [Export] public ComponentResource Component00;
+    [Export] public ComponentResource Component01;
+    [Export] public ComponentResource Component02;
+    [Export] public ComponentResource Component03;
 
     public override bool OnHolderTryAdd(ComponentHolder holder)
     {
         Holder = holder;
-        if (Component00 != null)
-        {
-            holder.TryAddComponent(Component00);
-        }
-        if (Component01 != null)
-        {
-            holder.TryAddComponent(Component01);
-        }
-        if (Component02 != null)
-        {
-            holder.TryAddComponent(Component02);
-        }
-        if (Component03 != null)
-        {
-            holder.TryAddComponent(Component03);
-        }
+        holder.TryAddComponent(Component00);
+        holder.TryAddComponent(Component01);
+        holder.TryAddComponent(Component02);
+        holder.TryAddComponent(Component03);
         return false;
+    }
+
+    public IComponent[] GetSheetComponents()
+    {
+        return [
+            Component00,
+            Component01,
+            Component02,
+            Component03
+        ];
     }
 }

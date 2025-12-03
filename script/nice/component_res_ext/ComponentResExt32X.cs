@@ -3,10 +3,11 @@ using Godot;
 using LGWCP.Nice;
 using LGWCP.Nice.Godot;
 
-namespace LGWCP.Gameplay;
+namespace LGWCP.Nice.Godot;
 
 [GlobalClass]
-public partial class ComponentResExt32X : ComponentResource
+[Tool]
+public partial class ComponentResExt32X : ComponentResource, IComponentSheet
 {
     public override Type ComponentType => typeof(ComponentResExt32X);
     public override TickGroupEnum TickGroup => TickGroupEnum.None;
@@ -48,134 +49,76 @@ public partial class ComponentResExt32X : ComponentResource
     public override bool OnHolderTryAdd(ComponentHolder holder)
     {
         Holder = holder;
-        if (Component00 != null)
-        {
-            holder.TryAddComponent(Component00);
-        }
-        if (Component01 != null)
-        {
-            holder.TryAddComponent(Component01);
-        }
-        if (Component02 != null)
-        {
-            holder.TryAddComponent(Component02);
-        }
-        if (Component03 != null)
-        {
-            holder.TryAddComponent(Component03);
-        }
-        if (Component04 != null)
-        {
-            holder.TryAddComponent(Component04);
-        }
-        if (Component05 != null)
-        {
-            holder.TryAddComponent(Component05);
-        }
-        if (Component06 != null)
-        {
-            holder.TryAddComponent(Component06);
-        }
-        if (Component07 != null)
-        {
-            holder.TryAddComponent(Component07);
-        }
-        if (Component08 != null)
-        {
-            holder.TryAddComponent(Component08);
-        }
-        if (Component09 != null)
-        {
-            holder.TryAddComponent(Component09);
-        }
-        if (Component10 != null)
-        {
-            holder.TryAddComponent(Component10);
-        }
-        if (Component11 != null)
-        {
-            holder.TryAddComponent(Component11);
-        }
-        if (Component12 != null)
-        {
-            holder.TryAddComponent(Component12);
-        }
-        if (Component13 != null)
-        {
-            holder.TryAddComponent(Component13);
-        }
-        if (Component14 != null)
-        {
-            holder.TryAddComponent(Component14);
-        }
-        if (Component15 != null)
-        {
-            holder.TryAddComponent(Component15);
-        }
-        if (Component16 != null)
-        {
-            holder.TryAddComponent(Component16);
-        }
-        if (Component17 != null)
-        {
-            holder.TryAddComponent(Component17);
-        }
-        if (Component18 != null)
-        {
-            holder.TryAddComponent(Component18);
-        }
-        if (Component19 != null)
-        {
-            holder.TryAddComponent(Component19);
-        }
-        if (Component20 != null)
-        {
-            holder.TryAddComponent(Component20);
-        }
-        if (Component21 != null)
-        {
-            holder.TryAddComponent(Component21);
-        }
-        if (Component22 != null)
-        {
-            holder.TryAddComponent(Component22);
-        }
-        if (Component23 != null)
-        {
-            holder.TryAddComponent(Component23);
-        }
-        if (Component24 != null)
-        {
-            holder.TryAddComponent(Component24);
-        }
-        if (Component25 != null)
-        {
-            holder.TryAddComponent(Component25);
-        }
-        if (Component26 != null)
-        {
-            holder.TryAddComponent(Component26);
-        }
-        if (Component27 != null)
-        {
-            holder.TryAddComponent(Component27);
-        }
-        if (Component28 != null)
-        {
-            holder.TryAddComponent(Component28);
-        }
-        if (Component29 != null)
-        {
-            holder.TryAddComponent(Component29);
-        }
-        if (Component30 != null)
-        {
-            holder.TryAddComponent(Component30);
-        }
-        if (Component31 != null)
-        {
-            holder.TryAddComponent(Component31);
-        }
+        holder.TryAddComponent(Component00);
+        holder.TryAddComponent(Component01);
+        holder.TryAddComponent(Component02);
+        holder.TryAddComponent(Component03);
+        holder.TryAddComponent(Component04);
+        holder.TryAddComponent(Component05);
+        holder.TryAddComponent(Component06);
+        holder.TryAddComponent(Component07);
+        holder.TryAddComponent(Component08);
+        holder.TryAddComponent(Component09);
+        holder.TryAddComponent(Component10);
+        holder.TryAddComponent(Component11);
+        holder.TryAddComponent(Component12);
+        holder.TryAddComponent(Component13);
+        holder.TryAddComponent(Component14);
+        holder.TryAddComponent(Component15);
+        holder.TryAddComponent(Component16);
+        holder.TryAddComponent(Component17);
+        holder.TryAddComponent(Component18);
+        holder.TryAddComponent(Component19);
+        holder.TryAddComponent(Component20);
+        holder.TryAddComponent(Component21);
+        holder.TryAddComponent(Component22);
+        holder.TryAddComponent(Component23);
+        holder.TryAddComponent(Component24);
+        holder.TryAddComponent(Component25);
+        holder.TryAddComponent(Component26);
+        holder.TryAddComponent(Component27);
+        holder.TryAddComponent(Component28);
+        holder.TryAddComponent(Component29);
+        holder.TryAddComponent(Component30);
+        holder.TryAddComponent(Component31);
         return false;
+    }
+
+    public IComponent[] GetSheetComponents()
+    {
+        return [
+            Component00,
+            Component01,
+            Component02,
+            Component03,
+            Component04,
+            Component05,
+            Component06,
+            Component07,
+            Component08,
+            Component09,
+            Component10,
+            Component11,
+            Component12,
+            Component13,
+            Component14,
+            Component15,
+            Component16,
+            Component17,
+            Component18,
+            Component19,
+            Component20,
+            Component21,
+            Component22,
+            Component23,
+            Component24,
+            Component25,
+            Component26,
+            Component27,
+            Component28,
+            Component29,
+            Component30,
+            Component31
+        ];
     }
 }
