@@ -50,7 +50,7 @@ public partial class BtnAsResizeHandleDownRight : ComponentResource
 
     public void DragBegin()
     {
-        GD.Print(Entity.GetPath(), "DragBegin");
+        // GD.Print(Entity.GetPath(), "DragBegin");
         if (Nice.I.TryGetRegistedComponentFirst<MouseDrag>(out var mouseDrag))
         {
             if (mouseDrag.RequestDragging(Entity, this))
@@ -65,7 +65,7 @@ public partial class BtnAsResizeHandleDownRight : ComponentResource
 
     public void DragEnd()
     {
-        GD.Print(Entity.GetPath(), "DragEnd");
+        // GD.Print(Entity.GetPath(), "DragEnd");
         if (Nice.I.TryGetRegistedComponentFirst<MouseDrag>(out var mouseDrag))
         {
             if (mouseDrag.UnrequestDragging(Entity))

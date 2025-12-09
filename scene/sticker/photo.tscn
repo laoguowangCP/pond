@@ -1,48 +1,48 @@
-[gd_scene load_steps=17 format=3 uid="uid://bt7kggvepv5fm"]
+[gd_scene load_steps=17 format=3 uid="uid://ysp60y6ghv7n"]
 
-[ext_resource type="Script" uid="uid://dt0w6j6oba4xu" path="res://script/nice/ComponentHolder.cs" id="1_ne50n"]
-[ext_resource type="Script" uid="uid://b2xcb4nsxu6qc" path="res://script/component/handle/BtnAsDragHandle.cs" id="2_wfo34"]
-[ext_resource type="Script" uid="uid://ctygvso0otdb7" path="res://script/component/handle/BtnAsResizeHandleDownMid.cs" id="3_be7s3"]
-[ext_resource type="Script" uid="uid://de6f22o20s6ba" path="res://script/nice/component_res_ext/ComponentResExt16X.cs" id="3_iu6u6"]
-[ext_resource type="Script" uid="uid://bo8uw0h2t47u7" path="res://script/component/EntityControlSizeClamp.cs" id="4_be7s3"]
-[ext_resource type="Script" uid="uid://e75slxgmdxkr" path="res://script/component/handle/BtnAsResizeHandleDownRight.cs" id="4_y7nij"]
-[ext_resource type="Script" uid="uid://ehka83js4vpd" path="res://script/component/handle/BtnAsResizeHandleDownLeft.cs" id="5_ucgp8"]
-[ext_resource type="Script" uid="uid://7a0b3t17qkuf" path="res://script/component/handle/DragEndOnFocusExited.cs" id="6_k4kkr"]
-[ext_resource type="Theme" uid="uid://liol3f3pxqvr" path="res://theme/main_theme.tres" id="9_4keq1"]
+[ext_resource type="Script" uid="uid://dt0w6j6oba4xu" path="res://script/nice/ComponentHolder.cs" id="1_menoa"]
+[ext_resource type="Script" uid="uid://b2xcb4nsxu6qc" path="res://script/component/handle/BtnAsDragHandle.cs" id="2_stqh4"]
+[ext_resource type="Script" uid="uid://ctygvso0otdb7" path="res://script/component/handle/BtnAsResizeHandleDownMid.cs" id="3_8blf7"]
+[ext_resource type="Script" uid="uid://e75slxgmdxkr" path="res://script/component/handle/BtnAsResizeHandleDownRight.cs" id="4_5bnfo"]
+[ext_resource type="Script" uid="uid://ehka83js4vpd" path="res://script/component/handle/BtnAsResizeHandleDownLeft.cs" id="5_6brdl"]
+[ext_resource type="Script" uid="uid://7a0b3t17qkuf" path="res://script/component/handle/DragEndOnFocusExited.cs" id="6_j6yad"]
+[ext_resource type="Script" uid="uid://bo8uw0h2t47u7" path="res://script/component/EntityControlSizeClamp.cs" id="7_xpyjd"]
+[ext_resource type="Script" uid="uid://de6f22o20s6ba" path="res://script/nice/component_res_ext/ComponentResExt16X.cs" id="8_tmo60"]
+[ext_resource type="Theme" uid="uid://liol3f3pxqvr" path="res://theme/main_theme.tres" id="9_j4nui"]
 
 [sub_resource type="Resource" id="Resource_wfo34"]
 resource_local_to_scene = true
-script = ExtResource("2_wfo34")
+script = ExtResource("2_stqh4")
 metadata/_custom_type_script = "uid://b2xcb4nsxu6qc"
 
 [sub_resource type="Resource" id="Resource_ucgp8"]
 resource_local_to_scene = true
-script = ExtResource("3_be7s3")
+script = ExtResource("3_8blf7")
 metadata/_custom_type_script = "uid://ctygvso0otdb7"
 
 [sub_resource type="Resource" id="Resource_4keq1"]
 resource_local_to_scene = true
-script = ExtResource("4_y7nij")
+script = ExtResource("4_5bnfo")
 metadata/_custom_type_script = "uid://e75slxgmdxkr"
 
 [sub_resource type="Resource" id="Resource_7few3"]
 resource_local_to_scene = true
-script = ExtResource("5_ucgp8")
+script = ExtResource("5_6brdl")
 metadata/_custom_type_script = "uid://ehka83js4vpd"
 
 [sub_resource type="Resource" id="Resource_xrr1f"]
 resource_local_to_scene = true
-script = ExtResource("6_k4kkr")
+script = ExtResource("6_j6yad")
 metadata/_custom_type_script = "uid://7a0b3t17qkuf"
 
 [sub_resource type="Resource" id="Resource_k4kkr"]
 resource_local_to_scene = true
-script = ExtResource("4_be7s3")
+script = ExtResource("7_xpyjd")
 metadata/_custom_type_script = "uid://bo8uw0h2t47u7"
 
 [sub_resource type="Resource" id="Resource_y7nij"]
 resource_local_to_scene = true
-script = ExtResource("3_iu6u6")
+script = ExtResource("8_tmo60")
 Component00 = SubResource("Resource_wfo34")
 Component01 = SubResource("Resource_ucgp8")
 Component02 = SubResource("Resource_4keq1")
@@ -51,10 +51,10 @@ Component14 = SubResource("Resource_xrr1f")
 Component15 = SubResource("Resource_k4kkr")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 
-[node name="Tip" type="Node2D"]
+[node name="Photo" type="Node2D"]
 
 [node name="ComponentHolder" type="Node" parent="."]
-script = ExtResource("1_ne50n")
+script = ExtResource("1_menoa")
 Component00 = SubResource("Resource_y7nij")
 metadata/_custom_type_script = "uid://dt0w6j6oba4xu"
 
@@ -64,22 +64,24 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_right = 256.0
+offset_right = 243.0
 offset_bottom = 128.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("9_4keq1")
+theme = ExtResource("9_j4nui")
 
 [node name="DragHandleBtn" type="Button" parent="EntityControl"]
 layout_mode = 2
 focus_mode = 0
 
-[node name="TextEdit" type="TextEdit" parent="EntityControl"]
-custom_minimum_size = Vector2(32, 32)
+[node name="PanelContainer" type="PanelContainer" parent="EntityControl"]
 layout_mode = 2
 size_flags_vertical = 3
-placeholder_text = "Hello pond."
-wrap_mode = 1
+
+[node name="TextureRect" type="TextureRect" parent="EntityControl/PanelContainer"]
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
 
 [node name="HBoxContainer" type="HBoxContainer" parent="EntityControl"]
 layout_mode = 2

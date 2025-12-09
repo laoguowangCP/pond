@@ -106,7 +106,6 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
             {
                 TryRemoveComponent(component);
             }
-            GD.Print(what);
         }
     }
     */
@@ -143,7 +142,6 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
 
     public override void _Ready()
     {
-        // GD.Print(GetPath(), ": ready!");
         // Deactive node loops by default
         #if DEBUG
         if (Engine.IsEditorHint())
@@ -185,7 +183,6 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
             // await ToSignal(Entity, Node.SignalName.Ready);
             await GDTask.FromSignal(Entity, Node.SignalName.Ready);
         }
-        // GD.Print(GetPath(), ": entity ready!");
 
         IsEntityReady = true;
 
@@ -662,7 +659,6 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
                 var (comp, wait) = TickAfterComponents.Dequeue();
                 // Swap
                 comps.TrySwap(comp, wait);
-                // GD.Print("Swap!");
                 if (TryTickAfter(comp, out var waitNext, tickOscillator))
                 {
                     // Still wait
