@@ -7,7 +7,7 @@ using System.Text;
 using Godot;
 
 
-namespace LGWCP.Nice.Godot;
+namespace LGWCP.NiceGD;
 
 public partial class EditorPropFindComponent : EditorProperty
 {

@@ -1,7 +1,6 @@
 using System.Linq;
 using Godot;
-using LGWCP.Nice;
-using LGWCP.Nice.Godot;
+using LGWCP.NiceGD;
 
 namespace LGWCP.Extension;
 

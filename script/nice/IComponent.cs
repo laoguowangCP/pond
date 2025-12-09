@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using LGWCP.Nice.Godot;
+using LGWCP.NiceGD;
 using LGWCP.Util.Collecty;
 
-namespace LGWCP.Nice;
+namespace LGWCP.NiceGD;
 
 public interface IComponent : IInverseIndexable<IComponent>
 {

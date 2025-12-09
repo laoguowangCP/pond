@@ -2,8 +2,7 @@ using System;
 using Godot;
 using System.Runtime.InteropServices;
 using GodotTask;
-using LGWCP.Nice;
-using LGWCP.Nice.Godot;
+using LGWCP.NiceGD;
 
 namespace LGWCP.Pond;
 

@@ -1,4 +1,4 @@
-namespace LGWCP.Nice;
+namespace LGWCP.NiceGD;
 
 public enum TickGroupEnum: int
 {

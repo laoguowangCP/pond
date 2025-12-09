@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Godot;
 using LGWCP.Util.Collecty;
 
 
-namespace LGWCP.Nice;
+namespace LGWCP.NiceGD;
 
 public class Nice
 {
@@ -60,5 +61,41 @@ public class Nice
         {
             registIdxabs.TryRemove(component.RegistIdxab);
         }
+    }
+
+    public bool TryGetRegistedComponents<T>(out InverseIndexList<RegistIndexable> comps)
+        where T : IComponent
+    {
+        if (ComponentsRegisted.TryGetValue(typeof(T), out comps))
+        {
+            return true;
+        }
+#if DEBUG
+        else
+        {
+            GD.PushWarning("Nice: component <", typeof(T), "> is expected but not registed.");
+        }
+#endif
+        comps = default;
+        return false;
+    }
+
+    // Try get registed component but assuming it as global unique component.
+    public bool TryGetRegistedComponentFirst<T>(out T comp)
+        where T : IComponent
+    {
+        if (ComponentsRegisted.TryGetValue(typeof(T), out var comps))
+        {
+            if (comps.Count == 1)
+            {
+                comp = (T)comps[0].Component;
+                return true;
+            }
+        }
+#if DEBUG
+        GD.PushWarning("Nice: component <", typeof(T), "> is expected but not registed.");
+#endif
+        comp = default;
+        return false;
     }
 }

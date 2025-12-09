@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using LGWCP.Util.Collecty;
 
-namespace LGWCP.Nice.Godot;
+namespace LGWCP.NiceGD;
 
 [GlobalClass]
 [Tool]

@@ -1,7 +1,7 @@
 using System;
 using LGWCP.Util.Collecty;
 
-namespace LGWCP.Nice;
+namespace LGWCP.NiceGD;
 
 public class TagIndexable : IInverseIndexable<TagIndexable>
 {

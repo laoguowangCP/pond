@@ -1,14 +1,21 @@
-[gd_scene load_steps=8 format=3 uid="uid://dp58xsa3dpcbo"]
+[gd_scene load_steps=11 format=3 uid="uid://dp58xsa3dpcbo"]
 
 [ext_resource type="Script" uid="uid://dt0w6j6oba4xu" path="res://script/nice/ComponentHolder.cs" id="1_v0l8b"]
 [ext_resource type="Script" uid="uid://d2s3tj3435w8y" path="res://script/component/WindowEmbedDesktop.cs" id="2_v0l8b"]
 [ext_resource type="Script" uid="uid://b3i7ag4egov14" path="res://script/component/SwitchWindowEmbed.cs" id="3_brvut"]
 [ext_resource type="Script" uid="uid://de6f22o20s6ba" path="res://script/nice/component_res_ext/ComponentResExt16X.cs" id="4_0ha60"]
+[ext_resource type="Script" uid="uid://bfh3oapm3260b" path="res://script/component/MouseDrag.cs" id="4_4j5ol"]
+[ext_resource type="PackedScene" uid="uid://bt7kggvepv5fm" path="res://scene/sticker/tip.tscn" id="6_4j5ol"]
 
 [sub_resource type="Resource" id="Resource_wp4xf"]
 resource_local_to_scene = true
 script = ExtResource("2_v0l8b")
 metadata/_custom_type_script = "uid://d2s3tj3435w8y"
+
+[sub_resource type="Resource" id="Resource_0ha60"]
+resource_local_to_scene = true
+script = ExtResource("4_4j5ol")
+metadata/_custom_type_script = "uid://bfh3oapm3260b"
 
 [sub_resource type="Resource" id="Resource_4j5ol"]
 resource_local_to_scene = true
@@ -18,37 +25,17 @@ metadata/_custom_type_script = "uid://b3i7ag4egov14"
 [sub_resource type="Resource" id="Resource_p1hux"]
 resource_local_to_scene = true
 script = ExtResource("4_0ha60")
-Component00 = SubResource("Resource_4j5ol")
+Component00 = SubResource("Resource_0ha60")
+Component01 = SubResource("Resource_4j5ol")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 
-[node name="Node" type="Node2D"]
+[node name="Pond" type="Node2D"]
 
 [node name="ComponentHolder" type="Node" parent="."]
 script = ExtResource("1_v0l8b")
 Component00 = SubResource("Resource_wp4xf")
 Component01 = SubResource("Resource_p1hux")
 metadata/_custom_type_script = "uid://dt0w6j6oba4xu"
-
-[node name="Panel" type="Panel" parent="."]
-offset_right = 566.0
-offset_bottom = 201.0
-
-[node name="Label" type="Label" parent="Panel"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -246.0
-offset_top = -83.5
-offset_right = 206.0
-offset_bottom = 43.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "Hello pond.
-Pond stands for \"put (anything) on desktop\". A simple widget for those who has nothing important on desktop, willing to utilize it as a story board or task list or anything else."
-autowrap_mode = 2
 
 [node name="SwitchWindowEmbedBtn" type="Button" parent="."]
 anchors_preset = 8
@@ -65,3 +52,7 @@ grow_vertical = 2
 text = "Switch Window Embed"
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Tip" parent="." instance=ExtResource("6_4j5ol")]
+
+[node name="Tip2" parent="." instance=ExtResource("6_4j5ol")]

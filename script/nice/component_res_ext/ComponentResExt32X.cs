@@ -1,9 +1,8 @@
 using System;
 using Godot;
-using LGWCP.Nice;
-using LGWCP.Nice.Godot;
+using LGWCP.NiceGD;
 
-namespace LGWCP.Nice.Godot;
+namespace LGWCP.NiceGD;
 
 [GlobalClass]
 [Tool]

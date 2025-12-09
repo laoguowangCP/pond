@@ -1,6 +1,6 @@
 using Godot;
 
-namespace LGWCP.Nice;
+namespace LGWCP.NiceGD;
 
 public struct TickContext
 {

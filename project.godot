@@ -19,7 +19,9 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
-window/size/borderless=true
+window/size/transparent=true
+window/energy_saving/keep_screen_on=false
+window/per_pixel_transparency/allowed=true
 
 [dotnet]
 
@@ -33,3 +35,5 @@ enabled=PackedStringArray("res://addons/nice/plugin.cfg")
 
 rendering_device/driver="d3d12"
 rendering_device/driver.windows="d3d12"
+environment/defaults/default_clear_color=Color(0.3019608, 0.3019608, 0.3019608, 0)
+viewport/transparent_background=true

@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel;
 
-namespace LGWCP.Nice;
+namespace LGWCP.NiceGD;
 
 public interface IComponentSheet
 {

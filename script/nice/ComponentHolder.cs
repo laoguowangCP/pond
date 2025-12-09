@@ -6,7 +6,7 @@ using LGWCP.Extension;
 using System.Linq;
 using GodotTask;
 
-namespace LGWCP.Nice.Godot;
+namespace LGWCP.NiceGD;
 
 [GlobalClass]
 [Tool]
@@ -145,6 +145,13 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
     {
         // GD.Print(GetPath(), ": ready!");
         // Deactive node loops by default
+        #if DEBUG
+        if (Engine.IsEditorHint())
+        {
+            return;
+        }
+        #endif
+
         for (int i = 0; i < SetNodeActivitys.Length; ++i)
         {
             SetNodeActivitys[i](this, false);
@@ -265,7 +272,7 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
 #if DEBUG
         else
         {
-            GD.PushWarning(GetPath(), ": component <", typeof(T), "> is expected but not exist");
+            GD.PushWarning(GetPath(), ": component <", typeof(T), "> is expected but not exist.");
         }
 #endif
         comp = default;

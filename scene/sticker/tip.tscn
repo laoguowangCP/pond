@@ -1,0 +1,98 @@
+[gd_scene load_steps=16 format=3 uid="uid://bt7kggvepv5fm"]
+
+[ext_resource type="Script" uid="uid://dt0w6j6oba4xu" path="res://script/nice/ComponentHolder.cs" id="1_ne50n"]
+[ext_resource type="Script" uid="uid://b2xcb4nsxu6qc" path="res://script/component/handle/BtnAsDragHandle.cs" id="2_wfo34"]
+[ext_resource type="Script" uid="uid://ctygvso0otdb7" path="res://script/component/handle/BtnAsResizeHandleDownMid.cs" id="3_be7s3"]
+[ext_resource type="Script" uid="uid://de6f22o20s6ba" path="res://script/nice/component_res_ext/ComponentResExt16X.cs" id="3_iu6u6"]
+[ext_resource type="Script" uid="uid://bo8uw0h2t47u7" path="res://script/component/EntityControlSizeClamp.cs" id="4_be7s3"]
+[ext_resource type="Script" uid="uid://e75slxgmdxkr" path="res://script/component/handle/BtnAsResizeHandleDownRight.cs" id="4_y7nij"]
+[ext_resource type="Script" uid="uid://ehka83js4vpd" path="res://script/component/handle/BtnAsResizeHandleDownLeft.cs" id="5_ucgp8"]
+[ext_resource type="Script" uid="uid://7a0b3t17qkuf" path="res://script/component/handle/DragEndOnFocusExited.cs" id="6_k4kkr"]
+
+[sub_resource type="Resource" id="Resource_wfo34"]
+resource_local_to_scene = true
+script = ExtResource("2_wfo34")
+metadata/_custom_type_script = "uid://b2xcb4nsxu6qc"
+
+[sub_resource type="Resource" id="Resource_ucgp8"]
+resource_local_to_scene = true
+script = ExtResource("3_be7s3")
+metadata/_custom_type_script = "uid://ctygvso0otdb7"
+
+[sub_resource type="Resource" id="Resource_4keq1"]
+resource_local_to_scene = true
+script = ExtResource("4_y7nij")
+metadata/_custom_type_script = "uid://e75slxgmdxkr"
+
+[sub_resource type="Resource" id="Resource_7few3"]
+resource_local_to_scene = true
+script = ExtResource("5_ucgp8")
+metadata/_custom_type_script = "uid://ehka83js4vpd"
+
+[sub_resource type="Resource" id="Resource_xrr1f"]
+resource_local_to_scene = true
+script = ExtResource("6_k4kkr")
+metadata/_custom_type_script = "uid://7a0b3t17qkuf"
+
+[sub_resource type="Resource" id="Resource_k4kkr"]
+resource_local_to_scene = true
+script = ExtResource("4_be7s3")
+metadata/_custom_type_script = "uid://bo8uw0h2t47u7"
+
+[sub_resource type="Resource" id="Resource_y7nij"]
+resource_local_to_scene = true
+script = ExtResource("3_iu6u6")
+Component00 = SubResource("Resource_wfo34")
+Component01 = SubResource("Resource_ucgp8")
+Component02 = SubResource("Resource_4keq1")
+Component03 = SubResource("Resource_7few3")
+Component14 = SubResource("Resource_xrr1f")
+Component15 = SubResource("Resource_k4kkr")
+metadata/_custom_type_script = "uid://de6f22o20s6ba"
+
+[node name="Tip" type="Node2D"]
+
+[node name="ComponentHolder" type="Node" parent="."]
+script = ExtResource("1_ne50n")
+Component00 = SubResource("Resource_y7nij")
+metadata/_custom_type_script = "uid://dt0w6j6oba4xu"
+
+[node name="EntityControl" type="VBoxContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 256.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DragHandleBtn" type="Button" parent="EntityControl"]
+layout_mode = 2
+focus_mode = 0
+
+[node name="TextEdit" type="TextEdit" parent="EntityControl"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Hello pond.
+Pond stands for \"put (anything) on desktop\". A simple widget for those who has nothing important on desktop, willing to utilize it as a story board or task list or anything else."
+wrap_mode = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="EntityControl"]
+layout_mode = 2
+
+[node name="ResizeHandleBtnDownLeft" type="Button" parent="EntityControl/HBoxContainer"]
+custom_minimum_size = Vector2(18, 0)
+layout_mode = 2
+focus_mode = 0
+
+[node name="ResizeHandleBtnDownMid" type="Button" parent="EntityControl/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+
+[node name="ResizeHandleBtnDownRight" type="Button" parent="EntityControl/HBoxContainer"]
+custom_minimum_size = Vector2(18, 0)
+layout_mode = 2
+focus_mode = 0

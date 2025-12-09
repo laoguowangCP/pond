@@ -3,7 +3,7 @@
 using Godot;
 
 
-namespace LGWCP.Nice.Godot;
+namespace LGWCP.NiceGD;
 
 [Tool]
 public partial class ComponentHolderInspectorMod : EditorInspectorPlugin

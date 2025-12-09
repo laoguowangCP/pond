@@ -1,7 +1,7 @@
 #if TOOLS
 
 
-namespace LGWCP.Nice.Godot;
+namespace LGWCP.NiceGD;
 
 public static class ComponentHolderEditorPropUtil
 {

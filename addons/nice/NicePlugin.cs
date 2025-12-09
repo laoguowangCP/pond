@@ -1,6 +1,6 @@
 #if TOOLS
 using Godot;
-using LGWCP.Nice.Godot;
+using LGWCP.NiceGD;
 using System;
 
 [Tool]
