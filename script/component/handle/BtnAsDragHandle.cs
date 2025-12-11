@@ -77,11 +77,11 @@ public partial class BtnAsDragHandle : ComponentResource
         {
             // Update entity pos
             Vector2 mousePos = Entity.GetGlobalMousePosition();
-            Entity.GlobalPosition = mousePos + DragBeginDisplacement;
-            if (!Entity.GetWindow().HasFocus())
+            if (Nice.I.TryGetRegistedComponentFirst<DragArea>(out var dragArea))
             {
-                GD.Print("Window unfocused.");
+                mousePos = dragArea.GetRegulatedGlobalPosition(mousePos);
             }
+            Entity.GlobalPosition = mousePos + DragBeginDisplacement;
         }
     }
 

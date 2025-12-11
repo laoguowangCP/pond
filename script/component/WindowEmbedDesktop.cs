@@ -50,7 +50,9 @@ public partial class WindowEmbedDesktop : ComponentResource
 
         User32Native.SetParent(godotW, workerW);
         // SetWindowLongPtr(wd.hWnd, GWLP_HWNDPARENT, (LONG_PTR)get_wp_host_hwnd());
+        
         IsEmbeded = true;
+        Holder.GetTree().Root.GetWindow().Borderless = true;
     }
 
     public void UnEmbed()
@@ -64,6 +66,7 @@ public partial class WindowEmbedDesktop : ComponentResource
         User32Native.SetParent(godotW, IntPtr.Zero);
 
         IsEmbeded = false;
+        Holder.GetTree().Root.GetWindow().Borderless = false;
     }
 
     protected IntPtr GetDesktopOverlayWindowHandle()

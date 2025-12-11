@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://ysp60y6ghv7n"]
+[gd_scene load_steps=19 format=3 uid="uid://ysp60y6ghv7n"]
 
 [ext_resource type="Script" uid="uid://dt0w6j6oba4xu" path="res://script/nice/ComponentHolder.cs" id="1_menoa"]
 [ext_resource type="Script" uid="uid://b2xcb4nsxu6qc" path="res://script/component/handle/BtnAsDragHandle.cs" id="2_stqh4"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://e75slxgmdxkr" path="res://script/component/handle/BtnAsResizeHandleDownRight.cs" id="4_5bnfo"]
 [ext_resource type="Script" uid="uid://ehka83js4vpd" path="res://script/component/handle/BtnAsResizeHandleDownLeft.cs" id="5_6brdl"]
 [ext_resource type="Script" uid="uid://7a0b3t17qkuf" path="res://script/component/handle/DragEndOnFocusExited.cs" id="6_j6yad"]
+[ext_resource type="Script" uid="uid://dtbo6p3yyu7qa" path="res://script/component/KeepInDragAreaOnWindowSizeChanged.cs" id="6_stqh4"]
 [ext_resource type="Script" uid="uid://bo8uw0h2t47u7" path="res://script/component/EntityControlSizeClamp.cs" id="7_xpyjd"]
 [ext_resource type="Script" uid="uid://de6f22o20s6ba" path="res://script/nice/component_res_ext/ComponentResExt16X.cs" id="8_tmo60"]
 [ext_resource type="Theme" uid="uid://liol3f3pxqvr" path="res://theme/main_theme.tres" id="9_j4nui"]
@@ -30,6 +31,11 @@ resource_local_to_scene = true
 script = ExtResource("5_6brdl")
 metadata/_custom_type_script = "uid://ehka83js4vpd"
 
+[sub_resource type="Resource" id="Resource_8blf7"]
+resource_local_to_scene = true
+script = ExtResource("6_stqh4")
+metadata/_custom_type_script = "uid://dtbo6p3yyu7qa"
+
 [sub_resource type="Resource" id="Resource_xrr1f"]
 resource_local_to_scene = true
 script = ExtResource("6_j6yad")
@@ -47,6 +53,7 @@ Component00 = SubResource("Resource_wfo34")
 Component01 = SubResource("Resource_ucgp8")
 Component02 = SubResource("Resource_4keq1")
 Component03 = SubResource("Resource_7few3")
+Component13 = SubResource("Resource_8blf7")
 Component14 = SubResource("Resource_xrr1f")
 Component15 = SubResource("Resource_k4kkr")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"

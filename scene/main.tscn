@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dp58xsa3dpcbo"]
+[gd_scene load_steps=16 format=3 uid="uid://dp58xsa3dpcbo"]
 
 [ext_resource type="Script" uid="uid://dt0w6j6oba4xu" path="res://script/nice/ComponentHolder.cs" id="1_v0l8b"]
 [ext_resource type="Script" uid="uid://d2s3tj3435w8y" path="res://script/component/WindowEmbedDesktop.cs" id="2_v0l8b"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://bfh3oapm3260b" path="res://script/component/MouseDrag.cs" id="4_4j5ol"]
 [ext_resource type="Script" uid="uid://cww240sv2qp25" path="res://script/component/drop_file/TestWindowOnFilesDropped.cs" id="5_p1hux"]
 [ext_resource type="PackedScene" uid="uid://bt7kggvepv5fm" path="res://scene/sticker/tip.tscn" id="6_4j5ol"]
+[ext_resource type="Script" uid="uid://b4pydyhgu5n2v" path="res://script/component/DragArea.cs" id="6_b5f6u"]
 [ext_resource type="PackedScene" uid="uid://ysp60y6ghv7n" path="res://scene/sticker/photo.tscn" id="8_of57s"]
 
 [sub_resource type="Resource" id="Resource_wp4xf"]
@@ -29,15 +30,21 @@ resource_local_to_scene = true
 script = ExtResource("5_p1hux")
 metadata/_custom_type_script = "uid://cww240sv2qp25"
 
+[sub_resource type="Resource" id="Resource_tqoya"]
+resource_local_to_scene = true
+script = ExtResource("6_b5f6u")
+metadata/_custom_type_script = "uid://b4pydyhgu5n2v"
+
 [sub_resource type="Resource" id="Resource_p1hux"]
 resource_local_to_scene = true
 script = ExtResource("4_0ha60")
 Component00 = SubResource("Resource_0ha60")
 Component01 = SubResource("Resource_4j5ol")
 Component02 = SubResource("Resource_of57s")
+Component03 = SubResource("Resource_tqoya")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 
-[node name="Pond" type="Node2D"]
+[node name="Pond" type="Node"]
 
 [node name="ComponentHolder" type="Node" parent="."]
 script = ExtResource("1_v0l8b")
@@ -45,25 +52,30 @@ Component00 = SubResource("Resource_wp4xf")
 Component01 = SubResource("Resource_p1hux")
 metadata/_custom_type_script = "uid://dt0w6j6oba4xu"
 
-[node name="Camera2D" type="Camera2D" parent="."]
-
-[node name="Tip" parent="." instance=ExtResource("6_4j5ol")]
-
-[node name="Tip2" parent="." instance=ExtResource("6_4j5ol")]
-
-[node name="Photo" parent="." instance=ExtResource("8_of57s")]
-position = Vector2(-518, -35)
-
-[node name="SwitchWindowEmbedBtn" type="Button" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -92.0
-offset_top = -15.5
-offset_right = 92.0
-offset_bottom = 15.5
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Tip" parent="." instance=ExtResource("6_4j5ol")]
+position = Vector2(1157, 516)
+
+[node name="Tip2" parent="." instance=ExtResource("6_4j5ol")]
+position = Vector2(1157, 516)
+
+[node name="Photo" parent="." instance=ExtResource("8_of57s")]
+position = Vector2(639, 481)
+
+[node name="SwitchWindowEmbedBtn" type="Button" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -184.0
+offset_top = -31.0
+grow_horizontal = 0
+grow_vertical = 0
 text = "Switch Window Embed"
