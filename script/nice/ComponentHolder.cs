@@ -726,4 +726,11 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
 
         comp.TickOscillator = tickOscillator;
     }
+
+    public bool TryGetNode<T>(NodePath pathFromEntity, out T node)
+        where T : Node
+    {
+        node = Entity?.GetNodeOrNull<T>(pathFromEntity);
+        return node == null;
+    }
 }

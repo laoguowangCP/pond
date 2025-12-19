@@ -1,61 +1,61 @@
 [gd_scene load_steps=19 format=3 uid="uid://ysp60y6ghv7n"]
 
 [ext_resource type="Script" uid="uid://dt0w6j6oba4xu" path="res://script/nice/ComponentHolder.cs" id="1_menoa"]
-[ext_resource type="Script" uid="uid://b2xcb4nsxu6qc" path="res://script/component/handle/BtnAsDragHandle.cs" id="2_stqh4"]
-[ext_resource type="Script" uid="uid://ctygvso0otdb7" path="res://script/component/handle/BtnAsResizeHandleDownMid.cs" id="3_8blf7"]
-[ext_resource type="Script" uid="uid://e75slxgmdxkr" path="res://script/component/handle/BtnAsResizeHandleDownRight.cs" id="4_5bnfo"]
-[ext_resource type="Script" uid="uid://ehka83js4vpd" path="res://script/component/handle/BtnAsResizeHandleDownLeft.cs" id="5_6brdl"]
-[ext_resource type="Script" uid="uid://7a0b3t17qkuf" path="res://script/component/handle/DragEndOnFocusExited.cs" id="6_j6yad"]
-[ext_resource type="Script" uid="uid://dtbo6p3yyu7qa" path="res://script/component/KeepInDragAreaOnWindowSizeChanged.cs" id="6_stqh4"]
-[ext_resource type="Script" uid="uid://bo8uw0h2t47u7" path="res://script/component/EntityControlSizeClamp.cs" id="7_xpyjd"]
+[ext_resource type="Script" uid="uid://b2xcb4nsxu6qc" path="res://script/component/sticker/BtnAsDragHandle.cs" id="2_menoa"]
+[ext_resource type="Script" uid="uid://ehka83js4vpd" path="res://script/component/sticker/handle/BtnAsResizeHandleDownLeft.cs" id="3_stqh4"]
+[ext_resource type="Script" uid="uid://ctygvso0otdb7" path="res://script/component/sticker/handle/BtnAsResizeHandleDownMid.cs" id="4_8blf7"]
+[ext_resource type="Script" uid="uid://e75slxgmdxkr" path="res://script/component/sticker/handle/BtnAsResizeHandleDownRight.cs" id="5_5bnfo"]
+[ext_resource type="Script" uid="uid://7a0b3t17qkuf" path="res://script/component/sticker/handle/DragEndOnFocusExited.cs" id="6_6brdl"]
+[ext_resource type="Script" uid="uid://qso65706ohd0" path="res://script/component/sticker/StickerPhotoLoadImage.cs" id="7_j6yad"]
+[ext_resource type="Script" uid="uid://bo8uw0h2t47u7" path="res://script/component/sticker/EntityControlSizeClamp.cs" id="8_stqh4"]
 [ext_resource type="Script" uid="uid://de6f22o20s6ba" path="res://script/nice/component_res_ext/ComponentResExt16X.cs" id="8_tmo60"]
 [ext_resource type="Theme" uid="uid://liol3f3pxqvr" path="res://theme/main_theme.tres" id="9_j4nui"]
 
-[sub_resource type="Resource" id="Resource_wfo34"]
+[sub_resource type="Resource" id="Resource_stqh4"]
 resource_local_to_scene = true
-script = ExtResource("2_stqh4")
+script = ExtResource("2_menoa")
 metadata/_custom_type_script = "uid://b2xcb4nsxu6qc"
-
-[sub_resource type="Resource" id="Resource_ucgp8"]
-resource_local_to_scene = true
-script = ExtResource("3_8blf7")
-metadata/_custom_type_script = "uid://ctygvso0otdb7"
-
-[sub_resource type="Resource" id="Resource_4keq1"]
-resource_local_to_scene = true
-script = ExtResource("4_5bnfo")
-metadata/_custom_type_script = "uid://e75slxgmdxkr"
-
-[sub_resource type="Resource" id="Resource_7few3"]
-resource_local_to_scene = true
-script = ExtResource("5_6brdl")
-metadata/_custom_type_script = "uid://ehka83js4vpd"
 
 [sub_resource type="Resource" id="Resource_8blf7"]
 resource_local_to_scene = true
-script = ExtResource("6_stqh4")
-metadata/_custom_type_script = "uid://dtbo6p3yyu7qa"
+script = ExtResource("3_stqh4")
+metadata/_custom_type_script = "uid://ehka83js4vpd"
 
-[sub_resource type="Resource" id="Resource_xrr1f"]
+[sub_resource type="Resource" id="Resource_5bnfo"]
 resource_local_to_scene = true
-script = ExtResource("6_j6yad")
+script = ExtResource("4_8blf7")
+metadata/_custom_type_script = "uid://ctygvso0otdb7"
+
+[sub_resource type="Resource" id="Resource_6brdl"]
+resource_local_to_scene = true
+script = ExtResource("5_5bnfo")
+metadata/_custom_type_script = "uid://e75slxgmdxkr"
+
+[sub_resource type="Resource" id="Resource_j6yad"]
+resource_local_to_scene = true
+script = ExtResource("6_6brdl")
 metadata/_custom_type_script = "uid://7a0b3t17qkuf"
 
-[sub_resource type="Resource" id="Resource_k4kkr"]
+[sub_resource type="Resource" id="Resource_xpyjd"]
 resource_local_to_scene = true
-script = ExtResource("7_xpyjd")
+script = ExtResource("7_j6yad")
+metadata/_custom_type_script = "uid://qso65706ohd0"
+
+[sub_resource type="Resource" id="Resource_tmo60"]
+resource_local_to_scene = true
+script = ExtResource("8_stqh4")
 metadata/_custom_type_script = "uid://bo8uw0h2t47u7"
 
 [sub_resource type="Resource" id="Resource_y7nij"]
 resource_local_to_scene = true
 script = ExtResource("8_tmo60")
-Component00 = SubResource("Resource_wfo34")
-Component01 = SubResource("Resource_ucgp8")
-Component02 = SubResource("Resource_4keq1")
-Component03 = SubResource("Resource_7few3")
-Component13 = SubResource("Resource_8blf7")
-Component14 = SubResource("Resource_xrr1f")
-Component15 = SubResource("Resource_k4kkr")
+Component00 = SubResource("Resource_stqh4")
+Component01 = SubResource("Resource_8blf7")
+Component02 = SubResource("Resource_5bnfo")
+Component03 = SubResource("Resource_6brdl")
+Component04 = SubResource("Resource_j6yad")
+Component05 = SubResource("Resource_xpyjd")
+Component15 = SubResource("Resource_tmo60")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 
 [node name="Photo" type="Node2D"]
