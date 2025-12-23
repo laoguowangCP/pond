@@ -17,6 +17,7 @@ public partial class StickerPhotoLoadImage : ComponentResource
 
     protected static readonly NodePath NP_TextureRect = new("EntityControl/PanelContainer/TextureRect");
     protected TextureRect TextureRect;
+    public string ImageFile;
 
     public override void OnEntityReady()
     {
@@ -25,6 +26,7 @@ public partial class StickerPhotoLoadImage : ComponentResource
 
     public void LoadFromFile(string file)
     {
+        ImageFile = file;
         GD.Print("Load image file: ", file);
         var imageTexture = ImageTexture.CreateFromImage(Image.LoadFromFile(file));
         TextureRect.Texture = imageTexture;

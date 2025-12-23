@@ -9,7 +9,9 @@ public enum TickGroupEnum: int
     UnhandledKeyInput,
     UnhandledInput,
     LocalGroupCount,
+    // -------- Custom tick --------
     ThermalGamePlay,
+    Save,
     None,
     GroupCount = None - 1,
     GlobalGroupCount = GroupCount - LocalGroupCount,

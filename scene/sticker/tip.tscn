@@ -1,13 +1,14 @@
-[gd_scene load_steps=17 format=3 uid="uid://bt7kggvepv5fm"]
+[gd_scene load_steps=19 format=3 uid="uid://bt7kggvepv5fm"]
 
 [ext_resource type="Script" uid="uid://dt0w6j6oba4xu" path="res://script/nice/ComponentHolder.cs" id="1_ne50n"]
-[ext_resource type="Script" uid="uid://b2xcb4nsxu6qc" path="res://script/component/sticker/BtnAsDragHandle.cs" id="2_wfo34"]
+[ext_resource type="Script" uid="uid://b2xcb4nsxu6qc" path="res://script/component/sticker/handle/BtnAsDragHandle.cs" id="2_wfo34"]
 [ext_resource type="Script" uid="uid://ctygvso0otdb7" path="res://script/component/sticker/handle/BtnAsResizeHandleDownMid.cs" id="3_be7s3"]
 [ext_resource type="Script" uid="uid://de6f22o20s6ba" path="res://script/nice/component_res_ext/ComponentResExt16X.cs" id="3_iu6u6"]
 [ext_resource type="Script" uid="uid://bo8uw0h2t47u7" path="res://script/component/sticker/EntityControlSizeClamp.cs" id="4_be7s3"]
 [ext_resource type="Script" uid="uid://e75slxgmdxkr" path="res://script/component/sticker/handle/BtnAsResizeHandleDownRight.cs" id="4_y7nij"]
 [ext_resource type="Script" uid="uid://ehka83js4vpd" path="res://script/component/sticker/handle/BtnAsResizeHandleDownLeft.cs" id="5_ucgp8"]
 [ext_resource type="Script" uid="uid://7a0b3t17qkuf" path="res://script/component/sticker/handle/DragEndOnFocusExited.cs" id="6_k4kkr"]
+[ext_resource type="Script" uid="uid://c24b4geaq704l" path="res://script/component/sticker/SaveStickerTipComponent.cs" id="7_7few3"]
 [ext_resource type="Theme" uid="uid://liol3f3pxqvr" path="res://theme/main_theme.tres" id="9_4keq1"]
 
 [sub_resource type="Resource" id="Resource_k4kkr"]
@@ -35,6 +36,11 @@ resource_local_to_scene = true
 script = ExtResource("6_k4kkr")
 metadata/_custom_type_script = "uid://7a0b3t17qkuf"
 
+[sub_resource type="Resource" id="Resource_agb2p"]
+resource_local_to_scene = true
+script = ExtResource("7_7few3")
+metadata/_custom_type_script = "uid://c24b4geaq704l"
+
 [sub_resource type="Resource" id="Resource_uychi"]
 resource_local_to_scene = true
 script = ExtResource("4_be7s3")
@@ -48,6 +54,7 @@ Component01 = SubResource("Resource_4keq1")
 Component02 = SubResource("Resource_7few3")
 Component03 = SubResource("Resource_xrr1f")
 Component04 = SubResource("Resource_vw2ix")
+Component05 = SubResource("Resource_agb2p")
 Component15 = SubResource("Resource_uychi")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 

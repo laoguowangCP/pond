@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dp58xsa3dpcbo"]
+[gd_scene load_steps=22 format=3 uid="uid://dp58xsa3dpcbo"]
 
 [ext_resource type="Script" uid="uid://dt0w6j6oba4xu" path="res://script/nice/ComponentHolder.cs" id="1_v0l8b"]
 [ext_resource type="Script" uid="uid://d2s3tj3435w8y" path="res://script/component/WindowEmbedDesktop.cs" id="2_v0l8b"]
@@ -9,7 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://bt7kggvepv5fm" path="res://scene/sticker/tip.tscn" id="6_4j5ol"]
 [ext_resource type="Script" uid="uid://b4pydyhgu5n2v" path="res://script/component/DragArea.cs" id="6_b5f6u"]
 [ext_resource type="Script" uid="uid://dnjt53k1vt2jq" path="res://script/component/drop_file/WindowOnFilesDropped.cs" id="7_tqoya"]
+[ext_resource type="Script" uid="uid://526kb8wbrkac" path="res://script/component/main/OnSaveGame.cs" id="8_k65ib"]
 [ext_resource type="PackedScene" uid="uid://ysp60y6ghv7n" path="res://scene/sticker/photo.tscn" id="8_of57s"]
+[ext_resource type="Script" uid="uid://8mr2lrobfe0r" path="res://script/component/main/SaveGameOnFocusExited.cs" id="9_wscrc"]
 
 [sub_resource type="Resource" id="Resource_wp4xf"]
 resource_local_to_scene = true
@@ -41,6 +43,16 @@ resource_local_to_scene = true
 script = ExtResource("7_tqoya")
 metadata/_custom_type_script = "uid://dnjt53k1vt2jq"
 
+[sub_resource type="Resource" id="Resource_mswub"]
+resource_local_to_scene = true
+script = ExtResource("8_k65ib")
+metadata/_custom_type_script = "uid://526kb8wbrkac"
+
+[sub_resource type="Resource" id="Resource_hybxs"]
+resource_local_to_scene = true
+script = ExtResource("9_wscrc")
+metadata/_custom_type_script = "uid://8mr2lrobfe0r"
+
 [sub_resource type="Resource" id="Resource_p1hux"]
 resource_local_to_scene = true
 script = ExtResource("4_0ha60")
@@ -49,9 +61,11 @@ Component01 = SubResource("Resource_4j5ol")
 Component02 = SubResource("Resource_of57s")
 Component03 = SubResource("Resource_tqoya")
 Component04 = SubResource("Resource_k65ib")
+Component05 = SubResource("Resource_mswub")
+Component06 = SubResource("Resource_hybxs")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 
-[node name="Pond" type="Node"]
+[node name="Pond" type="Node2D"]
 
 [node name="ComponentHolder" type="Node" parent="."]
 script = ExtResource("1_v0l8b")

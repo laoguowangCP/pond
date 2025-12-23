@@ -1,12 +1,13 @@
-[gd_scene load_steps=19 format=3 uid="uid://ysp60y6ghv7n"]
+[gd_scene load_steps=21 format=3 uid="uid://ysp60y6ghv7n"]
 
 [ext_resource type="Script" uid="uid://dt0w6j6oba4xu" path="res://script/nice/ComponentHolder.cs" id="1_menoa"]
-[ext_resource type="Script" uid="uid://b2xcb4nsxu6qc" path="res://script/component/sticker/BtnAsDragHandle.cs" id="2_menoa"]
+[ext_resource type="Script" uid="uid://b2xcb4nsxu6qc" path="res://script/component/sticker/handle/BtnAsDragHandle.cs" id="2_menoa"]
 [ext_resource type="Script" uid="uid://ehka83js4vpd" path="res://script/component/sticker/handle/BtnAsResizeHandleDownLeft.cs" id="3_stqh4"]
 [ext_resource type="Script" uid="uid://ctygvso0otdb7" path="res://script/component/sticker/handle/BtnAsResizeHandleDownMid.cs" id="4_8blf7"]
 [ext_resource type="Script" uid="uid://e75slxgmdxkr" path="res://script/component/sticker/handle/BtnAsResizeHandleDownRight.cs" id="5_5bnfo"]
 [ext_resource type="Script" uid="uid://7a0b3t17qkuf" path="res://script/component/sticker/handle/DragEndOnFocusExited.cs" id="6_6brdl"]
 [ext_resource type="Script" uid="uid://qso65706ohd0" path="res://script/component/sticker/StickerPhotoLoadImage.cs" id="7_j6yad"]
+[ext_resource type="Script" uid="uid://csbjma4u6gelv" path="res://script/component/sticker/SaveStickerPhotoComponent.cs" id="8_8blf7"]
 [ext_resource type="Script" uid="uid://bo8uw0h2t47u7" path="res://script/component/sticker/EntityControlSizeClamp.cs" id="8_stqh4"]
 [ext_resource type="Script" uid="uid://de6f22o20s6ba" path="res://script/nice/component_res_ext/ComponentResExt16X.cs" id="8_tmo60"]
 [ext_resource type="Theme" uid="uid://liol3f3pxqvr" path="res://theme/main_theme.tres" id="9_j4nui"]
@@ -41,6 +42,11 @@ resource_local_to_scene = true
 script = ExtResource("7_j6yad")
 metadata/_custom_type_script = "uid://qso65706ohd0"
 
+[sub_resource type="Resource" id="Resource_j4nui"]
+resource_local_to_scene = true
+script = ExtResource("8_8blf7")
+metadata/_custom_type_script = "uid://csbjma4u6gelv"
+
 [sub_resource type="Resource" id="Resource_tmo60"]
 resource_local_to_scene = true
 script = ExtResource("8_stqh4")
@@ -55,6 +61,7 @@ Component02 = SubResource("Resource_5bnfo")
 Component03 = SubResource("Resource_6brdl")
 Component04 = SubResource("Resource_j6yad")
 Component05 = SubResource("Resource_xpyjd")
+Component06 = SubResource("Resource_j4nui")
 Component15 = SubResource("Resource_tmo60")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 

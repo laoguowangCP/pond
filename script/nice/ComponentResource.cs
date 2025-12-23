@@ -88,7 +88,7 @@ public abstract partial class ComponentResource : Resource, IComponent
     public InverseIndexList<TryTickAfterIndexable> TryTickAfterWaits { get; set; }
     public int TryTickAfterWaitsIdx { get; set; } = 0;
 
-    public virtual void Tick(TickContext tickContext)
+    public virtual void Tick(TickContext ctx)
     {
         /*
         // ---------------- Tick convention begin ----------------

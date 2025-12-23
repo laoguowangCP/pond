@@ -56,10 +56,19 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
             OscillatorsTickLocal[i] = 0;
             ComponentsTickLocal[i] = new();
         }
+
+        TickContext.From = new From(this);
     }
 
     public override void _EnterTree()
     {
+        #if DEBUG
+        if (Engine.IsEditorHint())
+        {
+            return;
+        }
+        #endif
+
         Entity = GetParentOrNull<Node>();
 
         // Find nearest ancestor holder
@@ -78,6 +87,13 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
 
     public override void _ExitTree()
     {
+        #if DEBUG
+        if (Engine.IsEditorHint())
+        {
+            return;
+        }
+        #endif
+
         if (IsFreeOnExitTree)
         {
             Callable.From(this.DeferedFree).CallDeferred();
@@ -142,7 +158,6 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
 
     public override void _Ready()
     {
-        // Deactive node loops by default
         #if DEBUG
         if (Engine.IsEditorHint())
         {
@@ -150,6 +165,7 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
         }
         #endif
 
+        // Deactive node loops by default
         for (int i = 0; i < SetNodeActivitys.Length; ++i)
         {
             SetNodeActivitys[i](this, false);

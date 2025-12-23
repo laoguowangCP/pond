@@ -52,5 +52,5 @@ public interface IComponent : IInverseIndexable<IComponent>
     public InverseIndexList<TryTickAfterIndexable> TryTickAfterWaits { get; set; }
     public int TryTickAfterWaitsIdx { get; set; }
 
-    public void Tick(TickContext tickContext);
+    public void Tick(TickContext ctx);
 }
