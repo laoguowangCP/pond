@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dp58xsa3dpcbo"]
+[gd_scene load_steps=28 format=3 uid="uid://dp58xsa3dpcbo"]
 
 [ext_resource type="Script" uid="uid://dt0w6j6oba4xu" path="res://script/nice/ComponentHolder.cs" id="1_v0l8b"]
 [ext_resource type="Script" uid="uid://d2s3tj3435w8y" path="res://script/component/WindowEmbedDesktop.cs" id="2_v0l8b"]
@@ -12,6 +12,9 @@
 [ext_resource type="Script" uid="uid://526kb8wbrkac" path="res://script/component/main/OnSaveGame.cs" id="8_k65ib"]
 [ext_resource type="PackedScene" uid="uid://ysp60y6ghv7n" path="res://scene/sticker/photo.tscn" id="8_of57s"]
 [ext_resource type="Script" uid="uid://8mr2lrobfe0r" path="res://script/component/main/SaveGameOnFocusExited.cs" id="9_wscrc"]
+[ext_resource type="Script" uid="uid://b7ylra7wwp0bl" path="res://script/component/main/BtnAsDragCreateTip.cs" id="10_mswub"]
+[ext_resource type="Script" uid="uid://ditd6imj5mhkt" path="res://script/component/main/BackgroundMouseDetect.cs" id="11_hybxs"]
+[ext_resource type="Script" uid="uid://5yaurvnaac1x" path="res://script/component/main/StickerBuilder.cs" id="12_v2gmf"]
 
 [sub_resource type="Resource" id="Resource_wp4xf"]
 resource_local_to_scene = true
@@ -26,6 +29,7 @@ metadata/_custom_type_script = "uid://bfh3oapm3260b"
 [sub_resource type="Resource" id="Resource_4j5ol"]
 resource_local_to_scene = true
 script = ExtResource("3_brvut")
+NP_SwitchWindowEmbedBtn = NodePath("../UICanvasLayer/SwitchWindowEmbedBtn")
 metadata/_custom_type_script = "uid://b3i7ag4egov14"
 
 [sub_resource type="Resource" id="Resource_of57s"]
@@ -53,6 +57,21 @@ resource_local_to_scene = true
 script = ExtResource("9_wscrc")
 metadata/_custom_type_script = "uid://8mr2lrobfe0r"
 
+[sub_resource type="Resource" id="Resource_v2gmf"]
+resource_local_to_scene = true
+script = ExtResource("10_mswub")
+metadata/_custom_type_script = "uid://b7ylra7wwp0bl"
+
+[sub_resource type="Resource" id="Resource_jcbur"]
+resource_local_to_scene = true
+script = ExtResource("11_hybxs")
+metadata/_custom_type_script = "uid://ditd6imj5mhkt"
+
+[sub_resource type="Resource" id="Resource_smf0o"]
+resource_local_to_scene = true
+script = ExtResource("12_v2gmf")
+metadata/_custom_type_script = "uid://5yaurvnaac1x"
+
 [sub_resource type="Resource" id="Resource_p1hux"]
 resource_local_to_scene = true
 script = ExtResource("4_0ha60")
@@ -63,6 +82,9 @@ Component03 = SubResource("Resource_tqoya")
 Component04 = SubResource("Resource_k65ib")
 Component05 = SubResource("Resource_mswub")
 Component06 = SubResource("Resource_hybxs")
+Component07 = SubResource("Resource_v2gmf")
+Component08 = SubResource("Resource_jcbur")
+Component09 = SubResource("Resource_smf0o")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 
 [node name="Pond" type="Node2D"]
@@ -73,30 +95,51 @@ Component00 = SubResource("Resource_wp4xf")
 Component01 = SubResource("Resource_p1hux")
 metadata/_custom_type_script = "uid://dt0w6j6oba4xu"
 
-[node name="Panel" type="Panel" parent="."]
+[node name="UICanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="BackgroundPanel" type="Panel" parent="UICanvasLayer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+focus_mode = 1
 
-[node name="Tip" parent="." instance=ExtResource("6_4j5ol")]
-position = Vector2(1157, 516)
-
-[node name="Tip2" parent="." instance=ExtResource("6_4j5ol")]
-position = Vector2(1157, 516)
-
-[node name="Photo" parent="." instance=ExtResource("8_of57s")]
-position = Vector2(639, 481)
-
-[node name="SwitchWindowEmbedBtn" type="Button" parent="."]
+[node name="SwitchWindowEmbedBtn" type="Button" parent="UICanvasLayer"]
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -184.0
+offset_left = -183.0
 offset_top = -31.0
 grow_horizontal = 0
 grow_vertical = 0
 text = "Switch Window Embed"
+
+[node name="CreateTipButton" type="Button" parent="UICanvasLayer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -256.0
+offset_top = -64.0
+offset_right = 256.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="MainCanvasLayer" type="CanvasLayer" parent="."]
+layer = 1000
+
+[node name="Tip" parent="MainCanvasLayer" instance=ExtResource("6_4j5ol")]
+position = Vector2(1157, 516)
+
+[node name="Tip2" parent="MainCanvasLayer" instance=ExtResource("6_4j5ol")]
+position = Vector2(1157, 516)
+
+[node name="Photo" parent="MainCanvasLayer" instance=ExtResource("8_of57s")]
+position = Vector2(639, 481)

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using LGWCP.NiceGD;
+using Faster.Collections.Pooled;
 using LGWCP.Util.Collecty;
 
 namespace LGWCP.NiceGD;
@@ -19,7 +19,8 @@ public interface IComponent : IInverseIndexable<IComponent>
 
     // Tag part
     // protected List<TagIndexable> TagIdxabs;
-    public List<TagIndexable> TagIdxabs { get; set; }
+    public PooledList<TagIndexable> TagIdxabs { get; set; }
+    // public List<TagIndexable> TagIdxabs { get; set; }
     public int BlockCount { get; set; }
     public bool IsBlocked { get; }
     public ComponentHolder Holder { get; set; }
@@ -48,7 +49,8 @@ public interface IComponent : IInverseIndexable<IComponent>
     public void OnDeactivated();
 
     // Try tick after idxab
-    public List<TryTickAfterIndexable> TryTickAfterFroms { get; set; }
+    public PooledList<TryTickAfterIndexable> TryTickAfterFroms { get; set; }
+    // public List<TryTickAfterIndexable> TryTickAfterFroms { get; set; }
     public InverseIndexList<TryTickAfterIndexable> TryTickAfterWaits { get; set; }
     public int TryTickAfterWaitsIdx { get; set; }
 

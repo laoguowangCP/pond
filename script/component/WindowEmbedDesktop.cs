@@ -77,17 +77,11 @@ public partial class WindowEmbedDesktop : ComponentResource
         */
         int osVer = OS.GetVersion().Split('.')[^1].ToInt();
         GD.Print("OS version: ", osVer);
-        if (osVer >= 26200)
-        {
-            IntPtr progman = User32Native.FindWindow("Progman", null);
-            // User32Native.SendMessageTimeout(progman, User32Native.WM_SPAWN_WORKER, new IntPtr(0x0D), new IntPtr(0x01), User32Native.SendMessageTimeoutFlags.SMTO_NORMAL, 2000, out var result);
-            GD.Print(progman);
-            return progman;
-        }
-        else
-        {
-            return IntPtr.Zero;
-        }
+        IntPtr progman = User32Native.FindWindow("Progman", null);
+        // Show background but unshow desktop icons
+        User32Native.SendMessageTimeout(progman, User32Native.WM_SPAWN_WORKER, new IntPtr(0x0D), new IntPtr(0x01), User32Native.SendMessageTimeoutFlags.SMTO_NORMAL, 2000, out var result);
+        GD.Print(progman);
+        return progman;
     }
 
     protected IntPtr GetWallpaperWindowHandle()

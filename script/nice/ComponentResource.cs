@@ -1,5 +1,5 @@
 using Godot;
-using GDCollections = Godot.Collections;
+using Faster.Collections.Pooled;
 using System;
 using System.Collections.Generic;
 using LGWCP.Util.Collecty;
@@ -24,7 +24,8 @@ public abstract partial class ComponentResource : Resource, IComponent
     public ComponentHolder Holder { get; set; }
 
     // Tag part
-    public List<TagIndexable> TagIdxabs { get; set; } = new();
+    public PooledList<TagIndexable> TagIdxabs { get; set; } = new();
+    // public List<TagIndexable> TagIdxabs { get; set; } = new();
 
     public ComponentResource()
     {
@@ -84,7 +85,8 @@ public abstract partial class ComponentResource : Resource, IComponent
     }
 
     // Try tick after idxab
-    public List<TryTickAfterIndexable> TryTickAfterFroms { get; set; }
+    public PooledList<TryTickAfterIndexable> TryTickAfterFroms { get; set; }
+    // public List<TryTickAfterIndexable> TryTickAfterFroms { get; set; }
     public InverseIndexList<TryTickAfterIndexable> TryTickAfterWaits { get; set; }
     public int TryTickAfterWaitsIdx { get; set; } = 0;
 

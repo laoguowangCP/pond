@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using Faster.Collections.Pooled;
 using LGWCP.Util.Collecty;
 using LGWCP.Extension;
 using System.Linq;
@@ -29,14 +30,17 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
     [Export] public ComponentResource Component02;
     [Export] public ComponentResource Component03;
 
-    public readonly Dictionary<Type, IComponent> KVComponents;
+    public readonly PooledDictionary<Type, IComponent> KVComponents;
+    // public readonly Dictionary<Type, IComponent> KVComponents;
     public readonly int[] OscillatorsTickLocal;
     public readonly InverseIndexList<IComponent>[] ComponentsTickLocal;
-    public readonly Dictionary<TagEnum, InverseIndexList<TagIndexable>> KVTagIdxabs;
+    public readonly PooledDictionary<TagEnum, InverseIndexList<TagIndexable>> KVTagIdxabs;
+    // public readonly Dictionary<TagEnum, InverseIndexList<TagIndexable>> KVTagIdxabs;
     protected bool IsEntityReady = false;
     protected Node Entity;
     protected TickContext TickContext = new();
-    protected Queue<(IComponent, IComponent)> TickAfterComponents = new();
+    protected PooledQueue<(IComponent, IComponent)> TickAfterComponents = new();
+    // protected Queue<(IComponent, IComponent)> TickAfterComponents = new();
     protected bool IsFreeOnExitTree = false;
 
     // Recursive free on exit tree

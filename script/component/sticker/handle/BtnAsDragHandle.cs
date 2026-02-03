@@ -12,20 +12,25 @@ public partial class BtnAsDragHandle : ComponentResource
     public override TickGroupEnum TickGroup => TickGroupEnum.None;
     public override bool IsRegist => false;
 
-    public static readonly NodePath NP_HandleBtn = "../EntityControl/DragHandleBtn";
+    public static readonly NodePath NP_HandleBtn = "./EntityControl/DragHandleBtn";
     protected Button HandleBtn;
 
     protected Node2D Entity;
     public bool IsDragging { get; protected set; }
     public Vector2 DragBeginDisplacement  { get; protected set; } = Vector2.Zero;
 
+    public KeepInDragAreaOnWindowSizeChanged KeepInDragArea;
+
     public override void OnEntityReady()
     {
         Holder.TryGetEntity<Node2D>(out Entity);
-        HandleBtn = Holder.GetNodeOrNull<Button>(NP_HandleBtn);
+        Holder.TryGetComponent(out KeepInDragArea);
+
+        Holder.TryGetNode<Button>(NP_HandleBtn, out HandleBtn);
         HandleBtn.FocusMode = Control.FocusModeEnum.None;
         HandleBtn.ButtonDown += DragBegin;
         HandleBtn.ButtonUp += DragEnd;
+        HandleBtn.ButtonUp += KeepInDragArea.KeepInDragArea;
         HandleBtn.GuiInput += OnGuiInput;
 
         Holder.TryGetComponent<DragEndOnFocusExited>(out var dragEndOnFocusExited);
@@ -35,6 +40,10 @@ public partial class BtnAsDragHandle : ComponentResource
     public override bool OnHolderTryRemove()
     {
         Holder.TryGetComponent<DragEndOnFocusExited>(out var dragEndOnFocusExited);
+        HandleBtn.ButtonDown -= DragBegin;
+        HandleBtn.ButtonUp -= DragEnd;
+        HandleBtn.ButtonUp -= KeepInDragArea.KeepInDragArea;
+        HandleBtn.GuiInput -= OnGuiInput;
         dragEndOnFocusExited.DragEnd -= DragEnd;
         return base.OnHolderTryRemove();
     }
@@ -51,6 +60,8 @@ public partial class BtnAsDragHandle : ComponentResource
                 Vector2 mousePos = Entity.GetGlobalMousePosition();
                 Vector2 entityPos = Entity.GlobalPosition;
                 DragBeginDisplacement = entityPos - mousePos;
+                HandleBtn.FocusMode = Control.FocusModeEnum.Click;
+                HandleBtn.GrabFocus();
             }
         }
     }
@@ -66,6 +77,7 @@ public partial class BtnAsDragHandle : ComponentResource
                 // Clear displacement
                 DragBeginDisplacement = Vector2.Zero;
                 // Entity.QueueRedraw();
+                HandleBtn.FocusMode = Control.FocusModeEnum.None;
             }
         }
     }
@@ -79,9 +91,9 @@ public partial class BtnAsDragHandle : ComponentResource
             Vector2 mousePos = Entity.GetGlobalMousePosition();
             if (Nice.I.TryGetRegistedComponentFirst<DragArea>(out var dragArea))
             {
-                mousePos = dragArea.GetRegulatedGlobalPosition(mousePos);
+                var mousePosNext = dragArea.GetGlobalPositionSoftRegulated(Entity.GlobalPosition - DragBeginDisplacement, mousePos);
+                Entity.GlobalPosition = mousePosNext + DragBeginDisplacement;
             }
-            Entity.GlobalPosition = mousePos + DragBeginDisplacement;
         }
     }
 

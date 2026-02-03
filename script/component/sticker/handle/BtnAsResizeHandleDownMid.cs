@@ -12,8 +12,8 @@ public partial class BtnAsResizeHandleDownMid : ComponentResource
     public override TickGroupEnum TickGroup => TickGroupEnum.None;
     public override bool IsRegist => false;
 
-    public static readonly NodePath NP_HandleBtn = "../EntityControl/HBoxContainer/ResizeHandleBtnDownMid";
-    public static readonly NodePath NP_EntityControl = "../EntityControl";
+    public static readonly NodePath NP_HandleBtn = "./EntityControl/HBoxContainer/ResizeHandleBtnDownMid";
+    public static readonly NodePath NP_EntityControl = "./EntityControl";
     protected Button HandleBtn;
 
     protected Node2D Entity;
@@ -28,9 +28,8 @@ public partial class BtnAsResizeHandleDownMid : ComponentResource
     {
         Holder.TryGetEntity<Node2D>(out Entity);
         Holder.TryGetComponent<EntityControlSizeClamp>(out SizeClamp);
-        EntityControl = Holder.GetNodeOrNull<Control>(NP_EntityControl);
-
-        HandleBtn = Holder.GetNodeOrNull<Button>(NP_HandleBtn);
+        Holder.TryGetNode<Control>(NP_EntityControl, out EntityControl);
+        Holder.TryGetNode<Button>(NP_HandleBtn, out HandleBtn);
         HandleBtn.FocusMode = Control.FocusModeEnum.None;
         HandleBtn.ButtonDown += DragBegin;
         HandleBtn.ButtonUp += DragEnd;
@@ -44,6 +43,9 @@ public partial class BtnAsResizeHandleDownMid : ComponentResource
     public override bool OnHolderTryRemove()
     {
         Holder.TryGetComponent<DragEndOnFocusExited>(out var dragEndOnFocusExited);
+        HandleBtn.ButtonDown -= DragBegin;
+        HandleBtn.ButtonUp -= DragEnd;
+        HandleBtn.GuiInput -= OnGuiInput;
         dragEndOnFocusExited.DragEnd -= DragEnd;
         return base.OnHolderTryRemove();
     }

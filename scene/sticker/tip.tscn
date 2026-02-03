@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bt7kggvepv5fm"]
+[gd_scene load_steps=23 format=3 uid="uid://bt7kggvepv5fm"]
 
 [ext_resource type="Script" uid="uid://dt0w6j6oba4xu" path="res://script/nice/ComponentHolder.cs" id="1_ne50n"]
 [ext_resource type="Script" uid="uid://b2xcb4nsxu6qc" path="res://script/component/sticker/handle/BtnAsDragHandle.cs" id="2_wfo34"]
@@ -9,7 +9,9 @@
 [ext_resource type="Script" uid="uid://ehka83js4vpd" path="res://script/component/sticker/handle/BtnAsResizeHandleDownLeft.cs" id="5_ucgp8"]
 [ext_resource type="Script" uid="uid://7a0b3t17qkuf" path="res://script/component/sticker/handle/DragEndOnFocusExited.cs" id="6_k4kkr"]
 [ext_resource type="Script" uid="uid://c24b4geaq704l" path="res://script/component/sticker/SaveStickerTipComponent.cs" id="7_7few3"]
+[ext_resource type="Script" uid="uid://dtbo6p3yyu7qa" path="res://script/component/KeepInDragAreaOnWindowSizeChanged.cs" id="8_xrr1f"]
 [ext_resource type="Theme" uid="uid://liol3f3pxqvr" path="res://theme/main_theme.tres" id="9_4keq1"]
+[ext_resource type="Script" uid="uid://bcxdwbyi3cxlm" path="res://script/component/sticker/StickerControlSize.cs" id="9_vw2ix"]
 
 [sub_resource type="Resource" id="Resource_k4kkr"]
 resource_local_to_scene = true
@@ -41,6 +43,16 @@ resource_local_to_scene = true
 script = ExtResource("7_7few3")
 metadata/_custom_type_script = "uid://c24b4geaq704l"
 
+[sub_resource type="Resource" id="Resource_klwgr"]
+resource_local_to_scene = true
+script = ExtResource("8_xrr1f")
+metadata/_custom_type_script = "uid://dtbo6p3yyu7qa"
+
+[sub_resource type="Resource" id="Resource_xd4p0"]
+resource_local_to_scene = true
+script = ExtResource("9_vw2ix")
+metadata/_custom_type_script = "uid://bcxdwbyi3cxlm"
+
 [sub_resource type="Resource" id="Resource_uychi"]
 resource_local_to_scene = true
 script = ExtResource("4_be7s3")
@@ -55,6 +67,8 @@ Component02 = SubResource("Resource_7few3")
 Component03 = SubResource("Resource_xrr1f")
 Component04 = SubResource("Resource_vw2ix")
 Component05 = SubResource("Resource_agb2p")
+Component06 = SubResource("Resource_klwgr")
+Component07 = SubResource("Resource_xd4p0")
 Component15 = SubResource("Resource_uychi")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 

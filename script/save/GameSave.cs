@@ -24,7 +24,7 @@ public class SaveNodeBase : ISaveNode
 {
     public bool IsLeaf { get; set; }
     public List<ISaveNode> ListChildren { get; set; }
-    public Dictionary<string, ISaveNode> MapChildren { get; set; } 
+    public Dictionary<string, ISaveNode> MapChildren { get; set; }
 
     public SaveNodeBase(bool isLeaf = false)
     {

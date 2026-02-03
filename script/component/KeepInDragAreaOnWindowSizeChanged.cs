@@ -27,18 +27,18 @@ public partial class KeepInDragAreaOnWindowSizeChanged : ComponentResource
         // Hook when window unfocus, exit current drag.
         var window = Holder.GetTree().Root.GetWindow();
         // window.FocusEntered += OnWindowFocusEntered;
-        window.SizeChanged += OnWindowSizeChanged;
+        window.SizeChanged += KeepInDragArea;
     }
 
     public override bool OnHolderTryRemove()
     {
         // Unhook when window unfocus.
         var window = Holder.GetWindow();
-        window.SizeChanged -= OnWindowSizeChanged;
+        window.SizeChanged -= KeepInDragArea;
         return base.OnHolderTryRemove();
     }
 
-    public void OnWindowSizeChanged()
+    public void KeepInDragArea()
     {
         // Get left/right position
         Vector2 topLeft = Entity.GlobalPosition;
@@ -51,19 +51,19 @@ public partial class KeepInDragAreaOnWindowSizeChanged : ComponentResource
             bool checkRight = dragArea.CheckAvailableDragArea(topRight);
             if (!checkLeft && !checkRight)
             {
-                Vector2 regTopLeft = dragArea.GetRegulatedGlobalPosition(topLeft);
-                Vector2 regTopRight = dragArea.GetRegulatedGlobalPosition(topRight);
+                Vector2 regTopLeft = dragArea.GetGlobalPositionRegulated(topLeft);
+                Vector2 regTopRight = dragArea.GetGlobalPositionRegulated(topRight);
 
                 if (MathF.Abs(topLeft.X - regTopLeft.X)
                     > MathF.Abs(topRight.X - regTopRight.X))
                 {
                     // Window shrink from left
+                    // Saddly it wont happen, whole viewport is moved if window shrinks from left
                     Entity.GlobalPosition = regTopRight - new Vector2(width, 0);
                 }
                 else
                 {
                     // Window shrink from right, or top/bottom shrink
-                    // Saddly it wont happen, whole viewport is moved if window shrinks from left
                     Entity.GlobalPosition = regTopLeft;
                 }
             }

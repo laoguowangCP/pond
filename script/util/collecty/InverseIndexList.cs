@@ -1,4 +1,4 @@
-using System;
+using Faster.Collections.Pooled;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -12,7 +12,8 @@ namespace LGWCP.Util.Collecty;
 public class InverseIndexList<T> : IEnumerable<T>
     where T : IInverseIndexable<T>
 {
-    public List<T> Values { get; protected set; } = new();
+    public PooledList<T> Values { get; protected set; } = new();
+    // public List<T> Values { get; protected set; } = new();
     public int Count => Values.Count;
     public T this[int index]
     {

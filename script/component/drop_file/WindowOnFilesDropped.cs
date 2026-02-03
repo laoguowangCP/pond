@@ -83,7 +83,7 @@ public partial class WindowOnFilesDropped : ComponentResource
             GD.Print(FileToBuilder.ToString());
             if (File.Exists(FileToBuilder.ToString()))
             {
-                // Not human dragging!
+                // Too short interval between 2 drops.
                 return;
             }
         }

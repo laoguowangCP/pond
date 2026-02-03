@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using Faster.Collections.Pooled;
 using System.Collections.Generic;
 using Godot;
 using LGWCP.Util.Collecty;
@@ -10,10 +10,12 @@ namespace LGWCP.NiceGD;
 public class Nice
 {
     public static readonly Nice I = new();
-    public Dictionary<Type, InverseIndexList<RegistIndexable>> ComponentsRegisted;
+    public PooledDictionary<Type, InverseIndexList<RegistIndexable>> ComponentsRegisted;
+    // public Dictionary<Type, InverseIndexList<RegistIndexable>> ComponentsRegisted;
     public readonly int[] OscillatorsTickGlobal;
     public InverseIndexList<IComponent>[] ComponentsTickGlobal;
-    protected Queue<(IComponent, IComponent)> TickAfterComponents = new();
+    protected PooledQueue<(IComponent, IComponent)> TickAfterComponents = new();
+    // protected Queue<(IComponent, IComponent)> TickAfterComponents = new();
 
     private Nice()
     {
