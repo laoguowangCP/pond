@@ -30,11 +30,11 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
     [Export] public ComponentResource Component02;
     [Export] public ComponentResource Component03;
 
-    public readonly PooledDictionary<Type, IComponent> KVComponents;
+    public PooledDictionary<Type, IComponent> KVComponents;
     // public readonly Dictionary<Type, IComponent> KVComponents;
     public readonly int[] OscillatorsTickLocal;
     public readonly InverseIndexList<IComponent>[] ComponentsTickLocal;
-    public readonly PooledDictionary<TagEnum, InverseIndexList<TagIndexable>> KVTagIdxabs;
+    public PooledDictionary<TagEnum, InverseIndexList<TagIndexable>> KVTagIdxabs;
     // public readonly Dictionary<TagEnum, InverseIndexList<TagIndexable>> KVTagIdxabs;
     protected bool IsEntityReady = false;
     protected Node Entity;
@@ -425,6 +425,11 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
     // Map tag indexable: called whenever component has a tag added, during start up or running.
     public void OnComponentAddTag(TagIndexable tagIdxab)
     {
+        if (KVTagIdxabs == null)
+        {
+            KVTagIdxabs = new();
+        }
+
         InverseIndexList<TagIndexable> tagIdxabs;
         if (KVTagIdxabs.TryGetValue(tagIdxab.Tag, out tagIdxabs))
         {

@@ -21,7 +21,7 @@ public partial class SaveGameOnFocusExited : ComponentResource
     public override void OnEntityReady()
     {
         // Hook when window unfocus, save stickers.
-        var window = Holder.GetTree().Root.GetWindow();
+        var window = Holder.GetWindow();
         // window.FocusEntered += OnWindowFocusEntered;
         window.FocusExited += OnWindowFocusExited;
     }
@@ -41,7 +41,10 @@ public partial class SaveGameOnFocusExited : ComponentResource
             return;
         }
 
-        Holder.TryGetComponent<OnSaveGame>(out var saver);
-        saver.Save();
+        if (Holder.TryGetComponent<OnSaveGame>(out var saver))
+        {
+            saver.Save();
+        }
+        // else, focus changed on program kill
     }
 }

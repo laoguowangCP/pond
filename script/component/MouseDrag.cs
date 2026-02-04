@@ -13,6 +13,7 @@ public partial class MouseDrag : ComponentResource
     public override TickGroupEnum TickGroup => TickGroupEnum.None;
     public override bool IsRegist => true;
 
+    public bool IsDragging { get; protected set; } = false;
     public Node2D DragEntity { get; protected set; } = null;
     public IComponent DragHandle { get; protected set; } = null;
 
@@ -34,7 +35,7 @@ public partial class MouseDrag : ComponentResource
 
     public bool RequestDragging(Node2D draggingEntity, IComponent dragHandle)
     {
-        if (DragEntity != null)
+        if (IsDragging)
         {
             return false;
         }
@@ -45,6 +46,7 @@ public partial class MouseDrag : ComponentResource
             return false;
         }
 
+        IsDragging = true;
         DragEntity = draggingEntity;
         DragHandle = dragHandle;
         return true;
@@ -58,6 +60,7 @@ public partial class MouseDrag : ComponentResource
             return false;
         }
 
+        IsDragging = false;
         DragEntity = null;
         DragHandle = null;
         return true;

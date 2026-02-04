@@ -17,9 +17,16 @@ public partial class SaveStickerTipComponent : ComponentResource
     protected TextEdit TextEdit;
 
 
+    public override bool OnHolderTryAdd(ComponentHolder holder)
+    {
+        Holder = holder;
+        Holder.TryGetNode<TextEdit>(NP_TextEdit, out TextEdit);
+        return true;
+    }
+
     public override void OnEntityReady()
     {
-        Holder.TryGetNode<TextEdit>(NP_TextEdit, out TextEdit);
+        // Holder.TryGetNode<TextEdit>(NP_TextEdit, out TextEdit);
     }
 
     public override void Tick(TickContext ctx)

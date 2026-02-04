@@ -23,6 +23,6 @@ An app to put anything on your desktop.
 
 - Tip sticker：
 
-    - [x] 点击任意位置（背景）清除文本的 focus ：背景是一个巨大按钮（懒得手动 grab focus 了）
+    - [ ] 点击任意位置（背景）清除文本的 focus ：背景 panel 在 gui input 下点击 grab focus
     - [ ] 拖动 handle 也清除文本的 focus ：按下时设为可以 focus 并 grab ，抬起后再禁用 focus 。
 

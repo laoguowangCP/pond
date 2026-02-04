@@ -10,7 +10,7 @@ namespace LGWCP.NiceGD;
 public class Nice
 {
     public static readonly Nice I = new();
-    public PooledDictionary<Type, InverseIndexList<RegistIndexable>> ComponentsRegisted;
+    public Dictionary<Type, InverseIndexList<RegistIndexable>> ComponentsRegisted;
     // public Dictionary<Type, InverseIndexList<RegistIndexable>> ComponentsRegisted;
     public readonly int[] OscillatorsTickGlobal;
     public InverseIndexList<IComponent>[] ComponentsTickGlobal;

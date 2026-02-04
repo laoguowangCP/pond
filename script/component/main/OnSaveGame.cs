@@ -26,6 +26,15 @@ public partial class OnSaveGame : ComponentResource
 
     public override void OnEntityReady()
     {
+        /*
+        // Trying figure out BlitzMap hash problem
+        foreach(var (t, c) in Holder.KVComponents)
+        {
+            GD.Print(t, " ", c);
+            GD.Print(Holder.KVComponents.Keys.Contains(t));
+            GD.Print(Holder.KVComponents.TryGetValue(t, out var comp));
+        }
+        */
         GameSaveFilePath = OS.GetUserDataDir() + NameSave.Folder + NameSave.SaveFile;
 
         JsonOptions.IncludeFields = true;

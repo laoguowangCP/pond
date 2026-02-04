@@ -85,11 +85,12 @@ offset_bottom = 125.0
 theme = ExtResource("9_4keq1")
 
 [node name="DragHandleBtn" type="Button" parent="EntityControl"]
+custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 focus_mode = 1
 
 [node name="TextEdit" type="TextEdit" parent="EntityControl"]
-custom_minimum_size = Vector2(32, 32)
+custom_minimum_size = Vector2(40, 20)
 layout_mode = 2
 size_flags_vertical = 3
 placeholder_text = "Hello pond."
@@ -99,16 +100,17 @@ wrap_mode = 1
 layout_mode = 2
 
 [node name="ResizeHandleBtnDownLeft" type="Button" parent="EntityControl/HBoxContainer"]
-custom_minimum_size = Vector2(18, 0)
+custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 focus_mode = 1
 
 [node name="ResizeHandleBtnDownMid" type="Button" parent="EntityControl/HBoxContainer"]
+custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 1
 
 [node name="ResizeHandleBtnDownRight" type="Button" parent="EntityControl/HBoxContainer"]
-custom_minimum_size = Vector2(18, 0)
+custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 focus_mode = 1

@@ -70,18 +70,13 @@ public abstract partial class ComponentResource : Resource, IComponent
 
     public virtual bool ShouldDeactivate()
     {
-        /*
-        Unblocked. Try block itself or other.
-        */
         return false;
     }
 
     public virtual bool ShouldActivate()
     {
-        /*
-        Blocked. Try unblock itself or other.
-        */
-        return false;
+        // If not blocked, always activated.
+        return true;
     }
 
     // Try tick after idxab
