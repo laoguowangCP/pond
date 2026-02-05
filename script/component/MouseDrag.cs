@@ -17,12 +17,17 @@ public partial class MouseDrag : ComponentResource
     public Node2D DragEntity { get; protected set; } = null;
     public IComponent DragHandle { get; protected set; } = null;
 
+    public bool IsDeleteOnDragEnd = false;
+
     public override void OnEntityReady()
     {
         // Hook when window unfocus, exit current drag.
         var window = Holder.GetTree().Root.GetWindow();
         // window.FocusEntered += OnWindowFocusEntered;
         window.FocusExited += OnWindowFocusExited;
+
+        // Not dragging.
+        Holder.BlockByTag(TagEnum.StickerDragging);
     }
 
     public override bool OnHolderTryRemove()
@@ -33,7 +38,7 @@ public partial class MouseDrag : ComponentResource
         return base.OnHolderTryRemove();
     }
 
-    public bool RequestDragging(Node2D draggingEntity, IComponent dragHandle)
+    public bool RequestDragging(Node2D draggingEntity, IComponent dragHandle, bool isManDelete = false)
     {
         if (IsDragging)
         {
@@ -49,10 +54,16 @@ public partial class MouseDrag : ComponentResource
         IsDragging = true;
         DragEntity = draggingEntity;
         DragHandle = dragHandle;
+
+        if (isManDelete)
+        {
+            Holder.BlockByTag(TagEnum.FgHover);
+            Holder.UnblockByTag(TagEnum.StickerDragging);
+        }
         return true;
     }
 
-    public bool UnrequestDragging(Node2D dragEntity)
+    public bool UnrequestDragging(Node2D dragEntity, bool isManDelete = false)
     {
         // Only unregist itself
         if (DragEntity != dragEntity)
@@ -63,6 +74,20 @@ public partial class MouseDrag : ComponentResource
         IsDragging = false;
         DragEntity = null;
         DragHandle = null;
+
+        if (isManDelete)
+        {
+            if (IsDeleteOnDragEnd)
+            {
+                if (Holder.TryGetComponent<HandleStickerInSceneTree>(out var handleSticker))
+                {
+                    handleSticker.RemoveSticker(dragEntity);
+                    IsDeleteOnDragEnd = false;
+                }
+            }
+            Holder.UnblockByTag(TagEnum.FgHover);
+            Holder.BlockByTag(TagEnum.StickerDragging);
+        }
         return true;
     }
 

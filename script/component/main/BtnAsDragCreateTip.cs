@@ -74,12 +74,13 @@ public partial class BtnAsDragCreateTip : ComponentResource
             // if (CheckLeaveDragArea) // create tip
             {
                 // 1. Create tip sticker
-                if (!Holder.TryGetComponent<StickerBuilder>(out var stickerBuilder))
+                if (!Holder.TryGetComponent<StickerBuilder>(out var stickerBuilder)
+                    || !Holder.TryGetComponent<HandleStickerInSceneTree>(out var handleStickerInSceneTree))
                 {
                     return;
                 }
                 var tip = stickerBuilder.Build();
-                stickerBuilder.StickerCanvasLayer.AddChild(tip);
+                handleStickerInSceneTree.AddSticker(tip);
 
                 // 1.5. Let sticker follow mouse
                 Vector2 mousePos = Entity.GetGlobalMousePosition();

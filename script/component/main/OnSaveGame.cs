@@ -18,6 +18,7 @@ public partial class OnSaveGame : ComponentResource
     public override bool IsRegist => false;
 
     protected bool IsSaving = false;
+    protected bool IsLoading = false;
     protected string GameSaveFilePath;
     protected JsonSerializerOptions JsonOptions = new();
 
@@ -45,7 +46,7 @@ public partial class OnSaveGame : ComponentResource
 
     public void Save()
     {
-        if (IsSaving)
+        if (IsSaving || IsLoading)
         {
             return;
         }
@@ -66,5 +67,27 @@ public partial class OnSaveGame : ComponentResource
         SaveRoot.Clear();
 
         IsSaving = false;
+    }
+
+    public void Load()
+    {
+        if (IsSaving || IsLoading)
+        {
+            return;
+        }
+        IsLoading = true;
+        GD.Print("Load!");
+
+        Holder.TryGetComponent<StickerBuilder>(out var builder);
+
+        var str = File.ReadAllText(GameSaveFilePath);
+        SaveRoot = JsonSerializer.Deserialize<SaveRoot>(str, JsonOptions);
+        foreach (var save in SaveRoot.ListChildren)
+        {
+            builder.Build(save, out var sticker);
+        }
+        SaveRoot.Clear();
+
+        IsLoading = false;
     }
 }

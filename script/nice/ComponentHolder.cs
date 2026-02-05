@@ -458,7 +458,7 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
         if (comp.TickGroup == TickGroupEnum.None && comp.BlockCount == 1)
         {
             // comp.IsBlocked = true;
-            comp.OnActivated();
+            comp.OnDeactivated();
         }
     }
 
@@ -470,7 +470,7 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
             if (comp.TickGroup == TickGroupEnum.None && comp.BlockCount == 0)
             {
                 // comp.IsBlocked = false;
-                comp.OnDeactivated();
+                comp.OnActivated();
             }
         }
 #if DEBUG

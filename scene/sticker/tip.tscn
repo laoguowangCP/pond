@@ -90,7 +90,7 @@ layout_mode = 2
 focus_mode = 1
 
 [node name="TextEdit" type="TextEdit" parent="EntityControl"]
-custom_minimum_size = Vector2(40, 20)
+custom_minimum_size = Vector2(40, 5)
 layout_mode = 2
 size_flags_vertical = 3
 placeholder_text = "Hello pond."

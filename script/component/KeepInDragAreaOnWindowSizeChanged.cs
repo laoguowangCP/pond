@@ -34,7 +34,7 @@ public partial class KeepInDragAreaOnWindowSizeChanged : ComponentResource
     {
         // Unhook when window unfocus.
         var window = Holder.GetWindow();
-        window.SizeChanged -= KeepInDragArea;
+        window?.SizeChanged -= KeepInDragArea;
         return base.OnHolderTryRemove();
     }
 

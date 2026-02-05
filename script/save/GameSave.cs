@@ -67,7 +67,7 @@ public class SaveRoot : SaveNodeBase
 public class SaveSticker : SaveNodeBase
 {
     public SaveSticker(bool isLeaf = true) {}
-    public Vector2 Position;
+    public Vector2 GlobalPosition;
     public Vector2 Size;
 }
 

@@ -53,7 +53,7 @@ public partial class BtnAsDragHandle : ComponentResource
         // GD.Print(Entity.GetPath(), "DragBegin");
         if (Nice.I.TryGetRegistedComponentFirst<MouseDrag>(out var mouseDrag))
         {
-            if (mouseDrag.RequestDragging(Entity, this))
+            if (mouseDrag.RequestDragging(Entity, this, isManDelete: true))
             {
                 IsDragging = true;
                 // Get mouse pos to entity pos
@@ -71,7 +71,7 @@ public partial class BtnAsDragHandle : ComponentResource
         // GD.Print(Entity.GetPath(), "DragEnd");
         if (Nice.I.TryGetRegistedComponentFirst<MouseDrag>(out var mouseDrag))
         {
-            if (mouseDrag.UnrequestDragging(Entity))
+            if (mouseDrag.UnrequestDragging(Entity, isManDelete: true))
             {
                 IsDragging = false;
                 // Clear displacement
