@@ -286,12 +286,14 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
             comp = (T)value;
             return true;
         }
+/*
 #if DEBUG
         else
         {
             GD.PushWarning(GetPath(), ": component <", typeof(T), "> is expected but not exist.");
         }
 #endif
+*/
         comp = default;
         return false;
     }

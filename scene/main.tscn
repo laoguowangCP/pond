@@ -136,7 +136,7 @@ layout_mode = 2
 
 [node name="PanelU" type="Panel" parent="UICanvasLayer/BackgroundPanel/GridContainer"]
 modulate = Color(1, 1, 1, 0)
-custom_minimum_size = Vector2(0, 5)
+custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
 [node name="PanelUR" type="Panel" parent="UICanvasLayer/BackgroundPanel/GridContainer"]
@@ -161,17 +161,15 @@ layout_mode = 2
 
 [node name="PanelDL" type="Panel" parent="UICanvasLayer/BackgroundPanel/GridContainer"]
 modulate = Color(1, 1, 1, 0)
-custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 
 [node name="PanelD" type="HBoxContainer" parent="UICanvasLayer/BackgroundPanel/GridContainer"]
 self_modulate = Color(1, 1, 1, 0)
-custom_minimum_size = Vector2(25, 25)
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
 [node name="CreateTipButton" type="Button" parent="UICanvasLayer/BackgroundPanel/GridContainer/PanelD"]
 z_index = 1000
-custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 

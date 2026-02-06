@@ -19,22 +19,22 @@ public partial class KeepInDragAreaOnWindowSizeChanged : ComponentResource
     public static readonly NodePath NP_EntityControl = "../EntityControl";
     protected Control EntityControl;
     protected Node2D Entity;
+    protected Window Window;
 
     public override void OnEntityReady()
     {
         EntityControl = Holder.GetNodeOrNull<Control>(NP_EntityControl);
         Holder.TryGetEntity<Node2D>(out Entity);
         // Hook when window unfocus, exit current drag.
-        var window = Holder.GetTree().Root.GetWindow();
+        Window = Holder.GetTree().Root.GetWindow();
         // window.FocusEntered += OnWindowFocusEntered;
-        window.SizeChanged += KeepInDragArea;
+        Window.SizeChanged += KeepInDragArea;
     }
 
     public override bool OnHolderTryRemove()
     {
         // Unhook when window unfocus.
-        var window = Holder.GetWindow();
-        window?.SizeChanged -= KeepInDragArea;
+        Window.SizeChanged -= KeepInDragArea;
         return base.OnHolderTryRemove();
     }
 

@@ -12,8 +12,7 @@ public partial class ForegroundMouseDetect : ComponentResource
     public override TickGroupEnum TickGroup => TickGroupEnum.Input;
     public override bool IsRegist => false;
 
-    // public static readonly NodePath NP_FgPanel = "./UICanvasLayer/BackgroundPanel/ForegroundPanel";
-    // protected Panel FgPanel;
+
     protected Node2D Entity;
     protected MouseDrag MouseDrag;
     protected BtnAsDragCreateTip BtnAsDragCreateTip;
@@ -55,20 +54,21 @@ public partial class ForegroundMouseDetect : ComponentResource
             if (IsEnableCreateTipBtn(mousePos))
             {
                 BtnAsDragCreateTip.ButtonShow();
-                BtnAsDragCreateTip.ButtonEnable();
+                // BtnAsDragCreateTip.ButtonEnable();
             }
             else
             {
-                BtnAsDragCreateTip.ButtonDisable();
+                BtnAsDragCreateTip.ButtonHide();
             }
         }
     }
 
     public bool IsEnableCreateTipBtn(Vector2 mousePos)
     {
-        bool isShow = false;
+        bool isShow;
 
         // Check in show area
+        /*
         Vector2I windowSize = Holder.GetWindow().Size;
         int halfX = windowSize.X / 2;
         if (mousePos.X > halfX - 256
@@ -76,6 +76,26 @@ public partial class ForegroundMouseDetect : ComponentResource
             && mousePos.Y > windowSize.Y - 256)
         {
             isShow = true;
+        }
+        */
+
+        var createBtn = BtnAsDragCreateTip.GetCreateBtn;
+        var ctrlPos = createBtn.GlobalPosition;
+        var ctrlSize = createBtn.GetRect().Size;
+
+        // GD.Print(ctrlSize);
+
+        if (mousePos.X >= ctrlPos.X
+            && mousePos.X <= ctrlPos.X + ctrlSize.X
+            && mousePos.Y >= ctrlPos.Y
+            && mousePos.Y <= ctrlPos.Y + ctrlSize.Y)
+        {
+            // Inside delete area
+            isShow = true;
+        }
+        else
+        {
+            isShow = false;
         }
 
         return isShow;

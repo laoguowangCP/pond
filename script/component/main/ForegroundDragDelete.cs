@@ -52,17 +52,20 @@ public partial class ForegroundDragDelete : ComponentResource
         var ctrlPos = CtrlAsDragDelete.GlobalPosition;
         var ctrlSize = CtrlAsDragDelete.GetRect().Size;
 
+        /*
         if (mousePos.X >= ctrlPos.X
             && mousePos.X <= ctrlPos.X + ctrlSize.X
             && mousePos.Y >= ctrlPos.Y
             && mousePos.Y <= ctrlPos.Y + ctrlSize.Y)
+        */
+        if (mousePos.Y >= ctrlPos.Y)
         {
             // Inside delete area
             MouseDrag.IsDeleteOnDragEnd = true;
         }
         else
         {
-            MouseDrag.IsDeleteOnDragEnd = false;;
+            MouseDrag.IsDeleteOnDragEnd = false;
         }
     }
 }

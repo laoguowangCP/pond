@@ -15,6 +15,7 @@ public partial class BtnAsDragCreateTip : ComponentResource
 
     public static readonly NodePath NP_CreateBtn = "./UICanvasLayer/BackgroundPanel/GridContainer/PanelD/CreateTipButton";
     protected Button CreateBtn;
+    public Button GetCreateBtn => CreateBtn;
     protected Node2D Entity;
     public bool IsDraggingNewTip { get; protected set; } = false;
     public bool IsTryCreateNewTip { get; protected set; } = false;
@@ -29,7 +30,7 @@ public partial class BtnAsDragCreateTip : ComponentResource
 
         Holder.TryGetEntity<Node2D>(out Entity);
         CreateBtn.FocusMode = Control.FocusModeEnum.None;
-        ButtonDisable();
+        ButtonHide();
         CreateBtn.GuiInput += OnGuiInput;
         CreateBtn.ButtonDown += OnButtonDown;
         CreateBtn.ButtonUp += OnButtonUp;
@@ -71,7 +72,8 @@ public partial class BtnAsDragCreateTip : ComponentResource
     {
         if (IsTryCreateNewTip)
         {
-            // if (CheckLeaveDragArea) // create tip
+            Vector2 mousePos = Entity.GetGlobalMousePosition();
+            if (DragArea.CheckAvailableDragArea(mousePos)) // create tip
             {
                 // 1. Create tip sticker
                 if (!Holder.TryGetComponent<StickerBuilder>(out var stickerBuilder)
@@ -83,7 +85,6 @@ public partial class BtnAsDragCreateTip : ComponentResource
                 handleStickerInSceneTree.AddSticker(tip);
 
                 // 1.5. Let sticker follow mouse
-                Vector2 mousePos = Entity.GetGlobalMousePosition();
                 tip.TryGetComponent<StickerControlSize>(out var stickerControlSize);
                 DragBeginDisplacement = new Vector2(stickerControlSize.Size.X / 2f, 0f);
                 tip.GlobalPosition = mousePos - DragBeginDisplacement;
