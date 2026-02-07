@@ -26,3 +26,8 @@ An app to put anything on your desktop.
     - [ ] 点击任意位置（背景）清除文本的 focus ：背景 panel 在 gui input 下点击 grab focus
     - [ ] 拖动 handle 也清除文本的 focus ：按下时设为可以 focus 并 grab ，抬起后再禁用 focus 。
 
+- 窗口 DoDragDrop：把便签内容拖拽到外部
+
+    - [x] 使用 ole native
+    - [x] 引用 System.Windows.Forms ，csproj 里 TargetFramework 改为 net10.0-windows
+    - [ ] 图片点击触发 DoDragDrop
