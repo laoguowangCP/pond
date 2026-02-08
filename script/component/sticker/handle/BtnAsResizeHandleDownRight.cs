@@ -28,8 +28,8 @@ public partial class BtnAsResizeHandleDownRight : ComponentResource
     {
         Holder.TryGetEntity<Node2D>(out Entity);
         Holder.TryGetComponent<EntityControlSizeClamp>(out SizeClamp);
-        Holder.TryGetNode<Control>(NP_EntityControl, out EntityControl);
-        Holder.TryGetNode<Button>(NP_HandleBtn, out HandleBtn);
+        Holder.TryGetNodeFromEntity<Control>(NP_EntityControl, out EntityControl);
+        Holder.TryGetNodeFromEntity<Button>(NP_HandleBtn, out HandleBtn);
         HandleBtn.FocusMode = Control.FocusModeEnum.None;
         HandleBtn.ButtonDown += DragBegin;
         HandleBtn.ButtonUp += DragEnd;

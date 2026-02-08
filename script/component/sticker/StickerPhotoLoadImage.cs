@@ -15,13 +15,13 @@ public partial class StickerPhotoLoadImage : ComponentResource
     public override TickGroupEnum TickGroup => TickGroupEnum.None;
     public override bool IsRegist => false;
 
-    protected static readonly NodePath NP_TextureRect = new("EntityControl/PanelContainer/TextureRect");
+    protected static readonly NodePath NP_TextureRect = "./EntityControl/PanelContainer/TextureRect";
     protected TextureRect TextureRect;
     public string ImageFile;
 
     public override void OnEntityReady()
     {
-        Holder.TryGetNode<TextureRect>(NP_TextureRect, out TextureRect);
+        Holder.TryGetNodeFromEntity<TextureRect>(NP_TextureRect, out TextureRect);
     }
 
     public void LoadFromFile(string file)

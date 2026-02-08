@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://ysp60y6ghv7n"]
+[gd_scene load_steps=31 format=3 uid="uid://ysp60y6ghv7n"]
 
 [ext_resource type="Script" uid="uid://dt0w6j6oba4xu" path="res://script/nice/ComponentHolder.cs" id="1_menoa"]
 [ext_resource type="Script" uid="uid://b2xcb4nsxu6qc" path="res://script/component/sticker/handle/BtnAsDragHandle.cs" id="2_menoa"]
@@ -15,6 +15,7 @@
 [ext_resource type="Script" uid="uid://bcxdwbyi3cxlm" path="res://script/component/sticker/StickerControlSize.cs" id="10_6brdl"]
 [ext_resource type="Script" uid="uid://blmc34v7jwftc" path="res://script/component/sticker/OnStickerRemove.cs" id="11_xpyjd"]
 [ext_resource type="Script" uid="uid://dh8igljmv4cqs" path="res://script/component/sticker/PhotoStickerRemoveDeleteFile.cs" id="12_tmo60"]
+[ext_resource type="Script" uid="uid://bewvawlty86rx" path="res://script/component/sticker/PhotoStickerDoDragDrop.cs" id="13_tmo60"]
 
 [sub_resource type="Resource" id="Resource_stqh4"]
 resource_local_to_scene = true
@@ -71,6 +72,11 @@ resource_local_to_scene = true
 script = ExtResource("12_tmo60")
 metadata/_custom_type_script = "uid://dh8igljmv4cqs"
 
+[sub_resource type="Resource" id="Resource_tqb00"]
+resource_local_to_scene = true
+script = ExtResource("13_tmo60")
+metadata/_custom_type_script = "uid://bewvawlty86rx"
+
 [sub_resource type="Resource" id="Resource_tmo60"]
 resource_local_to_scene = true
 script = ExtResource("8_stqh4")
@@ -90,6 +96,7 @@ Component07 = SubResource("Resource_vn5e2")
 Component08 = SubResource("Resource_r3wx4")
 Component09 = SubResource("Resource_hsokh")
 Component10 = SubResource("Resource_y3j5s")
+Component11 = SubResource("Resource_tqb00")
 Component15 = SubResource("Resource_tmo60")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 

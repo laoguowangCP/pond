@@ -16,12 +16,12 @@ public partial class StickerControlSize : ComponentResource
     public override TickGroupEnum TickGroup => TickGroupEnum.None;
     public override bool IsRegist => false;
 
-    public static readonly NodePath NP_EntityControl = "../EntityControl";
+    public static readonly NodePath NP_EntityControl = "./EntityControl";
     protected Control EntityControl;
 
     public override void OnEntityReady()
     {
-        EntityControl = Holder.GetNodeOrNull<Control>(NP_EntityControl);
+        Holder.TryGetNodeFromEntity<Control>(NP_EntityControl, out EntityControl);
     }
 
     public Vector2 Size => EntityControl.Size;

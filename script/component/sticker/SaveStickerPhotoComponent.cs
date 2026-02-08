@@ -18,7 +18,7 @@ public partial class SaveStickerPhotoComponent : ComponentResource
         if (ctx.From.Is<SaveRoot>(out var save))
         {
             Holder.TryGetEntity<Node2D>(out var entity);
-            Holder.TryGetNode<Control>("./EntityControl", out var control);
+            Holder.TryGetNodeFromEntity<Control>("./EntityControl", out var control);
             SaveStickerPhoto tipSave = new(false);
             tipSave.GlobalPosition = entity.Position;
             tipSave.Size = control.Size;
@@ -33,7 +33,7 @@ public partial class SaveStickerPhotoComponent : ComponentResource
     public void Load(SaveStickerPhoto save)
     {
         Holder.TryGetEntity<Node2D>(out var entity);
-        Holder.TryGetNode<Control>("./EntityControl", out var control);
+        Holder.TryGetNodeFromEntity<Control>("./EntityControl", out var control);
         entity.GlobalPosition = save.GlobalPosition;
         control.Size = save.Size;
         if (Holder.TryGetComponent<StickerPhotoLoadImage>(out var loadImage))

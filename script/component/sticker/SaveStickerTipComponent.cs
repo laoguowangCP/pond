@@ -20,7 +20,7 @@ public partial class SaveStickerTipComponent : ComponentResource
     public override bool OnHolderTryAdd(ComponentHolder holder)
     {
         Holder = holder;
-        Holder.TryGetNode<TextEdit>(NP_TextEdit, out TextEdit);
+        Holder.TryGetNodeFromEntity<TextEdit>(NP_TextEdit, out TextEdit);
         return true;
     }
 
@@ -34,7 +34,7 @@ public partial class SaveStickerTipComponent : ComponentResource
         if (ctx.From.Is<SaveRoot>(out var save))
         {
             Holder.TryGetEntity<Node2D>(out var entity);
-            Holder.TryGetNode<Control>("./EntityControl", out var control);
+            Holder.TryGetNodeFromEntity<Control>("./EntityControl", out var control);
             SaveStickerTip tipSave = new(false);
             tipSave.GlobalPosition = entity.GlobalPosition;
             tipSave.Size = control.Size;
@@ -46,7 +46,7 @@ public partial class SaveStickerTipComponent : ComponentResource
     public void Load(SaveStickerTip save)
     {
         Holder.TryGetEntity<Node2D>(out var entity);
-        Holder.TryGetNode<Control>("./EntityControl", out var control);
+        Holder.TryGetNodeFromEntity<Control>("./EntityControl", out var control);
         entity.GlobalPosition = save.GlobalPosition;
         control.Size = save.Size;
         TextEdit.Text = save.Text;

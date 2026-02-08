@@ -25,7 +25,7 @@ public partial class DragArea : ComponentResource
 
     public override void OnEntityReady()
     {
-        Holder.TryGetNode<Panel>(NP_MainPanel, out MainPanel);
+        Holder.TryGetNodeFromEntity<Panel>(NP_MainPanel, out MainPanel);
     }
 
     public bool CheckAvailableDragArea(Vector2 mousePos)

@@ -18,7 +18,7 @@ public partial class HandleStickerInSceneTree : ComponentResource
 
     public override void OnEntityReady()
     {
-        Holder.TryGetNode<CanvasLayer>(NP_StickerCanvasLayer, out StickerCanvasLayer);
+        Holder.TryGetNodeFromEntity<CanvasLayer>(NP_StickerCanvasLayer, out StickerCanvasLayer);
     }
 
     public void AddSticker(Node2D sticker)

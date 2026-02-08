@@ -26,7 +26,7 @@ public partial class BtnAsDragHandle : ComponentResource
         Holder.TryGetEntity<Node2D>(out Entity);
         Holder.TryGetComponent(out KeepInDragArea);
 
-        Holder.TryGetNode<Button>(NP_HandleBtn, out HandleBtn);
+        Holder.TryGetNodeFromEntity<Button>(NP_HandleBtn, out HandleBtn);
         HandleBtn.FocusMode = Control.FocusModeEnum.None;
         HandleBtn.ButtonDown += DragBegin;
         HandleBtn.ButtonUp += DragEnd;

@@ -25,7 +25,7 @@ public partial class BtnAsDragCreateTip : ComponentResource
 
     public override void OnEntityReady()
     {
-        Holder.TryGetNode<Button>(NP_CreateBtn, out CreateBtn);
+        Holder.TryGetNodeFromEntity<Button>(NP_CreateBtn, out CreateBtn);
         CreateBtn.Text = "按住并拖动";
 
         Holder.TryGetEntity<Node2D>(out Entity);

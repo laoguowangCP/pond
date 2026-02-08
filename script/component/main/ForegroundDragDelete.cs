@@ -23,7 +23,7 @@ public partial class ForegroundDragDelete : ComponentResource
         // Add tags here.
         Holder.AddTagNoCheck(this, TagEnum.StickerDragging);
 
-        Holder.TryGetNode<Control>(NP_CtrlAsDragDelete, out CtrlAsDragDelete);
+        Holder.TryGetNodeFromEntity<Control>(NP_CtrlAsDragDelete, out CtrlAsDragDelete);
         return true;
     }
 
