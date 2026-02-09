@@ -13,8 +13,10 @@ public partial class EntityControlSizeClamp : ComponentResource
     public override bool IsRegist => false;
 
     [Export]
-    public Vector2 MinSize = new Vector2(128, 128);
+    public Vector2 MinSize = new Vector2(100, 50);
     [Export]
     public Vector2 MaxSize = new Vector2(1024, 1024);
+
+    public Vector2 GetClampedSize(Vector2 size) => size.Clamp(MinSize, MaxSize);
 }
 

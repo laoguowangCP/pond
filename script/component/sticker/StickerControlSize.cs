@@ -18,12 +18,18 @@ public partial class StickerControlSize : ComponentResource
 
     public static readonly NodePath NP_EntityControl = "./EntityControl";
     protected Control EntityControl;
+    protected EntityControlSizeClamp SizeClamp;
 
     public override void OnEntityReady()
     {
         Holder.TryGetNodeFromEntity<Control>(NP_EntityControl, out EntityControl);
+        Holder.TryGetComponent<EntityControlSizeClamp>(out SizeClamp);
     }
 
-    public Vector2 Size => EntityControl.Size;
+    public Vector2 Size
+    {
+        get => EntityControl.Size;
+        set => EntityControl.Size = SizeClamp.GetClampedSize(value);
+    }
 }
 

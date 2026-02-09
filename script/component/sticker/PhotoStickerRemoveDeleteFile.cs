@@ -22,6 +22,9 @@ public partial class PhotoStickerRemoveDeleteFile : ComponentResource
     private void DeleteImageFile()
     {
         Holder.TryGetComponent<StickerPhotoLoadImage>(out var loadImage);
-        File.Delete(loadImage.ImageFile);
+        if (File.Exists(loadImage.ImageFile))
+        {
+            File.Delete(loadImage.ImageFile);
+        }
     }
 }

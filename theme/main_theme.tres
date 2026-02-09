@@ -1,8 +1,13 @@
-[gd_resource type="Theme" format=3 uid="uid://liol3f3pxqvr"]
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://liol3f3pxqvr"]
+
+[ext_resource type="StyleBox" uid="uid://dq61insfg67w4" path="res://theme/drag_btn_normal.stylebox" id="1_afw5t"]
 
 [resource]
 default_font_size = 22
 Button/colors/icon_hover_color = Color(1, 1, 1, 1)
 Button/colors/icon_hover_pressed_color = Color(1, 1, 1, 1)
 Button/colors/icon_normal_color = Color(0.5065261, 0.5065261, 0.5065261, 1)
-Button/styles/normal = null
+Button/styles/hover = ExtResource("1_afw5t")
+Button/styles/hover_pressed = ExtResource("1_afw5t")
+Button/styles/normal = ExtResource("1_afw5t")
+Button/styles/pressed = ExtResource("1_afw5t")

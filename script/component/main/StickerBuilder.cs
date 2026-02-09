@@ -35,7 +35,53 @@ public partial class StickerBuilder : ComponentResource
         return tip;
     }
 
-    public bool Build(ISaveNode save, out Node2D sticker)
+    public bool BuildStickerPhoto(string fileName, out Node2D sticker)
+    {
+        sticker = default;
+        if (fileName == null)
+        {
+            return false;
+        }
+
+        sticker = PhotoStickerScene.Instantiate<Node2D>();
+        HandleSticker.AddSticker(sticker);
+        if (sticker.TryGetComponentHolder(out var stickerHolder))
+        {
+            if (stickerHolder.TryGetComponent<StickerPhotoLoadImage>(out var loadImage))
+            {
+                loadImage.LoadFromFile(fileName);
+
+                // Set size y to align image ratio
+                if (stickerHolder.TryGetComponent<StickerControlSize>(out var controlSize))
+                {
+                    Vector2 sizeDefault = controlSize.Size;
+                    Vector2 texSize = loadImage.GetImageTextureSize();
+                    Vector2 photoSize = new Vector2(sizeDefault.X, sizeDefault.X / texSize.X * texSize.Y);
+                    controlSize.Size = photoSize;
+                }
+            }
+        }
+        return true;
+    }
+
+    public bool BuildStickerTip(string text, out Node2D sticker)
+    {
+        sticker = default;
+        if (text == null)
+        {
+            return false;
+        }
+
+        sticker = PhotoStickerScene.Instantiate<Node2D>();
+        HandleSticker.AddSticker(sticker);
+        if (sticker.TryGetComponent<StickerTipTextCtrl>(out var stickerTipTextCtrl))
+        {
+            stickerTipTextCtrl.LoadText(text);
+        }
+        return true;
+    }
+
+    public bool BuildFromSaveNode(ISaveNode save, out Node2D sticker)
     {
         sticker = default;
         if (save == null)
@@ -52,7 +98,8 @@ public partial class StickerBuilder : ComponentResource
                 saveLoad.Load(saveTip);
             }
         }
-        else if (save is SaveStickerPhoto savePhoto)
+        else if (save is SaveStickerPhoto savePhoto
+            && !string.IsNullOrEmpty(savePhoto.ImageFile))
         {
             sticker = PhotoStickerScene.Instantiate<Node2D>();
             HandleSticker.AddSticker(sticker);

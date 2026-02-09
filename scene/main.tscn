@@ -136,7 +136,6 @@ layout_mode = 2
 
 [node name="PanelU" type="Panel" parent="UICanvasLayer/BackgroundPanel/GridContainer"]
 modulate = Color(1, 1, 1, 0)
-custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
 [node name="PanelUR" type="Panel" parent="UICanvasLayer/BackgroundPanel/GridContainer"]

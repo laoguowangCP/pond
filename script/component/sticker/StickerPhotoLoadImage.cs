@@ -31,4 +31,9 @@ public partial class StickerPhotoLoadImage : ComponentResource
         var imageTexture = ImageTexture.CreateFromImage(Image.LoadFromFile(file));
         TextureRect.Texture = imageTexture;
     }
+
+    public Vector2 GetImageTextureSize()
+    {
+        return TextureRect.Texture.GetSize();
+    }
 }

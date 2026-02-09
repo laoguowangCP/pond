@@ -195,7 +195,7 @@ public class FileDataObject : IDataObject
     // 其他未实现接口保持原样 (参见上一个回复)
     public int QueryGetData(ref FORMATETC format)
     {
-        GD.Print($"外部程序询问格式: {format.cfFormat}");
+        // GD.Print($"外部程序询问格式: {format.cfFormat}");
         // GD.Print($"CF_PREFERREDDROPEFFECT: { (short)OleNative.RegisterClipboardFormat("Preferred DropEffect") }");
         if (format.cfFormat == 13
             || format.cfFormat == 15
@@ -316,7 +316,6 @@ public class DragDropUtil
         }
 
         int initResult = OleNative.OleInitialize(IntPtr.Zero);
-        // GD.Print(initResult);
         IDataObject data = new FileDataObject(new string[] { filePath });
         var dropSource = new SimpleDropSource();
 
@@ -324,6 +323,5 @@ public class DragDropUtil
         OleNative.DoDragDrop(data, dropSource,
             OleNative.DROPEFFECT_COPY | OleNative.DROPEFFECT_MOVE,
             out int finalEffect);
-        GD.Print(finalEffect);
     }
 }

@@ -84,7 +84,7 @@ public partial class OnSaveGame : ComponentResource
         SaveRoot = JsonSerializer.Deserialize<SaveRoot>(str, JsonOptions);
         foreach (var save in SaveRoot.ListChildren)
         {
-            builder.Build(save, out var sticker);
+            builder.BuildFromSaveNode(save, out var sticker);
         }
         SaveRoot.Clear();
 

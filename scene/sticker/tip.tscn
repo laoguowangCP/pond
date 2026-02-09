@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bt7kggvepv5fm"]
+[gd_scene load_steps=25 format=3 uid="uid://bt7kggvepv5fm"]
 
 [ext_resource type="Script" uid="uid://dt0w6j6oba4xu" path="res://script/nice/ComponentHolder.cs" id="1_ne50n"]
 [ext_resource type="Script" uid="uid://b2xcb4nsxu6qc" path="res://script/component/sticker/handle/BtnAsDragHandle.cs" id="2_wfo34"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://dtbo6p3yyu7qa" path="res://script/component/KeepInDragAreaOnWindowSizeChanged.cs" id="8_xrr1f"]
 [ext_resource type="Theme" uid="uid://liol3f3pxqvr" path="res://theme/main_theme.tres" id="9_4keq1"]
 [ext_resource type="Script" uid="uid://bcxdwbyi3cxlm" path="res://script/component/sticker/StickerControlSize.cs" id="9_vw2ix"]
+[ext_resource type="Script" uid="uid://0csbkjdu2w15" path="res://script/component/sticker/StickerTipTextCtrl.cs" id="10_uychi"]
 
 [sub_resource type="Resource" id="Resource_k4kkr"]
 resource_local_to_scene = true
@@ -53,9 +54,15 @@ resource_local_to_scene = true
 script = ExtResource("9_vw2ix")
 metadata/_custom_type_script = "uid://bcxdwbyi3cxlm"
 
+[sub_resource type="Resource" id="Resource_g53tv"]
+resource_local_to_scene = true
+script = ExtResource("10_uychi")
+metadata/_custom_type_script = "uid://0csbkjdu2w15"
+
 [sub_resource type="Resource" id="Resource_uychi"]
 resource_local_to_scene = true
 script = ExtResource("4_be7s3")
+MinSize = Vector2(128, 128)
 metadata/_custom_type_script = "uid://bo8uw0h2t47u7"
 
 [sub_resource type="Resource" id="Resource_y7nij"]
@@ -69,6 +76,7 @@ Component04 = SubResource("Resource_vw2ix")
 Component05 = SubResource("Resource_agb2p")
 Component06 = SubResource("Resource_klwgr")
 Component07 = SubResource("Resource_xd4p0")
+Component08 = SubResource("Resource_g53tv")
 Component15 = SubResource("Resource_uychi")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 
@@ -90,7 +98,6 @@ layout_mode = 2
 focus_mode = 1
 
 [node name="TextEdit" type="TextEdit" parent="EntityControl"]
-custom_minimum_size = Vector2(40, 5)
 layout_mode = 2
 size_flags_vertical = 3
 placeholder_text = "Hello pond."
@@ -105,7 +112,7 @@ layout_mode = 2
 focus_mode = 1
 
 [node name="ResizeHandleBtnDownMid" type="Button" parent="EntityControl/HBoxContainer"]
-custom_minimum_size = Vector2(0, 5)
+custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 1

@@ -22,12 +22,20 @@ public partial class WindowOnFilesDropped : ComponentResource
 
     public StringBuilder FileToBuilder = new();
 
+    protected OnSaveGame OnSaveGame;
+    protected StickerBuilder StickerBuilder;
+    protected Node2D Entity;
+
     public override void OnEntityReady()
     {
         // Hook when window unfocus, exit current drag.
         var window = Holder.GetTree().Root.GetWindow();
         // window.FocusEntered += OnWindowFocusEntered;
         window.FilesDropped += OnWindowFilesDropped;
+
+        Holder.TryGetComponent<OnSaveGame>(out OnSaveGame);
+        Holder.TryGetComponent<StickerBuilder>(out StickerBuilder);
+        Holder.TryGetEntity<Node2D>(out Entity);
     }
 
     public override bool OnHolderTryRemove()
@@ -42,7 +50,6 @@ public partial class WindowOnFilesDropped : ComponentResource
     {
         // TODO: Check in drag area
 
-
         if (files.Length != 1)
         {
             GD.Print("Too much files dropped!");
@@ -50,18 +57,36 @@ public partial class WindowOnFilesDropped : ComponentResource
         }
 
         string file = files[0];
-        string fileExt = file.GetExtension();
         if (file == string.Empty)
         {
-            GD.Print("File no extension!");
+            // Empty
             return;
         }
 
-        if (ImageExtensions.TryGetValue(fileExt.ToLowerInvariant(), out _))
+        string fileExt = file.GetExtension();
+        if (File.Exists(file)
+            && !string.IsNullOrEmpty(fileExt)
+            && ImageExtensions.TryGetValue(fileExt.ToLowerInvariant(), out _))
         {
             // Handle image
             HandleDropFileImage(file);
         }
+        else
+        {
+            // Godot file_dropped not supported
+            // Fallback plain text
+            GD.Print(file);
+            HandleDropFileFallbackPlainText(file);
+        }
+
+        OnSaveGame.Save();
+    }
+
+    
+    protected void HandleDropFileFallbackPlainText(string text)
+    {
+        StickerBuilder.BuildStickerTip(text, out var tip);
+        tip.Position = Entity.GetGlobalMousePosition();
     }
 
     protected void HandleDropFileImage(string fileFrom)
@@ -80,7 +105,6 @@ public partial class WindowOnFilesDropped : ComponentResource
             FileToBuilder.Append(DateTime.Now.ToString("_yyyyMMdd_HHmmssff"));
             FileToBuilder.Append('.');
             FileToBuilder.Append(fileExt);
-            GD.Print(FileToBuilder.ToString());
             if (File.Exists(FileToBuilder.ToString()))
             {
                 // Too short interval between 2 drops.
@@ -90,10 +114,12 @@ public partial class WindowOnFilesDropped : ComponentResource
 
         string fileTo = FileToBuilder.ToString();
 
-        GD.Print(fileTo.GetBaseDir());
         Directory.CreateDirectory(fileTo.GetBaseDir());
-        File.Copy(fileFrom, FileToBuilder.ToString());
+        File.Copy(fileFrom, fileTo);
 
+        StickerBuilder.BuildStickerPhoto(fileTo, out var photo);
+
+        /*
         var photoScene = ResourceLoader.Load<PackedScene>("res://scene/sticker/photo.tscn");
         var photo = photoScene.Instantiate<Node2D>();
 
@@ -104,8 +130,7 @@ public partial class WindowOnFilesDropped : ComponentResource
         {
             loadImage.LoadFromFile(fileTo);
         }
-
-        Holder.TryGetEntity<Node2D>(out var entity);
-        photo.Position = entity.GetGlobalMousePosition();
+        */
+        photo.Position = Entity.GetGlobalMousePosition();
     }
 }
