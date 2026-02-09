@@ -61,6 +61,8 @@ public partial class BtnAsResizeHandleDownMid : ComponentResource
                 // Get mouse pos to entity pos
                 DragBeginPos = Entity.GetGlobalMousePosition();
                 DragBeginSize = EntityControl.Size;
+                HandleBtn.FocusMode = Control.FocusModeEnum.Click;
+                HandleBtn.GrabFocus();
             }
         }
     }
@@ -75,6 +77,7 @@ public partial class BtnAsResizeHandleDownMid : ComponentResource
                 IsDragging = false;
                 // Clear displacement
                 DragBeginPos = Vector2.Zero;
+                HandleBtn.FocusMode = Control.FocusModeEnum.None;
             }
         }
     }

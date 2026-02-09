@@ -53,7 +53,6 @@ public partial class BtnAsResizeHandleDownLeft : ComponentResource
 
     public void DragBegin()
     {
-        GD.Print(Entity.GetPath(), "DragBegin");
         if (Nice.I.TryGetRegistedComponentFirst<MouseDrag>(out var mouseDrag))
         {
             if (mouseDrag.RequestDragging(Entity, this))
@@ -63,20 +62,21 @@ public partial class BtnAsResizeHandleDownLeft : ComponentResource
                 DragBeginPos = Entity.GetGlobalMousePosition();
                 DragBeginEntitySize = EntityControl.Size;
                 DragBeginEntityPos = Entity.GlobalPosition;
+                HandleBtn.FocusMode = Control.FocusModeEnum.Click;
+                HandleBtn.GrabFocus();
             }
         }
     }
 
     public void DragEnd()
     {
-        GD.Print(Entity.GetPath(), "DragEnd");
         if (Nice.I.TryGetRegistedComponentFirst<MouseDrag>(out var mouseDrag))
         {
             if (mouseDrag.UnrequestDragging(Entity))
             {
                 IsDragging = false;
-                // Clear displacement
                 DragBeginPos = Vector2.Zero;
+                HandleBtn.FocusMode = Control.FocusModeEnum.None;
             }
         }
     }

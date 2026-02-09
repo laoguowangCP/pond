@@ -1,10 +1,11 @@
-[gd_scene load_steps=32 format=3 uid="uid://dp58xsa3dpcbo"]
+[gd_scene load_steps=34 format=3 uid="uid://dp58xsa3dpcbo"]
 
 [ext_resource type="Script" uid="uid://dt0w6j6oba4xu" path="res://script/nice/ComponentHolder.cs" id="1_v0l8b"]
 [ext_resource type="Script" uid="uid://d2s3tj3435w8y" path="res://script/component/WindowEmbedDesktop.cs" id="2_v0l8b"]
 [ext_resource type="Script" uid="uid://b3i7ag4egov14" path="res://script/component/SwitchWindowEmbed.cs" id="3_brvut"]
 [ext_resource type="Script" uid="uid://de6f22o20s6ba" path="res://script/nice/component_res_ext/ComponentResExt16X.cs" id="4_0ha60"]
 [ext_resource type="Script" uid="uid://bfh3oapm3260b" path="res://script/component/MouseDrag.cs" id="4_4j5ol"]
+[ext_resource type="Script" uid="uid://703f4ecf48ha" path="res://script/component/main/BackgroundGrabFocus.cs" id="5_smf0o"]
 [ext_resource type="Script" uid="uid://b4pydyhgu5n2v" path="res://script/component/DragArea.cs" id="6_b5f6u"]
 [ext_resource type="Script" uid="uid://dnjt53k1vt2jq" path="res://script/component/drop_file/WindowOnFilesDropped.cs" id="7_tqoya"]
 [ext_resource type="Script" uid="uid://526kb8wbrkac" path="res://script/component/main/OnSaveGame.cs" id="8_k65ib"]
@@ -32,6 +33,11 @@ resource_local_to_scene = true
 script = ExtResource("3_brvut")
 NP_SwitchWindowEmbedBtn = NodePath("../UICanvasLayer/BackgroundPanel/GridContainer/SwitchWindowEmbedBtn")
 metadata/_custom_type_script = "uid://b3i7ag4egov14"
+
+[sub_resource type="Resource" id="Resource_gtqqq"]
+resource_local_to_scene = true
+script = ExtResource("5_smf0o")
+metadata/_custom_type_script = "uid://703f4ecf48ha"
 
 [sub_resource type="Resource" id="Resource_tqoya"]
 resource_local_to_scene = true
@@ -94,6 +100,7 @@ resource_local_to_scene = true
 script = ExtResource("4_0ha60")
 Component00 = SubResource("Resource_0ha60")
 Component01 = SubResource("Resource_4j5ol")
+Component02 = SubResource("Resource_gtqqq")
 Component03 = SubResource("Resource_tqoya")
 Component04 = SubResource("Resource_k65ib")
 Component05 = SubResource("Resource_jcbur")
@@ -128,44 +135,53 @@ focus_mode = 1
 
 [node name="GridContainer" type="GridContainer" parent="UICanvasLayer/BackgroundPanel"]
 layout_mode = 2
+focus_mode = 1
 columns = 3
 
 [node name="PanelUL" type="Panel" parent="UICanvasLayer/BackgroundPanel/GridContainer"]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
+focus_mode = 1
 
 [node name="PanelU" type="Panel" parent="UICanvasLayer/BackgroundPanel/GridContainer"]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
+focus_mode = 1
 
 [node name="PanelUR" type="Panel" parent="UICanvasLayer/BackgroundPanel/GridContainer"]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
+focus_mode = 1
 
 [node name="PanelML" type="Panel" parent="UICanvasLayer/BackgroundPanel/GridContainer"]
 modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
+focus_mode = 1
 
 [node name="PanelMain" type="Panel" parent="UICanvasLayer/BackgroundPanel/GridContainer"]
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+focus_mode = 1
 
 [node name="PanelMR" type="Panel" parent="UICanvasLayer/BackgroundPanel/GridContainer"]
 modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
+focus_mode = 1
 
 [node name="PanelDL" type="Panel" parent="UICanvasLayer/BackgroundPanel/GridContainer"]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
+focus_mode = 1
 
 [node name="PanelD" type="HBoxContainer" parent="UICanvasLayer/BackgroundPanel/GridContainer"]
 self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
+focus_mode = 1
 
 [node name="CreateTipButton" type="Button" parent="UICanvasLayer/BackgroundPanel/GridContainer/PanelD"]
 z_index = 1000
