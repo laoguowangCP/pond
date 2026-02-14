@@ -3,7 +3,7 @@ using Godot;
 using System.Runtime.InteropServices;
 using GodotTask;
 using LGWCP.NiceGD;
-using LGWCP.Util.User32Native;
+using LGWCP.Util.WinApiNative;
 
 namespace LGWCP.Pond;
 

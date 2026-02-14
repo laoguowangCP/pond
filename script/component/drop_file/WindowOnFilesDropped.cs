@@ -57,7 +57,7 @@ public partial class WindowOnFilesDropped : ComponentResource
         }
 
         string file = files[0];
-        if (file == string.Empty)
+        if (string.IsNullOrEmpty(file))
         {
             // Empty
             return;

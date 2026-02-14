@@ -21,6 +21,8 @@ public partial class BtnAsDragHandle : ComponentResource
 
     public KeepInDragAreaOnWindowSizeChanged KeepInDragArea;
 
+    protected bool IsCursorDrag = false;
+
     public override void OnEntityReady()
     {
         Holder.TryGetEntity<Node2D>(out Entity);
@@ -28,10 +30,17 @@ public partial class BtnAsDragHandle : ComponentResource
 
         Holder.TryGetNodeFromEntity<Button>(NP_HandleBtn, out HandleBtn);
         HandleBtn.FocusMode = Control.FocusModeEnum.None;
+        HandleBtn.MouseDefaultCursorShape = Control.CursorShape.PointingHand;
+
         HandleBtn.ButtonDown += DragBegin;
         HandleBtn.ButtonUp += DragEnd;
         HandleBtn.ButtonUp += KeepInDragArea.KeepInDragArea;
         HandleBtn.GuiInput += OnGuiInput;
+
+        /*
+        HandleBtn.MouseEntered += OnMouseEntered;
+        HandleBtn.MouseExited += OnMouseExited;
+        */
 
         Holder.TryGetComponent<DragEndOnFocusExited>(out var dragEndOnFocusExited);
         dragEndOnFocusExited.DragEnd += DragEnd;
@@ -45,6 +54,11 @@ public partial class BtnAsDragHandle : ComponentResource
         HandleBtn.ButtonUp -= KeepInDragArea.KeepInDragArea;
         HandleBtn.GuiInput -= OnGuiInput;
         dragEndOnFocusExited.DragEnd -= DragEnd;
+        
+        /*
+        HandleBtn.MouseEntered -= OnMouseEntered;
+        HandleBtn.MouseExited -= OnMouseExited;
+        */
         return base.OnHolderTryRemove();
     }
 
@@ -95,7 +109,29 @@ public partial class BtnAsDragHandle : ComponentResource
                 Entity.GlobalPosition = mousePosNext + DragBeginDisplacement;
             }
         }
+
+        /*
+        bool isHovered = HandleBtn.IsHovered();
+        if (isHovered != IsCursorDrag)
+        {
+            IsCursorDrag = isHovered;
+            DisplayServer.CursorSetShape(IsCursorDrag ? DisplayServer.CursorShape.Drag : DisplayServer.CursorShape.Arrow);
+        }*/
     }
+
+    /*
+    public void OnMouseEntered()
+    {
+        GD.Print("drag button mouse enter");
+        DisplayServer.CursorSetShape(DisplayServer.CursorShape.PointingHand);
+    }
+
+    public void OnMouseExited()
+    {
+        GD.Print("drag button mouse exit");
+        DisplayServer.CursorSetShape(DisplayServer.CursorShape.Arrow);
+    }
+    */
 
     protected bool CheckDragging()
     {

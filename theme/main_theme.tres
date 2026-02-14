@@ -4,6 +4,7 @@
 
 [resource]
 default_font_size = 22
+BoxContainer/constants/separation = 2
 Button/colors/icon_hover_color = Color(1, 1, 1, 1)
 Button/colors/icon_hover_pressed_color = Color(1, 1, 1, 1)
 Button/colors/icon_normal_color = Color(0.5065261, 0.5065261, 0.5065261, 1)

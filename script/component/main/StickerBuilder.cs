@@ -45,14 +45,14 @@ public partial class StickerBuilder : ComponentResource
 
         sticker = PhotoStickerScene.Instantiate<Node2D>();
         HandleSticker.AddSticker(sticker);
-        if (sticker.TryGetComponentHolder(out var stickerHolder))
+        if (sticker.TryGetComponentHolder(out var holder))
         {
-            if (stickerHolder.TryGetComponent<StickerPhotoLoadImage>(out var loadImage))
+            if (holder.TryGetComponent<StickerPhotoLoadImage>(out var loadImage))
             {
                 loadImage.LoadFromFile(fileName);
 
                 // Set size y to align image ratio
-                if (stickerHolder.TryGetComponent<StickerControlSize>(out var controlSize))
+                if (holder.TryGetComponent<StickerControlSize>(out var controlSize))
                 {
                     Vector2 sizeDefault = controlSize.Size;
                     Vector2 texSize = loadImage.GetImageTextureSize();
@@ -66,17 +66,19 @@ public partial class StickerBuilder : ComponentResource
 
     public bool BuildStickerTip(string text, out Node2D sticker)
     {
-        sticker = default;
-        if (text == null)
-        {
-            return false;
-        }
-
-        sticker = PhotoStickerScene.Instantiate<Node2D>();
+        sticker = TipStickerScene.Instantiate<Node2D>();
         HandleSticker.AddSticker(sticker);
-        if (sticker.TryGetComponent<StickerTipTextCtrl>(out var stickerTipTextCtrl))
+
+        if (sticker.TryGetComponentHolder(out var holder))
         {
-            stickerTipTextCtrl.LoadText(text);
+            if (!string.IsNullOrEmpty(text) && holder.TryGetComponent<StickerTipTextCtrl>(out var textCtrl))
+            {
+                textCtrl.LoadText(text);
+            }
+            if (holder.TryGetComponent<TipStickerUpdateUri>(out var updateUri))
+            {
+                updateUri.UpdateUriFromTextEdit();
+            }
         }
         return true;
     }
@@ -93,9 +95,16 @@ public partial class StickerBuilder : ComponentResource
         {
             sticker = TipStickerScene.Instantiate<Node2D>();
             HandleSticker.AddSticker(sticker);
-            if (sticker.TryGetComponent<SaveStickerTipComponent>(out var saveLoad))
+            if (sticker.TryGetComponentHolder(out var holder))
             {
-                saveLoad.Load(saveTip);
+                if (holder.TryGetComponent<SaveStickerTipComponent>(out var saveLoad))
+                {
+                    saveLoad.Load(saveTip);
+                }
+                if (holder.TryGetComponent<TipStickerUpdateUri>(out var updateUri))
+                {
+                    updateUri.UpdateUriFromTextEdit();
+                }
             }
         }
         else if (save is SaveStickerPhoto savePhoto

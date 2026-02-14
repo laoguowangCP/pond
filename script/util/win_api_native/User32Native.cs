@@ -2,7 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 
 
-namespace LGWCP.Util.User32Native;
+namespace LGWCP.Util.WinApiNative;
 
 public static class User32Native
 {

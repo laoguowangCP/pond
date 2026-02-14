@@ -8,7 +8,7 @@ using System.Text;
 using Godot;
 
 
-namespace LGWCP.Util.OleNative;
+namespace LGWCP.Util.WinApiNative;
 
 public static class OleNative
 {

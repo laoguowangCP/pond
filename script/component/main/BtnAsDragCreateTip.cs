@@ -81,8 +81,8 @@ public partial class BtnAsDragCreateTip : ComponentResource
                 {
                     return;
                 }
-                var tip = stickerBuilder.Build();
-                handleStickerInSceneTree.AddSticker(tip);
+                stickerBuilder.BuildStickerTip(null, out var tip);
+                // handleStickerInSceneTree.AddSticker(tip);
 
                 // 1.5. Let sticker follow mouse
                 tip.TryGetComponent<StickerControlSize>(out var stickerControlSize);

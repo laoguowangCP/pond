@@ -2,7 +2,7 @@ using System;
 using System.Windows.Forms;
 using Godot;
 using LGWCP.NiceGD;
-using LGWCP.Util.OleNative;
+using LGWCP.Util.WinApiNative;
 
 namespace LGWCP.Pond;
 

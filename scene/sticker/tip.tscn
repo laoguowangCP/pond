@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://bt7kggvepv5fm"]
+[gd_scene load_steps=27 format=3 uid="uid://bt7kggvepv5fm"]
 
 [ext_resource type="Script" uid="uid://dt0w6j6oba4xu" path="res://script/nice/ComponentHolder.cs" id="1_ne50n"]
 [ext_resource type="Script" uid="uid://b2xcb4nsxu6qc" path="res://script/component/sticker/handle/BtnAsDragHandle.cs" id="2_wfo34"]
@@ -13,6 +13,7 @@
 [ext_resource type="Theme" uid="uid://liol3f3pxqvr" path="res://theme/main_theme.tres" id="9_4keq1"]
 [ext_resource type="Script" uid="uid://bcxdwbyi3cxlm" path="res://script/component/sticker/StickerControlSize.cs" id="9_vw2ix"]
 [ext_resource type="Script" uid="uid://0csbkjdu2w15" path="res://script/component/sticker/StickerTipTextCtrl.cs" id="10_uychi"]
+[ext_resource type="Script" uid="uid://htk7nt8cayww" path="res://script/component/sticker/TipStickerUpdateUri.cs" id="11_agb2p"]
 
 [sub_resource type="Resource" id="Resource_k4kkr"]
 resource_local_to_scene = true
@@ -59,6 +60,11 @@ resource_local_to_scene = true
 script = ExtResource("10_uychi")
 metadata/_custom_type_script = "uid://0csbkjdu2w15"
 
+[sub_resource type="Resource" id="Resource_jr6xe"]
+resource_local_to_scene = true
+script = ExtResource("11_agb2p")
+metadata/_custom_type_script = "uid://htk7nt8cayww"
+
 [sub_resource type="Resource" id="Resource_uychi"]
 resource_local_to_scene = true
 script = ExtResource("4_be7s3")
@@ -77,6 +83,7 @@ Component05 = SubResource("Resource_agb2p")
 Component06 = SubResource("Resource_klwgr")
 Component07 = SubResource("Resource_xd4p0")
 Component08 = SubResource("Resource_g53tv")
+Component09 = SubResource("Resource_jr6xe")
 Component15 = SubResource("Resource_uychi")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 
@@ -96,12 +103,22 @@ theme = ExtResource("9_4keq1")
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 focus_mode = 1
+mouse_default_cursor_shape = 2
+keep_pressed_outside = true
 
 [node name="TextEdit" type="TextEdit" parent="EntityControl"]
 layout_mode = 2
 size_flags_vertical = 3
 placeholder_text = "Hello pond."
 wrap_mode = 1
+scroll_smooth = true
+
+[node name="LinkButton" type="Button" parent="EntityControl"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text_overrun_behavior = 3
+clip_text = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="EntityControl"]
 layout_mode = 2

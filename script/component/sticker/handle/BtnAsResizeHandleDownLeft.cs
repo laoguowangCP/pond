@@ -32,6 +32,8 @@ public partial class BtnAsResizeHandleDownLeft : ComponentResource
         Holder.TryGetNodeFromEntity<Control>(NP_EntityControl, out EntityControl);
         Holder.TryGetNodeFromEntity<Button>(NP_HandleBtn, out HandleBtn);
         HandleBtn.FocusMode = Control.FocusModeEnum.None;
+        HandleBtn.MouseDefaultCursorShape = Control.CursorShape.PointingHand;
+
         HandleBtn.ButtonDown += DragBegin;
         HandleBtn.ButtonUp += DragEnd;
         HandleBtn.GuiInput += OnGuiInput;
