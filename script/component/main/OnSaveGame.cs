@@ -19,6 +19,7 @@ public partial class OnSaveGame : ComponentResource
 
     protected bool IsSaving = false;
     protected bool IsLoading = false;
+    protected string GameSaveFileDir;
     protected string GameSaveFilePath;
     protected JsonSerializerOptions JsonOptions = new();
 
@@ -36,7 +37,13 @@ public partial class OnSaveGame : ComponentResource
             GD.Print(Holder.KVComponents.TryGetValue(t, out var comp));
         }
         */
+        GameSaveFileDir = OS.GetUserDataDir() + NameSave.Folder;
         GameSaveFilePath = OS.GetUserDataDir() + NameSave.Folder + NameSave.SaveFile;
+        if (!File.Exists(GameSaveFilePath))
+        {
+            Directory.CreateDirectory(GameSaveFileDir);
+            // File.Create(GameSaveFilePath).Close();
+        }
 
         JsonOptions.IncludeFields = true;
         JsonOptions.AllowTrailingCommas = true;
@@ -72,6 +79,11 @@ public partial class OnSaveGame : ComponentResource
     public void Load()
     {
         if (IsSaving || IsLoading)
+        {
+            return;
+        }
+
+        if (!File.Exists(GameSaveFilePath))
         {
             return;
         }

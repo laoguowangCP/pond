@@ -33,15 +33,6 @@ public partial class ForegroundDragDelete : ComponentResource
         CtrlAsDragDelete.Visible = false;
     }
 
-    public override void OnActivated()
-    {
-        CtrlAsDragDelete.Visible = true;
-    }
-    public override void OnDeactivated()
-    {
-        CtrlAsDragDelete.Visible = false;
-    }
-
     public override void Tick(TickContext ctx)
     {
         // Check if dragging to delele button area

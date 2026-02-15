@@ -27,7 +27,7 @@ public partial class MouseDrag : ComponentResource
         window.FocusExited += OnWindowFocusExited;
 
         // Not dragging.
-        Holder.BlockByTag(TagEnum.StickerDragging);
+        // Holder.BlockByTag(TagEnum.StickerDragging);
     }
 
     public override bool OnHolderTryRemove()
@@ -55,9 +55,10 @@ public partial class MouseDrag : ComponentResource
         DragEntity = draggingEntity;
         DragHandle = dragHandle;
 
+        Holder.BlockByTag(TagEnum.FgHover);
+        Holder.UnblockByTag(TagEnum.ShowDragArea);
         if (isManDelete)
         {
-            Holder.BlockByTag(TagEnum.FgHover);
             Holder.UnblockByTag(TagEnum.StickerDragging);
         }
         return true;
@@ -75,6 +76,8 @@ public partial class MouseDrag : ComponentResource
         DragEntity = null;
         DragHandle = null;
 
+        Holder.UnblockByTag(TagEnum.FgHover);
+        Holder.BlockByTag(TagEnum.ShowDragArea);
         if (isManDelete)
         {
             if (IsDeleteOnDragEnd)
@@ -85,7 +88,6 @@ public partial class MouseDrag : ComponentResource
                     IsDeleteOnDragEnd = false;
                 }
             }
-            Holder.UnblockByTag(TagEnum.FgHover);
             Holder.BlockByTag(TagEnum.StickerDragging);
         }
         return true;

@@ -14,6 +14,7 @@ An app to put anything on your desktop.
 
     - [x] 拖拽到底部以删除便签
     - [x] 删除后触发保存
+    - [ ] 拖拽hover触发有些怪？修改主题，进入范围后手动操作 modulate
 
 - sticker 拖拽逻辑：
 

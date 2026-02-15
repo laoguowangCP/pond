@@ -21,6 +21,7 @@ public partial class ForegroundMouseDetect : ComponentResource
     {
         Holder = holder;
         // Get nodes here
+        Holder.TryGetEntity<Node2D>(out Entity);
         // Add tags here.
         Holder.AddTagNoCheck(this, TagEnum.FgHover);
         return true;
@@ -30,9 +31,6 @@ public partial class ForegroundMouseDetect : ComponentResource
     {
         // Holder.TryGetNode<Panel>(NP_FgPanel, out FgPanel);
         // FgPanel.GuiInput += OnFgGuiInput;
-
-        Holder.TryGetEntity<Node2D>(out Entity);
-
         Holder.TryGetComponent<MouseDrag>(out MouseDrag);
         Holder.TryGetComponent<BtnAsDragCreateTip>(out BtnAsDragCreateTip);
     }
@@ -41,6 +39,15 @@ public partial class ForegroundMouseDetect : ComponentResource
     {
         // FgPanel.GuiInput -= OnFgGuiInput;
         return base.OnHolderTryRemove();
+    }
+    
+    public override void OnActivated()
+    {
+        // BtnAsDragCreateTip.ButtonEnable();
+    }
+    public override void OnDeactivated()
+    {
+        // BtnAsDragCreateTip.ButtonDisable();
     }
 
     public override void Tick(TickContext ctx)

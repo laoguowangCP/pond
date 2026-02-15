@@ -207,9 +207,23 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
         IsEntityReady = true;
 
         var comps = KVComponents.Values.ToArray();
-        foreach (var comp in comps)
+        for (int i = 0; i < comps.Length; ++i)
         {
-            comp.OnEntityReady();
+            comps[i].OnEntityReady();
+        }
+        
+        if (KVTagIdxabs != null)
+        {
+            foreach ((var tag, var idxabs) in KVTagIdxabs)
+            {
+                if (tag > TagEnum.InitBlockedTag)
+                {
+                    foreach (var idxab in idxabs)
+                    {
+                        Block(idxab.Component);
+                    }
+                }
+            }
         }
     }
 

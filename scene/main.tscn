@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://dp58xsa3dpcbo"]
+[gd_scene load_steps=41 format=3 uid="uid://dp58xsa3dpcbo"]
 
 [ext_resource type="Script" uid="uid://dt0w6j6oba4xu" path="res://script/nice/ComponentHolder.cs" id="1_v0l8b"]
 [ext_resource type="Script" uid="uid://d2s3tj3435w8y" path="res://script/component/WindowEmbedDesktop.cs" id="2_v0l8b"]
@@ -18,6 +18,8 @@
 [ext_resource type="Script" uid="uid://b2k2no1wfaagu" path="res://script/component/main/HandleStickerInSceneTree.cs" id="13_smf0o"]
 [ext_resource type="Script" uid="uid://bbfqma8jthsyi" path="res://script/component/main/OnLoadGame.cs" id="14_tv8i1"]
 [ext_resource type="Script" uid="uid://jeo38ahacivr" path="res://script/component/main/SaveGameOnProgQuit.cs" id="16_tv8i1"]
+[ext_resource type="Script" uid="uid://hyjhgu4x8ljf" path="res://script/component/main/ForegroundDragShowDeleteBtn.cs" id="17_gjnwh"]
+[ext_resource type="Script" uid="uid://fw0hq5rlvfwy" path="res://script/component/main/ValidDragAreaVisialize.cs" id="19_0vlqb"]
 
 [sub_resource type="Resource" id="Resource_wp4xf"]
 resource_local_to_scene = true
@@ -96,6 +98,11 @@ resource_local_to_scene = true
 script = ExtResource("16_tv8i1")
 metadata/_custom_type_script = "uid://jeo38ahacivr"
 
+[sub_resource type="Resource" id="Resource_4jm02"]
+resource_local_to_scene = true
+script = ExtResource("17_gjnwh")
+metadata/_custom_type_script = "uid://hyjhgu4x8ljf"
+
 [sub_resource type="Resource" id="Resource_smf0o"]
 resource_local_to_scene = true
 script = ExtResource("12_v2gmf")
@@ -118,7 +125,19 @@ Component10 = SubResource("Resource_gjnwh")
 Component11 = SubResource("Resource_fdqew")
 Component12 = SubResource("Resource_0d4pv")
 Component13 = SubResource("Resource_gn2wi")
+Component14 = SubResource("Resource_4jm02")
 Component15 = SubResource("Resource_smf0o")
+metadata/_custom_type_script = "uid://de6f22o20s6ba"
+
+[sub_resource type="Resource" id="Resource_p8adh"]
+resource_local_to_scene = true
+script = ExtResource("19_0vlqb")
+metadata/_custom_type_script = "uid://fw0hq5rlvfwy"
+
+[sub_resource type="Resource" id="Resource_oldxj"]
+resource_local_to_scene = true
+script = ExtResource("4_0ha60")
+Component00 = SubResource("Resource_p8adh")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 
 [node name="Pond" type="Node2D"]
@@ -127,6 +146,7 @@ metadata/_custom_type_script = "uid://de6f22o20s6ba"
 script = ExtResource("1_v0l8b")
 Component00 = SubResource("Resource_wp4xf")
 Component01 = SubResource("Resource_p1hux")
+Component02 = SubResource("Resource_oldxj")
 metadata/_custom_type_script = "uid://dt0w6j6oba4xu"
 
 [node name="UICanvasLayer" type="CanvasLayer" parent="."]
@@ -194,6 +214,7 @@ focus_mode = 1
 z_index = 1000
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
 
 [node name="SwitchWindowEmbedBtn" type="Button" parent="UICanvasLayer/BackgroundPanel/GridContainer"]
 z_index = 100
@@ -202,7 +223,6 @@ text = "Switch Window Embed"
 text_overrun_behavior = 2
 
 [node name="DragDeleteButton" type="Button" parent="UICanvasLayer"]
-self_modulate = Color(1, 0, 0, 1)
 z_index = 1000
 custom_minimum_size = Vector2(400, 100)
 anchors_preset = 12

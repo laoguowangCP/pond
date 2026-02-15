@@ -23,10 +23,17 @@ public partial class BackgroundGrabFocus : ComponentResource
 
     private void OnGuiInput(InputEvent @event)
     {
+        /*
         if (Input.IsActionJustPressed("mouse_left"))
         {
             GD.Print("BgPanel.GrabFocus");
             BgPanel.GrabFocus();
+        }
+        */
+
+        if (Input.IsActionJustPressed("ui_paste"))
+        {
+            GD.Print("UI paste detected.");
         }
     }
 }

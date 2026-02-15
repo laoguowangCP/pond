@@ -54,10 +54,11 @@ public partial class BtnAsDragCreateTip : ComponentResource
         // 1. Show drag out hint
 
         // 2. Hide button
-        ButtonHide();
+        // ButtonHide();
 
         // 4. Block tag
         Holder.BlockByTag(TagEnum.FgHover);
+        Holder.UnblockByTag(TagEnum.ShowDragArea);
     }
 
     protected void OnButtonUp()
@@ -66,6 +67,7 @@ public partial class BtnAsDragCreateTip : ComponentResource
         TipDragging = null;
         // ButtonShow();
         Holder.UnblockByTag(TagEnum.FgHover);
+        Holder.BlockByTag(TagEnum.ShowDragArea);
     }
 
     protected void OnGuiInput(InputEvent @event)
