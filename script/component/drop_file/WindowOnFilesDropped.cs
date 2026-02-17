@@ -75,7 +75,6 @@ public partial class WindowOnFilesDropped : ComponentResource
         {
             // Godot file_dropped not supported
             // Fallback plain text
-            GD.Print(file);
             HandleDropFileFallbackPlainText(file);
         }
 
@@ -86,7 +85,12 @@ public partial class WindowOnFilesDropped : ComponentResource
     protected void HandleDropFileFallbackPlainText(string text)
     {
         StickerBuilder.BuildStickerTip(text, out var tip);
-        tip.Position = Entity.GetGlobalMousePosition();
+        Vector2 mousePos = Entity.GetGlobalMousePosition();
+        if (Holder.TryGetComponent<DragArea>(out var dragArea))
+        {
+            mousePos = dragArea.GetGlobalPositionRegulated(mousePos);
+        }
+        tip.Position = mousePos;
     }
 
     protected void HandleDropFileImage(string fileFrom)
@@ -131,6 +135,11 @@ public partial class WindowOnFilesDropped : ComponentResource
             loadImage.LoadFromFile(fileTo);
         }
         */
-        photo.Position = Entity.GetGlobalMousePosition();
+        Vector2 mousePos = Entity.GetGlobalMousePosition();
+        if (Holder.TryGetComponent<DragArea>(out var dragArea))
+        {
+            mousePos = dragArea.GetGlobalPositionRegulated(mousePos);
+        }
+        photo.Position = mousePos;
     }
 }

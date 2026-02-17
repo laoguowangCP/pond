@@ -216,7 +216,7 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
         {
             foreach ((var tag, var idxabs) in KVTagIdxabs)
             {
-                if (tag > TagEnum.InitBlockedTag)
+                if (tag >= TagEnum.InitBlockedTag)
                 {
                     foreach (var idxab in idxabs)
                     {
@@ -480,17 +480,14 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
 
     public void Unblock(IComponent comp)
     {
-        if (comp.BlockCount > 0)
+        --comp.BlockCount;
+        if (comp.TickGroup == TickGroupEnum.None && comp.BlockCount == 0)
         {
-            --comp.BlockCount;
-            if (comp.TickGroup == TickGroupEnum.None && comp.BlockCount == 0)
-            {
-                // comp.IsBlocked = false;
-                comp.OnActivated();
-            }
+            // comp.IsBlocked = false;
+            comp.OnActivated();
         }
 #if DEBUG
-        else
+        if (comp.BlockCount < 0)
         {
             GD.PushWarning(GetPath(), ": component [", comp.ComponentType, "] is over unblocked.");
         }

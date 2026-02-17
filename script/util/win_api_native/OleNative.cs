@@ -26,6 +26,12 @@ public static class OleNative
 
     [DllImport("ole32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
     public static extern void OleUninitialize();
+
+    [DllImport("ole32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
+    public static extern int RegisterDragDrop(IntPtr hwnd, IDropTarget pDropTarget);
+
+    [DllImport("ole32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
+    public static extern int RevokeDragDrop(IntPtr hwnd);
     
     
     // 常量定义
@@ -56,6 +62,22 @@ public interface IDropSource
     int GiveFeedback(int dwEffect);
 }
 
+[ComImport]
+[Guid("00000122-0000-0000-C000-000000000046")] // IDropTarget 的标准 GUID
+[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+public interface IDropTarget
+{
+    [PreserveSig] int DragEnter([In, MarshalAs(UnmanagedType.Interface)] IDataObject pDataObj, [In] int grfKeyState, [In] DropTargetPoint pt, [In, Out] ref int pdwEffect);
+    [PreserveSig] int DragOver([In] int grfKeyState, [In] DropTargetPoint pt, [In, Out] ref int pdwEffect);
+    [PreserveSig] int DragLeave();
+    [PreserveSig] int Drop([In, MarshalAs(UnmanagedType.Interface)] IDataObject pDataObj, [In] int grfKeyState, [In] DropTargetPoint pt, [In, Out] ref int pdwEffect);
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct DropTargetPoint { public int x; public int y; }
+
+
+
 public class SimpleDropSource : IDropSource
 {
     public int QueryContinueDrag(int fEscapePressed, int grfKeyState)
@@ -77,8 +99,6 @@ public class SimpleDropSource : IDropSource
     }
 }
 
-// 2. 实现一个极简的 DataObject (只支持文本)
-// 如果需要支持文件拖拽，结构会更复杂，我们先从文本开始
 public class TextDataObject : IDataObject
 {
     private string _data;
@@ -320,7 +340,7 @@ public class DragDropUtil
         var dropSource = new SimpleDropSource();
 
         // 调用 API
-        OleNative.DoDragDrop(data, dropSource,
+        _ = OleNative.DoDragDrop(data, dropSource,
             OleNative.DROPEFFECT_COPY | OleNative.DROPEFFECT_MOVE,
             out int finalEffect);
     }

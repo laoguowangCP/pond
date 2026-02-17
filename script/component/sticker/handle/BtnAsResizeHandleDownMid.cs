@@ -24,6 +24,8 @@ public partial class BtnAsResizeHandleDownMid : ComponentResource
 
     protected EntityControlSizeClamp SizeClamp;
 
+    protected Vector2 PrevMousePos;
+
     public override void OnEntityReady()
     {
         Holder.TryGetEntity<Node2D>(out Entity);
@@ -62,6 +64,7 @@ public partial class BtnAsResizeHandleDownMid : ComponentResource
                 IsDragging = true;
                 // Get mouse pos to entity pos
                 DragBeginPos = Entity.GetGlobalMousePosition();
+                PrevMousePos = DragBeginPos;
                 DragBeginSize = EntityControl.Size;
                 HandleBtn.FocusMode = Control.FocusModeEnum.Click;
                 HandleBtn.GrabFocus();
@@ -91,6 +94,11 @@ public partial class BtnAsResizeHandleDownMid : ComponentResource
         {
             // Update entity control size y
             Vector2 mousePos = Entity.GetGlobalMousePosition();
+            if (Nice.I.TryGetRegistedComponentFirst<DragArea>(out var dragArea))
+            {
+                mousePos = dragArea.GetGlobalPositionSoftRegulated(PrevMousePos, mousePos);
+                PrevMousePos = mousePos;
+            }
             float sizeY = mousePos.Y - DragBeginPos.Y + DragBeginSize.Y;
             EntityControl.Size = new Vector2(DragBeginSize.X, sizeY).Clamp(SizeClamp.MinSize, SizeClamp.MaxSize);
         }

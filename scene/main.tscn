@@ -1,11 +1,11 @@
-[gd_scene load_steps=41 format=3 uid="uid://dp58xsa3dpcbo"]
+[gd_scene format=3 uid="uid://dp58xsa3dpcbo"]
 
 [ext_resource type="Script" uid="uid://dt0w6j6oba4xu" path="res://script/nice/ComponentHolder.cs" id="1_v0l8b"]
 [ext_resource type="Script" uid="uid://d2s3tj3435w8y" path="res://script/component/WindowEmbedDesktop.cs" id="2_v0l8b"]
 [ext_resource type="Script" uid="uid://b3i7ag4egov14" path="res://script/component/SwitchWindowEmbed.cs" id="3_brvut"]
 [ext_resource type="Script" uid="uid://de6f22o20s6ba" path="res://script/nice/component_res_ext/ComponentResExt16X.cs" id="4_0ha60"]
 [ext_resource type="Script" uid="uid://bfh3oapm3260b" path="res://script/component/MouseDrag.cs" id="4_4j5ol"]
-[ext_resource type="Script" uid="uid://703f4ecf48ha" path="res://script/component/main/BackgroundGrabFocus.cs" id="5_smf0o"]
+[ext_resource type="Script" uid="uid://703f4ecf48ha" path="res://script/component/main/BackgroundClipBoardPaste.cs" id="5_smf0o"]
 [ext_resource type="Script" uid="uid://b4pydyhgu5n2v" path="res://script/component/DragArea.cs" id="6_b5f6u"]
 [ext_resource type="Script" uid="uid://dnjt53k1vt2jq" path="res://script/component/drop_file/WindowOnFilesDropped.cs" id="7_tqoya"]
 [ext_resource type="Script" uid="uid://526kb8wbrkac" path="res://script/component/main/OnSaveGame.cs" id="8_k65ib"]
@@ -20,6 +20,8 @@
 [ext_resource type="Script" uid="uid://jeo38ahacivr" path="res://script/component/main/SaveGameOnProgQuit.cs" id="16_tv8i1"]
 [ext_resource type="Script" uid="uid://hyjhgu4x8ljf" path="res://script/component/main/ForegroundDragShowDeleteBtn.cs" id="17_gjnwh"]
 [ext_resource type="Script" uid="uid://fw0hq5rlvfwy" path="res://script/component/main/ValidDragAreaVisialize.cs" id="19_0vlqb"]
+[ext_resource type="Script" uid="uid://c5p1ljgpcf32q" path="res://script/component/main/ForegroundClipboardPasteBegin.cs" id="21_0d4pv"]
+[ext_resource type="Theme" uid="uid://liol3f3pxqvr" path="res://theme/main_theme.tres" id="21_fdqew"]
 
 [sub_resource type="Resource" id="Resource_wp4xf"]
 resource_local_to_scene = true
@@ -134,95 +136,108 @@ resource_local_to_scene = true
 script = ExtResource("19_0vlqb")
 metadata/_custom_type_script = "uid://fw0hq5rlvfwy"
 
+[sub_resource type="Resource" id="Resource_vneqc"]
+resource_local_to_scene = true
+script = ExtResource("21_0d4pv")
+metadata/_custom_type_script = "uid://c5p1ljgpcf32q"
+
 [sub_resource type="Resource" id="Resource_oldxj"]
 resource_local_to_scene = true
 script = ExtResource("4_0ha60")
 Component00 = SubResource("Resource_p8adh")
+Component01 = SubResource("Resource_vneqc")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 
-[node name="Pond" type="Node2D"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gjnwh"]
+bg_color = Color(0.64, 0.23040001, 0.23040001, 1)
 
-[node name="ComponentHolder" type="Node" parent="."]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fdqew"]
+bg_color = Color(0.6392157, 0.23137255, 0.23137255, 1)
+
+[node name="Pond" type="Node2D" unique_id=1148885365]
+
+[node name="ComponentHolder" type="Node" parent="." unique_id=1848893636]
 script = ExtResource("1_v0l8b")
 Component00 = SubResource("Resource_wp4xf")
 Component01 = SubResource("Resource_p1hux")
 Component02 = SubResource("Resource_oldxj")
 metadata/_custom_type_script = "uid://dt0w6j6oba4xu"
 
-[node name="UICanvasLayer" type="CanvasLayer" parent="."]
+[node name="UICanvasLayer" type="CanvasLayer" parent="." unique_id=173343218]
 layer = -1
 
-[node name="BackgroundPanel" type="PanelContainer" parent="UICanvasLayer"]
+[node name="BackgroundPanel" type="PanelContainer" parent="UICanvasLayer" unique_id=821578046]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 1
+theme = ExtResource("21_fdqew")
 
-[node name="GridContainer" type="GridContainer" parent="UICanvasLayer/BackgroundPanel"]
+[node name="GridContainer" type="GridContainer" parent="UICanvasLayer/BackgroundPanel" unique_id=1229814025]
 layout_mode = 2
 focus_mode = 1
 columns = 3
 
-[node name="PanelUL" type="Panel" parent="UICanvasLayer/BackgroundPanel/GridContainer"]
+[node name="PanelUL" type="Panel" parent="UICanvasLayer/BackgroundPanel/GridContainer" unique_id=1296424122]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 focus_mode = 1
 
-[node name="PanelU" type="Panel" parent="UICanvasLayer/BackgroundPanel/GridContainer"]
+[node name="PanelU" type="Panel" parent="UICanvasLayer/BackgroundPanel/GridContainer" unique_id=1040874562]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 focus_mode = 1
 
-[node name="PanelUR" type="Panel" parent="UICanvasLayer/BackgroundPanel/GridContainer"]
+[node name="PanelUR" type="Panel" parent="UICanvasLayer/BackgroundPanel/GridContainer" unique_id=518936601]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 focus_mode = 1
 
-[node name="PanelML" type="Panel" parent="UICanvasLayer/BackgroundPanel/GridContainer"]
+[node name="PanelML" type="Panel" parent="UICanvasLayer/BackgroundPanel/GridContainer" unique_id=366050781]
 modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 focus_mode = 1
 
-[node name="PanelMain" type="Panel" parent="UICanvasLayer/BackgroundPanel/GridContainer"]
+[node name="PanelMain" type="Panel" parent="UICanvasLayer/BackgroundPanel/GridContainer" unique_id=329870131]
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 1
 
-[node name="PanelMR" type="Panel" parent="UICanvasLayer/BackgroundPanel/GridContainer"]
+[node name="PanelMR" type="Panel" parent="UICanvasLayer/BackgroundPanel/GridContainer" unique_id=1959857522]
 modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 focus_mode = 1
 
-[node name="PanelDL" type="Panel" parent="UICanvasLayer/BackgroundPanel/GridContainer"]
+[node name="PanelDL" type="Panel" parent="UICanvasLayer/BackgroundPanel/GridContainer" unique_id=1971118102]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 focus_mode = 1
 
-[node name="PanelD" type="HBoxContainer" parent="UICanvasLayer/BackgroundPanel/GridContainer"]
+[node name="PanelD" type="HBoxContainer" parent="UICanvasLayer/BackgroundPanel/GridContainer" unique_id=1290558704]
 self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 focus_mode = 1
 
-[node name="CreateTipButton" type="Button" parent="UICanvasLayer/BackgroundPanel/GridContainer/PanelD"]
+[node name="CreateTipButton" type="Button" parent="UICanvasLayer/BackgroundPanel/GridContainer/PanelD" unique_id=2042319683]
 z_index = 1000
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
 
-[node name="SwitchWindowEmbedBtn" type="Button" parent="UICanvasLayer/BackgroundPanel/GridContainer"]
+[node name="SwitchWindowEmbedBtn" type="Button" parent="UICanvasLayer/BackgroundPanel/GridContainer" unique_id=1828462754]
 z_index = 100
 layout_mode = 2
 text = "Switch Window Embed"
 text_overrun_behavior = 2
 
-[node name="DragDeleteButton" type="Button" parent="UICanvasLayer"]
+[node name="DragDeleteButton" type="Button" parent="UICanvasLayer" unique_id=138975062]
 z_index = 1000
 custom_minimum_size = Vector2(400, 100)
 anchors_preset = 12
@@ -232,10 +247,12 @@ anchor_bottom = 1.0
 offset_top = -31.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_gjnwh")
+theme_override_styles/hover = SubResource("StyleBoxFlat_fdqew")
 text = "拖到此处删除"
 
-[node name="MainCanvasLayer" type="CanvasLayer" parent="."]
+[node name="MainCanvasLayer" type="CanvasLayer" parent="." unique_id=1696768071]
 layer = 1000
 
-[node name="StatusIndicator" type="StatusIndicator" parent="."]
+[node name="StatusIndicator" type="StatusIndicator" parent="." unique_id=1846212728]
 tooltip = "Hello"

@@ -13,6 +13,7 @@ public partial class ForegroundClipboardPasteBegin : ComponentResource
     public override bool IsRegist => false;
 
     protected Node2D Entity;
+    protected DragArea DragArea;
 
     public override bool OnHolderTryAdd(ComponentHolder holder)
     {
@@ -22,6 +23,18 @@ public partial class ForegroundClipboardPasteBegin : ComponentResource
         // Add tags here.
         Holder.AddTagNoCheck(this, TagEnum.FgHover);
         return true;
+    }
+
+    public override void OnEntityReady()
+    {
+        // Holder.TryGetNode<Panel>(NP_FgPanel, out FgPanel);
+        // FgPanel.GuiInput += OnFgGuiInput;
+        Holder.TryGetComponent<DragArea>(out DragArea);
+    }
+
+    public override void Tick(TickContext ctx)
+    {
+        // GD.Print("Foreground input");
     }
 
 }

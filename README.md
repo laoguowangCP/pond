@@ -19,15 +19,15 @@ An app to put anything on your desktop.
 - sticker 拖拽逻辑：
 
     - [x] 拖到边缘后，从边缘之外开始拖拽，不会强制让鼠标跳回安全区域，而是仅限制往更边缘的方向拖拽。
-    - [ ] 开始拖拽时，对限制区域进行可视化。
     - [x] 开始拖拽时，对删除区域进行可视化。
+    - [ ] 开始拖拽时，对限制区域进行可视化。
 
 - Tip sticker
 
     - [x] 点击任意位置（背景）清除文本的 focus （不太需要 grab focus，直接开启背景 ui 的 focus mode 就行了）
     - [x] 拖动 handle 也清除文本的 focus ：按下时设为可以 focus 并 grab ，抬起后再禁用 focus 。
     - [ ] 提取文本中第一个链接，交给 Url button。有没有方法可以自动识别 URI 链接，变成高亮可点击（按住ctrl）
-    - [ ] 可调节字体大小？（ctrl +-），同时修改存档
+    - [ ] 可调节字体大小？（ctrl +-）
 
 - 窗口 OnFilesDropped ：把外部内容拖入转化为便签
 

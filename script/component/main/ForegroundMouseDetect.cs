@@ -54,7 +54,7 @@ public partial class ForegroundMouseDetect : ComponentResource
     {
         // GD.Print("Fg input: ", BlockCount);
         InputEvent @event = ctx.AnyInput;
-        if (@event is InputEventMouseMotion)
+        // if (@event is InputEventMouseMotion)
         {
             Vector2 mousePos = Entity.GetGlobalMousePosition();
             // If mouse near bottom, show create button
