@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Text;
 using Godot;
 using LGWCP.NiceGD;
 
@@ -6,9 +8,9 @@ namespace LGWCP.Pond;
 
 [GlobalClass]
 [Tool]
-public partial class BackgroundClipBoardPaste : ComponentResource
+public partial class BackgroundClipboardPaste : ComponentResource
 {
-    public override Type ComponentType => typeof(BackgroundClipBoardPaste);
+    public override Type ComponentType => typeof(BackgroundClipboardPaste);
     public override TickGroupEnum TickGroup => TickGroupEnum.None;
     public override bool IsRegist => false;
 
@@ -16,10 +18,14 @@ public partial class BackgroundClipBoardPaste : ComponentResource
     protected Control BgPanel;
     protected Node2D Entity;
     protected DragArea DragArea;
+    protected OnSaveGame OnSaveGame;
     protected StickerBuilder StickerBuilder;
 
     protected StringName SN_UiPaste = "ui_paste";
     protected StringName SN_MouseLeft = "mouse_left";
+
+    protected StringBuilder FileToBuilder = new();
+    protected bool MousePressedLock = false;
 
     public override bool OnHolderTryAdd(ComponentHolder holder)
     {
@@ -35,6 +41,7 @@ public partial class BackgroundClipBoardPaste : ComponentResource
     public override void OnEntityReady()
     {
         Holder.TryGetComponent<DragArea>(out DragArea);
+        Holder.TryGetComponent<OnSaveGame>(out OnSaveGame);
         Holder.TryGetComponent<StickerBuilder>(out StickerBuilder);
         BgPanel.GuiInput += OnGuiInput;
         // BgPanel.FocusEntered += OnFocusEntered;
@@ -71,18 +78,83 @@ public partial class BackgroundClipBoardPaste : ComponentResource
         }
         */
 
-
         // Paste command
-        if (Input.IsActionJustPressed(SN_UiPaste)
-            && Input.IsActionPressed(SN_MouseLeft))
+
+        // Set ime position
+        /*
+        Vector2 mousePos = Entity.GetGlobalMousePosition();
+        Window window = Entity.GetWindow();
+        // window.SetImePosition(new Vector2I((int)mousePos.X, (int)mousePos.Y));
+        */
+
+        if (Input.IsActionJustReleased(SN_UiPaste))
+        // if (Input.IsActionJustReleased(SN_UiPaste)
+        //     && MousePressedLock)
         {
-            GD.Print("Background ui paste");
-            Vector2 mousePos = Entity.GetGlobalMousePosition();
-            // if (DragArea.CheckAvailableDragArea(mousePos))
-            
+            // GD.Print("> Background ui paste with mouse pressed.");
+            // GD.Print(DisplayServer.ClipboardGet());
             // Start paste from clip board
+            OnClipboardRead();
         }
     }
 
     // protected void OnFocusEntered
+    protected void OnClipboardRead()
+    {
+        if (DisplayServer.ClipboardHasImage())
+        {
+            Image image = DisplayServer.ClipboardGetImage();
+            HandleClipboardReadImage(image);
+        }
+        else if (DisplayServer.ClipboardHas())
+        {
+            var text = DisplayServer.ClipboardGet();
+            HandleClipboardReadFallbackPlainText(text);
+        }
+    }
+
+
+    protected void HandleClipboardReadImage(Image image)
+    {
+        // 0. Build target file path
+        FileToBuilder.Clear();
+        FileToBuilder.Append(OS.GetUserDataDir());
+        FileToBuilder.Append(NameSave.ImageFolder);
+        FileToBuilder.Append("Clipboard");
+
+
+        // 1. Check file path valid
+        FileToBuilder.Append(DateTime.Now.ToString("_yyyyMMdd_HHmmssff"));
+        FileToBuilder.Append(".png");
+        if (File.Exists(FileToBuilder.ToString()))
+        {
+            // Too short interval between 2 drops.
+            return;
+        }
+
+        string fileTo = FileToBuilder.ToString();
+
+        Directory.CreateDirectory(fileTo.GetBaseDir());
+        image.SavePng(fileTo);
+
+        StickerBuilder.BuildStickerPhoto(fileTo, out var photo);
+
+        Vector2 mousePos = Entity.GetGlobalMousePosition();
+        if (Holder.TryGetComponent<DragArea>(out var dragArea))
+        {
+            mousePos = dragArea.GetGlobalPositionRegulated(mousePos);
+        }
+        photo.Position = mousePos;
+    }
+
+    protected void HandleClipboardReadFallbackPlainText(string text)
+    {
+        StickerBuilder.BuildStickerTip(text, out var tip);
+        Vector2 mousePos = Entity.GetGlobalMousePosition();
+        if (Holder.TryGetComponent<DragArea>(out var dragArea))
+        {
+            mousePos = dragArea.GetGlobalPositionRegulated(mousePos);
+        }
+        tip.Position = mousePos;
+    }
 }

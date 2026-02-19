@@ -60,3 +60,6 @@ An app to put anything on your desktop.
     - [ ] 互斥播放：正常状态下，只能有一个音乐便签可以播放声音。
     - [ ] 窗口失去焦点或控件失去焦点就停止播放？
     - [ ] BGM锁定：可以把音频锁定为背景音乐，离开窗口焦点也能持续播放，不会被其他音频打断（但是会暂时静音？）
+
+- Tutorial Sticker 教程便签：
+- Manage Sticker 显示所有便签列表的便签？

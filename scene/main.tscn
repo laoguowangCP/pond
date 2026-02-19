@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://b3i7ag4egov14" path="res://script/component/SwitchWindowEmbed.cs" id="3_brvut"]
 [ext_resource type="Script" uid="uid://de6f22o20s6ba" path="res://script/nice/component_res_ext/ComponentResExt16X.cs" id="4_0ha60"]
 [ext_resource type="Script" uid="uid://bfh3oapm3260b" path="res://script/component/MouseDrag.cs" id="4_4j5ol"]
-[ext_resource type="Script" uid="uid://703f4ecf48ha" path="res://script/component/main/BackgroundClipBoardPaste.cs" id="5_smf0o"]
+[ext_resource type="Script" uid="uid://703f4ecf48ha" path="res://script/component/main/BackgroundClipboardPaste.cs" id="5_smf0o"]
 [ext_resource type="Script" uid="uid://b4pydyhgu5n2v" path="res://script/component/DragArea.cs" id="6_b5f6u"]
 [ext_resource type="Script" uid="uid://dnjt53k1vt2jq" path="res://script/component/drop_file/WindowOnFilesDropped.cs" id="7_tqoya"]
 [ext_resource type="Script" uid="uid://526kb8wbrkac" path="res://script/component/main/OnSaveGame.cs" id="8_k65ib"]
@@ -20,7 +20,6 @@
 [ext_resource type="Script" uid="uid://jeo38ahacivr" path="res://script/component/main/SaveGameOnProgQuit.cs" id="16_tv8i1"]
 [ext_resource type="Script" uid="uid://hyjhgu4x8ljf" path="res://script/component/main/ForegroundDragShowDeleteBtn.cs" id="17_gjnwh"]
 [ext_resource type="Script" uid="uid://fw0hq5rlvfwy" path="res://script/component/main/ValidDragAreaVisialize.cs" id="19_0vlqb"]
-[ext_resource type="Script" uid="uid://c5p1ljgpcf32q" path="res://script/component/main/ForegroundClipboardPasteBegin.cs" id="21_0d4pv"]
 [ext_resource type="Theme" uid="uid://liol3f3pxqvr" path="res://theme/main_theme.tres" id="21_fdqew"]
 
 [sub_resource type="Resource" id="Resource_wp4xf"]
@@ -38,11 +37,6 @@ resource_local_to_scene = true
 script = ExtResource("3_brvut")
 NP_SwitchWindowEmbedBtn = NodePath("../UICanvasLayer/BackgroundPanel/GridContainer/SwitchWindowEmbedBtn")
 metadata/_custom_type_script = "uid://b3i7ag4egov14"
-
-[sub_resource type="Resource" id="Resource_gtqqq"]
-resource_local_to_scene = true
-script = ExtResource("5_smf0o")
-metadata/_custom_type_script = "uid://703f4ecf48ha"
 
 [sub_resource type="Resource" id="Resource_tqoya"]
 resource_local_to_scene = true
@@ -100,11 +94,6 @@ resource_local_to_scene = true
 script = ExtResource("16_tv8i1")
 metadata/_custom_type_script = "uid://jeo38ahacivr"
 
-[sub_resource type="Resource" id="Resource_4jm02"]
-resource_local_to_scene = true
-script = ExtResource("17_gjnwh")
-metadata/_custom_type_script = "uid://hyjhgu4x8ljf"
-
 [sub_resource type="Resource" id="Resource_smf0o"]
 resource_local_to_scene = true
 script = ExtResource("12_v2gmf")
@@ -115,7 +104,6 @@ resource_local_to_scene = true
 script = ExtResource("4_0ha60")
 Component00 = SubResource("Resource_0ha60")
 Component01 = SubResource("Resource_4j5ol")
-Component02 = SubResource("Resource_gtqqq")
 Component03 = SubResource("Resource_tqoya")
 Component04 = SubResource("Resource_k65ib")
 Component05 = SubResource("Resource_jcbur")
@@ -127,25 +115,30 @@ Component10 = SubResource("Resource_gjnwh")
 Component11 = SubResource("Resource_fdqew")
 Component12 = SubResource("Resource_0d4pv")
 Component13 = SubResource("Resource_gn2wi")
-Component14 = SubResource("Resource_4jm02")
 Component15 = SubResource("Resource_smf0o")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 
-[sub_resource type="Resource" id="Resource_p8adh"]
+[sub_resource type="Resource" id="Resource_gtqqq"]
 resource_local_to_scene = true
 script = ExtResource("19_0vlqb")
 metadata/_custom_type_script = "uid://fw0hq5rlvfwy"
 
-[sub_resource type="Resource" id="Resource_vneqc"]
+[sub_resource type="Resource" id="Resource_p8adh"]
 resource_local_to_scene = true
-script = ExtResource("21_0d4pv")
-metadata/_custom_type_script = "uid://c5p1ljgpcf32q"
+script = ExtResource("17_gjnwh")
+metadata/_custom_type_script = "uid://hyjhgu4x8ljf"
+
+[sub_resource type="Resource" id="Resource_4jm02"]
+resource_local_to_scene = true
+script = ExtResource("5_smf0o")
+metadata/_custom_type_script = "uid://703f4ecf48ha"
 
 [sub_resource type="Resource" id="Resource_oldxj"]
 resource_local_to_scene = true
 script = ExtResource("4_0ha60")
-Component00 = SubResource("Resource_p8adh")
-Component01 = SubResource("Resource_vneqc")
+Component00 = SubResource("Resource_gtqqq")
+Component01 = SubResource("Resource_p8adh")
+Component02 = SubResource("Resource_4jm02")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gjnwh"]

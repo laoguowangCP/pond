@@ -74,6 +74,7 @@ public class SaveSticker : SaveNodeBase
 public class SaveStickerTip : SaveSticker
 {
     public SaveStickerTip(bool isLeaf = true) {}
+    public int FontSizeId;
     public string Text;
 }
 

@@ -75,7 +75,7 @@ public partial class TipStickerUpdateUri : ComponentResource
         }
         catch (Exception e)
         {
-            GD.Print(e.HResult);
+            // GD.Print(e.HResult);
             throw;
         }
     }

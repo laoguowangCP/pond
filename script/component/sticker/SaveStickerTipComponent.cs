@@ -15,6 +15,7 @@ public partial class SaveStickerTipComponent : ComponentResource
 
     protected static NodePath NP_TextEdit = new("./EntityControl/TextEdit");
     protected TextEdit TextEdit;
+    protected TipStickerChangeFontSize ChangeFontSize;
 
 
     public override bool OnHolderTryAdd(ComponentHolder holder)
@@ -27,6 +28,7 @@ public partial class SaveStickerTipComponent : ComponentResource
     public override void OnEntityReady()
     {
         // Holder.TryGetNode<TextEdit>(NP_TextEdit, out TextEdit);
+        Holder.TryGetComponent<TipStickerChangeFontSize>(out ChangeFontSize);
     }
 
     public override void Tick(TickContext ctx)
@@ -38,6 +40,7 @@ public partial class SaveStickerTipComponent : ComponentResource
             SaveStickerTip tipSave = new(false);
             tipSave.GlobalPosition = entity.GlobalPosition;
             tipSave.Size = control.Size;
+            tipSave.FontSizeId = ChangeFontSize.FontSizeId;
             tipSave.Text = TextEdit.Text;
             save.ListChildren.Add(tipSave);
         }
@@ -49,6 +52,7 @@ public partial class SaveStickerTipComponent : ComponentResource
         Holder.TryGetNodeFromEntity<Control>("./EntityControl", out var control);
         entity.GlobalPosition = save.GlobalPosition;
         control.Size = save.Size;
+        ChangeFontSize.SetFontSizeById(save.FontSizeId);
         TextEdit.Text = save.Text;
     }
 }

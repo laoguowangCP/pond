@@ -20,7 +20,7 @@ public partial class WindowOnFilesDropped : ComponentResource
 
     // private static readonly string ImageFileFolder = "/save/image/";
 
-    public StringBuilder FileToBuilder = new();
+    protected StringBuilder FileToBuilder = new();
 
     protected OnSaveGame OnSaveGame;
     protected StickerBuilder StickerBuilder;

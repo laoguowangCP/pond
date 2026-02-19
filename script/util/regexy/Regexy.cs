@@ -8,7 +8,7 @@ namespace LGWCP.Util.Regexy;
 public static partial class Regexy
 {
 
-    [GeneratedRegex("(?>[a-zA-Z]+://)?(?>([a-zA-Z0-9\\-_]+\\.)+[a-zA-Z]{3,}){1}(?>:[0-9]{1,5})?(?>/[a-zA-Z0-9_\\-%\\!\\#&=?\\.]+)*/?")]
+    [GeneratedRegex("(?>[a-zA-Z]+://)?(?>([a-zA-Z0-9\\-_]+\\.)+[a-zA-Z]{2,}){1}(?>:[0-9]{1,5})?(?>/[a-zA-Z0-9_\\-%\\!\\#&=?\\.]+)*/?")]
     private static partial Regex GetUriRegex();
     public readonly static Regex UriRegex = GetUriRegex();
 
