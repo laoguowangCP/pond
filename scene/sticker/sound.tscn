@@ -1,0 +1,119 @@
+[gd_scene format=3 uid="uid://xyvcl62fe4v5"]
+
+[ext_resource type="Script" uid="uid://dt0w6j6oba4xu" path="res://script/nice/ComponentHolder.cs" id="1_i2hgf"]
+[ext_resource type="Theme" uid="uid://liol3f3pxqvr" path="res://theme/main_theme.tres" id="2_eh7wa"]
+[ext_resource type="Script" uid="uid://b2xcb4nsxu6qc" path="res://script/component/sticker/handle/BtnAsDragHandle.cs" id="2_u4jpa"]
+[ext_resource type="Script" uid="uid://de6f22o20s6ba" path="res://script/nice/component_res_ext/ComponentResExt16X.cs" id="3_asvi8"]
+[ext_resource type="Script" uid="uid://7a0b3t17qkuf" path="res://script/component/sticker/handle/DragEndOnFocusExited.cs" id="6_710ii"]
+[ext_resource type="Script" uid="uid://dtbo6p3yyu7qa" path="res://script/component/KeepInDragAreaOnWindowSizeChanged.cs" id="7_fl8q5"]
+[ext_resource type="Script" uid="uid://bcxdwbyi3cxlm" path="res://script/component/sticker/StickerControlSize.cs" id="8_l00rh"]
+[ext_resource type="Script" uid="uid://bo8uw0h2t47u7" path="res://script/component/sticker/EntityControlSizeClamp.cs" id="9_23lgj"]
+
+[sub_resource type="Resource" id="Resource_5hqom"]
+resource_local_to_scene = true
+script = ExtResource("2_u4jpa")
+metadata/_custom_type_script = "uid://b2xcb4nsxu6qc"
+
+[sub_resource type="Resource" id="Resource_fl8q5"]
+resource_local_to_scene = true
+script = ExtResource("6_710ii")
+metadata/_custom_type_script = "uid://7a0b3t17qkuf"
+
+[sub_resource type="Resource" id="Resource_etknf"]
+resource_local_to_scene = true
+script = ExtResource("7_fl8q5")
+metadata/_custom_type_script = "uid://dtbo6p3yyu7qa"
+
+[sub_resource type="Resource" id="Resource_lwtut"]
+resource_local_to_scene = true
+script = ExtResource("8_l00rh")
+metadata/_custom_type_script = "uid://bcxdwbyi3cxlm"
+
+[sub_resource type="Resource" id="Resource_oqc2b"]
+resource_local_to_scene = true
+script = ExtResource("9_23lgj")
+MinSize = Vector2(200, 40)
+metadata/_custom_type_script = "uid://bo8uw0h2t47u7"
+
+[sub_resource type="Resource" id="Resource_60ej1"]
+resource_local_to_scene = true
+script = ExtResource("3_asvi8")
+Component00 = SubResource("Resource_5hqom")
+Component04 = SubResource("Resource_fl8q5")
+Component06 = SubResource("Resource_etknf")
+Component07 = SubResource("Resource_lwtut")
+Component15 = SubResource("Resource_oqc2b")
+metadata/_custom_type_script = "uid://de6f22o20s6ba"
+
+[node name="Sound" type="Node2D" unique_id=564811543]
+
+[node name="ComponentHolder" type="Node" parent="." unique_id=1893612537]
+script = ExtResource("1_i2hgf")
+Component00 = SubResource("Resource_60ej1")
+metadata/_custom_type_script = "uid://dt0w6j6oba4xu"
+
+[node name="EntityControl" type="VBoxContainer" parent="." unique_id=1949457669]
+offset_right = 250.0
+offset_bottom = 100.0
+theme = ExtResource("2_eh7wa")
+
+[node name="DragHandleBtn" type="Button" parent="EntityControl" unique_id=1239856002]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+keep_pressed_outside = true
+
+[node name="PanelContainer" type="PanelContainer" parent="EntityControl" unique_id=1387832148]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EntityControl/PanelContainer" unique_id=542971158]
+layout_mode = 2
+
+[node name="Label" type="RichTextLabel" parent="EntityControl/PanelContainer/VBoxContainer" unique_id=1876593625]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_vertical = 6
+text = "Sound Sound Sound Sound Sound Sound Sound Sound"
+scroll_following = true
+horizontal_alignment = 1
+
+[node name="SliderHBoxContainer" type="HBoxContainer" parent="EntityControl/PanelContainer/VBoxContainer" unique_id=444787912]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+
+[node name="PlayedTimeLabel" type="Label" parent="EntityControl/PanelContainer/VBoxContainer/SliderHBoxContainer" unique_id=514924415]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "00:00"
+horizontal_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="EntityControl/PanelContainer/VBoxContainer/SliderHBoxContainer" unique_id=309277835]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+
+[node name="TotalTimeLabel" type="Label" parent="EntityControl/PanelContainer/VBoxContainer/SliderHBoxContainer" unique_id=255914185]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "00:00"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="EntityControl/PanelContainer/VBoxContainer" unique_id=1296012516]
+layout_mode = 2
+
+[node name="Button3" type="Button" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer" unique_id=300570090]
+layout_mode = 2
+text = "✨"
+
+[node name="Button" type="Button" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer" unique_id=253503143]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "▶"
+
+[node name="Button2" type="Button" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer" unique_id=859588259]
+layout_mode = 2
+text = "🔒"

@@ -21,7 +21,9 @@ public partial class BtnAsDragHandle : ComponentResource
 
     public KeepInDragAreaOnWindowSizeChanged KeepInDragArea;
 
-    protected bool IsCursorDrag = false;
+    protected static readonly StringName SN_MouseLeft = "mouse_left";
+    protected static readonly StringName SN_MouseRight = "mouse_right";
+
 
     public override void OnEntityReady()
     {
@@ -99,6 +101,22 @@ public partial class BtnAsDragHandle : ComponentResource
     public void OnGuiInput(InputEvent @event)
     {
         // GD.Print(Entity.GetPath(), ": OnGuiInput");
+        // Change node order
+        if (Input.IsActionJustPressed(SN_MouseLeft))
+        {
+            if (Nice.I.TryGetRegistedComponentFirst<HandleStickerInSceneTree>(out var HandleStickerInSceneTree))
+            {
+                HandleStickerInSceneTree.StickerMoveToTop(Entity);
+            }
+        }
+        else if (Input.IsActionJustPressed(SN_MouseRight))
+        {
+            if (Nice.I.TryGetRegistedComponentFirst<HandleStickerInSceneTree>(out var HandleStickerInSceneTree))
+            {
+                HandleStickerInSceneTree.StickerMoveToBottom(Entity);
+            }
+        }
+
         if (CheckDragging())
         {
             // Update entity pos

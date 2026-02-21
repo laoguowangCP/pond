@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://ysp60y6ghv7n"]
+[gd_scene format=3 uid="uid://ysp60y6ghv7n"]
 
 [ext_resource type="Script" uid="uid://dt0w6j6oba4xu" path="res://script/nice/ComponentHolder.cs" id="1_menoa"]
 [ext_resource type="Script" uid="uid://b2xcb4nsxu6qc" path="res://script/component/sticker/handle/BtnAsDragHandle.cs" id="2_menoa"]
@@ -101,14 +101,14 @@ Component11 = SubResource("Resource_tqb00")
 Component15 = SubResource("Resource_tmo60")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 
-[node name="Photo" type="Node2D"]
+[node name="Photo" type="Node2D" unique_id=30088802]
 
-[node name="ComponentHolder" type="Node" parent="."]
+[node name="ComponentHolder" type="Node" parent="." unique_id=731807094]
 script = ExtResource("1_menoa")
 Component00 = SubResource("Resource_y7nij")
 metadata/_custom_type_script = "uid://dt0w6j6oba4xu"
 
-[node name="EntityControl" type="VBoxContainer" parent="."]
+[node name="EntityControl" type="VBoxContainer" parent="." unique_id=541407285]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -120,35 +120,35 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("9_j4nui")
 
-[node name="DragHandleBtn" type="Button" parent="EntityControl"]
+[node name="DragHandleBtn" type="Button" parent="EntityControl" unique_id=112037578]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 focus_mode = 0
 
-[node name="PanelContainer" type="PanelContainer" parent="EntityControl"]
+[node name="PanelContainer" type="PanelContainer" parent="EntityControl" unique_id=1153361027]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="TextureRect" type="TextureRect" parent="EntityControl/PanelContainer"]
+[node name="TextureRect" type="TextureRect" parent="EntityControl/PanelContainer" unique_id=2079589297]
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="EntityControl"]
+[node name="HBoxContainer" type="HBoxContainer" parent="EntityControl" unique_id=1709887090]
 layout_mode = 2
 
-[node name="ResizeHandleBtnDownLeft" type="Button" parent="EntityControl/HBoxContainer"]
+[node name="ResizeHandleBtnDownLeft" type="Button" parent="EntityControl/HBoxContainer" unique_id=949884563]
 custom_minimum_size = Vector2(15, 0)
 layout_mode = 2
 focus_mode = 0
 
-[node name="ResizeHandleBtnDownMid" type="Button" parent="EntityControl/HBoxContainer"]
+[node name="ResizeHandleBtnDownMid" type="Button" parent="EntityControl/HBoxContainer" unique_id=676428679]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
 
-[node name="ResizeHandleBtnDownRight" type="Button" parent="EntityControl/HBoxContainer"]
+[node name="ResizeHandleBtnDownRight" type="Button" parent="EntityControl/HBoxContainer" unique_id=1808649610]
 custom_minimum_size = Vector2(15, 0)
 layout_mode = 2
 focus_mode = 0

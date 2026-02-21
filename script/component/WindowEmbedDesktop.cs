@@ -16,6 +16,7 @@ public partial class WindowEmbedDesktop : ComponentResource
     public override bool IsRegist => false;
 
     public bool IsEmbeded { get; protected set; } = false;
+    protected Vector2I WindowPosBeforeEmbeded;
 
     public void EmbedAsWallPaper()
     {
@@ -41,6 +42,12 @@ public partial class WindowEmbedDesktop : ComponentResource
         {
             return;
         }
+        var window = Holder.GetTree().Root.GetWindow();
+        WindowPosBeforeEmbeded = window.Position;
+
+        // GD.Print("Window is maximized allowed: ", DisplayServer.WindowIsMaximizeAllowed());
+        DisplayServer.WindowSetFlag(DisplayServer.WindowFlags.Borderless, true);
+        // Holder.GetWindow().Borderless = true;
 
         long godotWRaw = DisplayServer.WindowGetNativeHandle(DisplayServer.HandleType.WindowHandle);
         IntPtr godotW = new(godotWRaw);
@@ -48,11 +55,23 @@ public partial class WindowEmbedDesktop : ComponentResource
         IntPtr workerW = GetDesktopOverlayWindowHandle();
         // GD.Print(workerW);
 
+        // Calculate virtual desktop position
+        User32Native.GetWindowRect(godotW, out var lpRect);
+        Vector2I windowPos = new(lpRect.Left, lpRect.Top);
+        /*
+        GD.Print(windowPos);
+        windowPos -= User32Native.GetVirtualScreenOrigin();
+        GD.Print(windowPos);
+        */
+
         User32Native.SetParent(godotW, workerW);
         // SetWindowLongPtr(wd.hWnd, GWLP_HWNDPARENT, (LONG_PTR)get_wp_host_hwnd());
+
+        User32Native.LPPOINT lPPOINT = new(windowPos);
+        User32Native.ScreenToClient(workerW, ref lPPOINT);
+        User32Native.SetWindowPos(godotW, IntPtr.Zero, lPPOINT.X, lPPOINT.Y, 0, 0, User32Native.SWP_NOSIZE | User32Native.SWP_NOZORDER | User32Native.SWP_SHOWWINDOW);
         
         IsEmbeded = true;
-        Holder.GetTree().Root.GetWindow().Borderless = true;
     }
 
     public void UnEmbed()
@@ -63,10 +82,15 @@ public partial class WindowEmbedDesktop : ComponentResource
         }
         long godotWRaw = DisplayServer.WindowGetNativeHandle(DisplayServer.HandleType.WindowHandle);
         IntPtr godotW = new(godotWRaw);
-        User32Native.SetParent(godotW, IntPtr.Zero);
 
+        User32Native.SetParent(godotW, IntPtr.Zero);
+        // User32Native.SetWindowPos(godotW, IntPtr.Zero, WindowPosBeforeEmbeded.X, WindowPosBeforeEmbeded.Y, 0, 0, User32Native.SWP_NOSIZE | User32Native.SWP_NOZORDER | User32Native.SWP_SHOWWINDOW);
+
+        // Holder.GetTree().Root.GetWindow().Borderless = false;
+        DisplayServer.WindowSetFlag(DisplayServer.WindowFlags.Borderless, false);
+        // Holder.GetWindow().Borderless = false;
+        Holder.GetWindow().Position = WindowPosBeforeEmbeded;
         IsEmbeded = false;
-        Holder.GetTree().Root.GetWindow().Borderless = false;
     }
 
     protected IntPtr GetDesktopOverlayWindowHandle()

@@ -46,4 +46,22 @@ public partial class HandleStickerInSceneTree : ComponentResource
         parent.RemoveChild(sticker);
         sticker.QueueFree();
     }
+
+    public void StickerMoveToTop(Node2D sticker)
+    {
+        if (sticker == null || sticker.GetParentOrNull<CanvasLayer>() != StickerCanvasLayer)
+        {
+            return;
+        }
+        StickerCanvasLayer.MoveChild(sticker, -1);
+    }
+
+    public void StickerMoveToBottom(Node2D sticker)
+    {
+        if (sticker == null || sticker.GetParentOrNull<CanvasLayer>() != StickerCanvasLayer)
+        {
+            return;
+        }
+        StickerCanvasLayer.MoveChild(sticker, 0);
+    }
 }
