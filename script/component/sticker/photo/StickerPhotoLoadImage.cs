@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using Godot;
 using LGWCP.NiceGD;
 
@@ -15,8 +13,9 @@ public partial class StickerPhotoLoadImage : ComponentResource
     public override TickGroupEnum TickGroup => TickGroupEnum.None;
     public override bool IsRegist => false;
 
-    protected static readonly NodePath NP_TextureRect = "./EntityControl/PanelContainer/TextureRect";
+    protected static readonly NodePath NP_TextureRect = "./EntityControl/PanelContainer/VBoxContainer/TextureRect";
     protected TextureRect TextureRect;
+
     public string ImageFile;
 
     public override void OnEntityReady()
@@ -30,6 +29,11 @@ public partial class StickerPhotoLoadImage : ComponentResource
         GD.Print("Load image file: ", file);
         var imageTexture = ImageTexture.CreateFromImage(Image.LoadFromFile(file));
         TextureRect.Texture = imageTexture;
+
+        if (Holder.TryGetComponent<ImageInfoLabel>(out var imageInfoLabel))
+        {
+            imageInfoLabel.UpdateInfo(file, imageTexture);
+        }
     }
 
     public Vector2 GetImageTextureSize()

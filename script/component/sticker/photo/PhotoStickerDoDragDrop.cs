@@ -13,7 +13,7 @@ public partial class PhotoStickerDoDragDrop : ComponentResource
     public override Type ComponentType => typeof(PhotoStickerDoDragDrop);
     public override TickGroupEnum TickGroup => TickGroupEnum.None;
     public override bool IsRegist => false;
-    protected static readonly NodePath NP_TextureRect = "./EntityControl/PanelContainer/TextureRect";
+    protected static readonly NodePath NP_TextureRect = "./EntityControl/PanelContainer/VBoxContainer/TextureRect";
     protected TextureRect TextureRect;
 
     public override void OnEntityReady()

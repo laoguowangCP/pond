@@ -19,12 +19,15 @@ public partial class StickerBuilder : ComponentResource
     protected PackedScene TipStickerScene;
     [Export(PropertyHint.File)] protected string RP_PhotoSticker = "res://scene/sticker/photo.tscn";
     protected PackedScene PhotoStickerScene;
+    [Export(PropertyHint.File)] protected string RP_SoundSticker = "res://scene/sticker/sound.tscn";
+    protected PackedScene SoundStickerScene;
     protected HandleStickerInSceneTree HandleSticker;
 
     public override void OnEntityReady()
     {
         TipStickerScene = ResourceLoader.Load<PackedScene>(RP_TipSticker);
         PhotoStickerScene = ResourceLoader.Load<PackedScene>(RP_PhotoSticker);
+        SoundStickerScene = ResourceLoader.Load<PackedScene>(RP_SoundSticker);
         Holder.TryGetComponent<HandleStickerInSceneTree>(out HandleSticker);
     }
 
@@ -64,21 +67,34 @@ public partial class StickerBuilder : ComponentResource
         return true;
     }
 
+    public bool BuildStickerSound(string fileName, out Node2D sticker)
+    {
+        sticker = default;
+        if (fileName == null)
+        {
+            return false;
+        }
+
+        sticker = SoundStickerScene.Instantiate<Node2D>();
+        HandleSticker.AddSticker(sticker);
+        if (sticker.TryGetComponentHolder(out var holder))
+        {
+            if (holder.TryGetComponent<SoundStickerLoadAudio>(out var loadAudio))
+            {
+                loadAudio.LoadFromFile(fileName);
+            }
+        }
+        return true;
+    }
+
     public bool BuildStickerTip(string text, out Node2D sticker)
     {
         sticker = TipStickerScene.Instantiate<Node2D>();
         HandleSticker.AddSticker(sticker);
 
-        if (sticker.TryGetComponentHolder(out var holder))
+        if (!string.IsNullOrEmpty(text) && sticker.TryGetComponent<StickerTipTextCtrl>(out var textCtrl))
         {
-            if (!string.IsNullOrEmpty(text) && holder.TryGetComponent<StickerTipTextCtrl>(out var textCtrl))
-            {
-                textCtrl.LoadText(text);
-            }
-            if (holder.TryGetComponent<TipStickerUpdateUri>(out var updateUri))
-            {
-                updateUri.UpdateUriFromTextEdit();
-            }
+            textCtrl.LoadText(text);
         }
         return true;
     }

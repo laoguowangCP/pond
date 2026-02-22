@@ -5,7 +5,10 @@
 [ext_resource type="Script" uid="uid://b2xcb4nsxu6qc" path="res://script/component/sticker/handle/BtnAsDragHandle.cs" id="2_u4jpa"]
 [ext_resource type="Script" uid="uid://de6f22o20s6ba" path="res://script/nice/component_res_ext/ComponentResExt16X.cs" id="3_asvi8"]
 [ext_resource type="Script" uid="uid://7a0b3t17qkuf" path="res://script/component/sticker/handle/DragEndOnFocusExited.cs" id="6_710ii"]
-[ext_resource type="Script" uid="uid://dtbo6p3yyu7qa" path="res://script/component/KeepInDragAreaOnWindowSizeChanged.cs" id="7_fl8q5"]
+[ext_resource type="Script" uid="uid://bhyfofm1vvfy6" path="res://script/component/sticker/sound/SoundStickerLoadAudio.cs" id="6_l00rh"]
+[ext_resource type="Script" uid="uid://b8kopg4feu7j1" path="res://script/component/sticker/sound/SoundStickerPlayPause.cs" id="7_23lgj"]
+[ext_resource type="Script" uid="uid://dtbo6p3yyu7qa" path="res://script/component/main/KeepInDragAreaOnWindowSizeChanged.cs" id="7_fl8q5"]
+[ext_resource type="Script" uid="uid://bdap5qtxhkrew" path="res://script/component/sticker/sound/AudioInfoLabel.cs" id="8_23lgj"]
 [ext_resource type="Script" uid="uid://bcxdwbyi3cxlm" path="res://script/component/sticker/StickerControlSize.cs" id="8_l00rh"]
 [ext_resource type="Script" uid="uid://bo8uw0h2t47u7" path="res://script/component/sticker/EntityControlSizeClamp.cs" id="9_23lgj"]
 
@@ -29,6 +32,21 @@ resource_local_to_scene = true
 script = ExtResource("8_l00rh")
 metadata/_custom_type_script = "uid://bcxdwbyi3cxlm"
 
+[sub_resource type="Resource" id="Resource_x3438"]
+resource_local_to_scene = true
+script = ExtResource("6_l00rh")
+metadata/_custom_type_script = "uid://bhyfofm1vvfy6"
+
+[sub_resource type="Resource" id="Resource_4gv70"]
+resource_local_to_scene = true
+script = ExtResource("7_23lgj")
+metadata/_custom_type_script = "uid://b8kopg4feu7j1"
+
+[sub_resource type="Resource" id="Resource_h6mgm"]
+resource_local_to_scene = true
+script = ExtResource("8_23lgj")
+metadata/_custom_type_script = "uid://bdap5qtxhkrew"
+
 [sub_resource type="Resource" id="Resource_oqc2b"]
 resource_local_to_scene = true
 script = ExtResource("9_23lgj")
@@ -42,6 +60,9 @@ Component00 = SubResource("Resource_5hqom")
 Component04 = SubResource("Resource_fl8q5")
 Component06 = SubResource("Resource_etknf")
 Component07 = SubResource("Resource_lwtut")
+Component08 = SubResource("Resource_x3438")
+Component09 = SubResource("Resource_4gv70")
+Component10 = SubResource("Resource_h6mgm")
 Component15 = SubResource("Resource_oqc2b")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 
@@ -71,13 +92,16 @@ size_flags_vertical = 3
 [node name="VBoxContainer" type="VBoxContainer" parent="EntityControl/PanelContainer" unique_id=542971158]
 layout_mode = 2
 
-[node name="Label" type="RichTextLabel" parent="EntityControl/PanelContainer/VBoxContainer" unique_id=1876593625]
+[node name="Label" type="Label" parent="EntityControl/PanelContainer/VBoxContainer" unique_id=1897502970]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_vertical = 6
+mouse_filter = 0
+mouse_default_cursor_shape = 2
 text = "Sound Sound Sound Sound Sound Sound Sound Sound"
-scroll_following = true
 horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 3
 
 [node name="SliderHBoxContainer" type="HBoxContainer" parent="EntityControl/PanelContainer/VBoxContainer" unique_id=444787912]
 custom_minimum_size = Vector2(0, 25)
@@ -105,15 +129,20 @@ horizontal_alignment = 1
 [node name="HBoxContainer" type="HBoxContainer" parent="EntityControl/PanelContainer/VBoxContainer" unique_id=1296012516]
 layout_mode = 2
 
-[node name="Button3" type="Button" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer" unique_id=300570090]
+[node name="BtnLeft" type="Button" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer" unique_id=300570090]
 layout_mode = 2
-text = "✨"
+mouse_default_cursor_shape = 2
+text = "🔁"
 
-[node name="Button" type="Button" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer" unique_id=253503143]
+[node name="BtnAsPlayPause" type="Button" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer" unique_id=253503143]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "▶"
+mouse_default_cursor_shape = 2
+icon_alignment = 1
 
-[node name="Button2" type="Button" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer" unique_id=859588259]
+[node name="BtnRight" type="Button" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer" unique_id=859588259]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 text = "🔒"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1238287388]

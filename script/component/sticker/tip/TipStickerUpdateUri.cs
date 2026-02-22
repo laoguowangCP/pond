@@ -49,6 +49,7 @@ public partial class TipStickerUpdateUri : ComponentResource
         {
             UriBtn.Visible = true;
             UriBtn.Text = match.Value;
+            UriBtn.TooltipText = match.Value;
             UriStr = match.Value;
             return;
         }
@@ -59,6 +60,7 @@ public partial class TipStickerUpdateUri : ComponentResource
         {
             UriBtn.Visible = true;
             UriBtn.Text = match.Value;
+            UriBtn.TooltipText = match.Value;
             UriStr = match.Value;
             return;
         }

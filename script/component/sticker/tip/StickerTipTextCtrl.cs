@@ -24,5 +24,9 @@ public partial class StickerTipTextCtrl : ComponentResource
     public void LoadText(string text)
     {
         TextEdit.Text = text;
+        if (Holder.TryGetComponent<TipStickerUpdateUri>(out var updateUri))
+        {
+            updateUri.UpdateUriFromTextEdit();
+        }
     }
 }

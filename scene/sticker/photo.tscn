@@ -6,16 +6,17 @@
 [ext_resource type="Script" uid="uid://ctygvso0otdb7" path="res://script/component/sticker/handle/BtnAsResizeHandleDownMid.cs" id="4_8blf7"]
 [ext_resource type="Script" uid="uid://e75slxgmdxkr" path="res://script/component/sticker/handle/BtnAsResizeHandleDownRight.cs" id="5_5bnfo"]
 [ext_resource type="Script" uid="uid://7a0b3t17qkuf" path="res://script/component/sticker/handle/DragEndOnFocusExited.cs" id="6_6brdl"]
-[ext_resource type="Script" uid="uid://qso65706ohd0" path="res://script/component/sticker/StickerPhotoLoadImage.cs" id="7_j6yad"]
-[ext_resource type="Script" uid="uid://csbjma4u6gelv" path="res://script/component/sticker/SaveStickerPhotoComponent.cs" id="8_8blf7"]
+[ext_resource type="Script" uid="uid://qso65706ohd0" path="res://script/component/sticker/photo/StickerPhotoLoadImage.cs" id="7_j6yad"]
+[ext_resource type="Script" uid="uid://csbjma4u6gelv" path="res://script/component/sticker/photo/SaveStickerPhotoComponent.cs" id="8_8blf7"]
 [ext_resource type="Script" uid="uid://bo8uw0h2t47u7" path="res://script/component/sticker/EntityControlSizeClamp.cs" id="8_stqh4"]
 [ext_resource type="Script" uid="uid://de6f22o20s6ba" path="res://script/nice/component_res_ext/ComponentResExt16X.cs" id="8_tmo60"]
-[ext_resource type="Script" uid="uid://dtbo6p3yyu7qa" path="res://script/component/KeepInDragAreaOnWindowSizeChanged.cs" id="9_5bnfo"]
+[ext_resource type="Script" uid="uid://dtbo6p3yyu7qa" path="res://script/component/main/KeepInDragAreaOnWindowSizeChanged.cs" id="9_5bnfo"]
 [ext_resource type="Theme" uid="uid://liol3f3pxqvr" path="res://theme/main_theme.tres" id="9_j4nui"]
 [ext_resource type="Script" uid="uid://bcxdwbyi3cxlm" path="res://script/component/sticker/StickerControlSize.cs" id="10_6brdl"]
 [ext_resource type="Script" uid="uid://blmc34v7jwftc" path="res://script/component/sticker/OnStickerRemove.cs" id="11_xpyjd"]
-[ext_resource type="Script" uid="uid://dh8igljmv4cqs" path="res://script/component/sticker/PhotoStickerRemoveDeleteFile.cs" id="12_tmo60"]
-[ext_resource type="Script" uid="uid://bewvawlty86rx" path="res://script/component/sticker/PhotoStickerDoDragDrop.cs" id="13_tmo60"]
+[ext_resource type="Script" uid="uid://dh8igljmv4cqs" path="res://script/component/sticker/photo/PhotoStickerRemoveDeleteFile.cs" id="12_tmo60"]
+[ext_resource type="Script" uid="uid://bewvawlty86rx" path="res://script/component/sticker/photo/PhotoStickerDoDragDrop.cs" id="13_tmo60"]
+[ext_resource type="Script" uid="uid://ccwpmopdfhfkc" path="res://script/component/sticker/photo/ImageInfoLabel.cs" id="14_j4nui"]
 
 [sub_resource type="Resource" id="Resource_stqh4"]
 resource_local_to_scene = true
@@ -77,10 +78,16 @@ resource_local_to_scene = true
 script = ExtResource("13_tmo60")
 metadata/_custom_type_script = "uid://bewvawlty86rx"
 
+[sub_resource type="Resource" id="Resource_to83v"]
+resource_local_to_scene = true
+script = ExtResource("14_j4nui")
+metadata/_custom_type_script = "uid://ccwpmopdfhfkc"
+
 [sub_resource type="Resource" id="Resource_tmo60"]
 resource_local_to_scene = true
 script = ExtResource("8_stqh4")
 MinSize = Vector2(128, 128)
+MaxSize = Vector2(1080, 1080)
 metadata/_custom_type_script = "uid://bo8uw0h2t47u7"
 
 [sub_resource type="Resource" id="Resource_y7nij"]
@@ -98,6 +105,7 @@ Component08 = SubResource("Resource_r3wx4")
 Component09 = SubResource("Resource_hsokh")
 Component10 = SubResource("Resource_y3j5s")
 Component11 = SubResource("Resource_tqb00")
+Component12 = SubResource("Resource_to83v")
 Component15 = SubResource("Resource_tmo60")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 
@@ -129,10 +137,24 @@ focus_mode = 0
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="TextureRect" type="TextureRect" parent="EntityControl/PanelContainer" unique_id=2079589297]
+[node name="VBoxContainer" type="VBoxContainer" parent="EntityControl/PanelContainer" unique_id=1377079164]
 layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="EntityControl/PanelContainer/VBoxContainer" unique_id=2079589297]
+layout_mode = 2
+size_flags_vertical = 3
 expand_mode = 1
 stretch_mode = 5
+
+[node name="Label" type="Label" parent="EntityControl/PanelContainer/VBoxContainer" unique_id=1135957601]
+layout_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 12
+text = "Image info"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="EntityControl" unique_id=1709887090]
 layout_mode = 2

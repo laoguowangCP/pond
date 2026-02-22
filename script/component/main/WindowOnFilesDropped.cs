@@ -16,7 +16,8 @@ public partial class WindowOnFilesDropped : ComponentResource
     public override TickGroupEnum TickGroup => TickGroupEnum.None;
     public override bool IsRegist => true;
 
-    private static readonly HashSet<string> ImageExtensions = new() { "bmp", "dds", "kts", "exr", "hdr", "jpg", "jpeg", "png", "tga", "svg", "webp" };
+    private static readonly HashSet<string> ImageExtensionsSupported = new() { ".bmp", ".dds", ".kts", ".exr", ".hdr", ".jpg", ".jpeg", ".png", ".tga", ".svg", ".webp" };
+    private static readonly HashSet<string> AudioExtensionsSupported = new() { ".mp3", ".ogg", ".wav" };
 
     // private static readonly string ImageFileFolder = "/save/image/";
 
@@ -63,13 +64,21 @@ public partial class WindowOnFilesDropped : ComponentResource
             return;
         }
 
-        string fileExt = file.GetExtension();
+        string fileExt = Path.GetExtension(file).ToLowerInvariant();
+        GD.Print("HandleDropFileAudio: ", fileExt);
         if (File.Exists(file)
-            && !string.IsNullOrEmpty(fileExt)
-            && ImageExtensions.TryGetValue(fileExt.ToLowerInvariant(), out _))
+            && !string.IsNullOrEmpty(fileExt))
         {
-            // Handle image
-            HandleDropFileImage(file);
+            if (ImageExtensionsSupported.TryGetValue(fileExt, out _))
+            {
+                // Handle image
+                HandleDropFileImage(file);
+            }
+            else if (AudioExtensionsSupported.TryGetValue(fileExt, out _))
+            {
+                // Handle audio
+                HandleDropFileAudio(file);
+            }
         }
         else
         {
@@ -102,18 +111,9 @@ public partial class WindowOnFilesDropped : ComponentResource
         FileToBuilder.Append(fileFrom.GetFile());
 
         // 1. Check file path valid
-        if (File.Exists(FileToBuilder.ToString()))
+        if (!Filey.TryAddTimestampToFileNameIfCollide(ref FileToBuilder))
         {
-            string fileExt = fileFrom.GetExtension();
-            FileToBuilder.Remove(FileToBuilder.Length - fileExt.Length - 1, fileExt.Length + 1);
-            FileToBuilder.Append(DateTime.Now.ToString("_yyyyMMdd_HHmmssff"));
-            FileToBuilder.Append('.');
-            FileToBuilder.Append(fileExt);
-            if (File.Exists(FileToBuilder.ToString()))
-            {
-                // Too short interval between 2 drops.
-                return;
-            }
+            return;
         }
 
         string fileTo = FileToBuilder.ToString();
@@ -123,23 +123,40 @@ public partial class WindowOnFilesDropped : ComponentResource
 
         StickerBuilder.BuildStickerPhoto(fileTo, out var photo);
 
-        /*
-        var photoScene = ResourceLoader.Load<PackedScene>("res://scene/sticker/photo.tscn");
-        var photo = photoScene.Instantiate<Node2D>();
-
-        Holder.TryGetEntity<Node>(out var root);
-        root.AddChild(photo);
-        
-        if (photo.TryGetComponent<StickerPhotoLoadImage>(out var loadImage))
-        {
-            loadImage.LoadFromFile(fileTo);
-        }
-        */
         Vector2 mousePos = Entity.GetGlobalMousePosition();
         if (Holder.TryGetComponent<DragArea>(out var dragArea))
         {
             mousePos = dragArea.GetGlobalPositionRegulated(mousePos);
         }
         photo.Position = mousePos;
+    }
+
+    protected void HandleDropFileAudio(string fileFrom)
+    {
+        // 0. Build target file path
+        FileToBuilder.Clear();
+        FileToBuilder.Append(OS.GetUserDataDir());
+        FileToBuilder.Append(NameSave.AudioFolder);
+        FileToBuilder.Append(fileFrom.GetFile());
+
+        // 1. Check file path valid
+        if (!Filey.TryAddTimestampToFileNameIfCollide(ref FileToBuilder))
+        {
+            return;
+        }
+
+        string fileTo = FileToBuilder.ToString();
+
+        Directory.CreateDirectory(fileTo.GetBaseDir());
+        File.Copy(fileFrom, fileTo);
+
+        StickerBuilder.BuildStickerSound(fileTo, out var sound);
+
+        Vector2 mousePos = Entity.GetGlobalMousePosition();
+        if (Holder.TryGetComponent<DragArea>(out var dragArea))
+        {
+            mousePos = dragArea.GetGlobalPositionRegulated(mousePos);
+        }
+        sound.Position = mousePos;
     }
 }
