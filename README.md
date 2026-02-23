@@ -8,7 +8,6 @@ An app to put anything on your desktop.
     - [x] 拖拽按键创建 tip 便签
     - [x] 根据剪贴板文本或图像生成 tip 或 photo 便签
     - [ ] 根据剪贴板文件路径生成便签
-    - [ ] 从存档中还原便签
 - 删除 sticker
     - [x] 拖拽到底部以删除便签
     - [x] 删除后触发保存
@@ -18,19 +17,26 @@ An app to put anything on your desktop.
     - [x] 开始拖拽时，对删除区域进行可视化。
     - [x] 开始拖拽时，对限制区域进行可视化。
     - [x] 拖拽手柄左键提升sticker图层（最顶），右键降低（最底）。
+    - [x] 改变层级后，如何序列化保持？（save tick 不遵循节点树的排序）SaveNode 增加指定位置的 ListChildren 添加方法。
 - Tip sticker
     - [x] 点击任意位置（背景）清除文本的 focus （不太需要 grab focus，直接开启背景 ui 的 focus mode 就行了）
     - [x] 拖动 handle 也清除文本的 focus ：按下时设为可以 focus 并 grab ，抬起后再禁用 focus 。
     - [x] 可调节字体大小？（ctrl +-），根据一个尺寸映射表改变大小。
     - [x] 提取文本中第一个链接，交给 Url button。有没有方法可以自动识别 URI 链接，变成可点击（按住ctrl）
     - [x] Url按钮悬浮时提示完整链接？
+    - [ ] 拖入文本转化为便签：godot 不支持，暂时没有实现计划。
+    - [ ] 将文本拖出窗口（ctrl+鼠标左键）
 - Photo Sticker
     - [x] 创建时根据图片比例调整高度（宽度就保持默认吧）
     - [ ] 缩放图像（在容器范围内）？有缩放的情况下调整便签大小该如何处理？
     - [x] 提供一些小信息，如名称/长宽/格式（放在一个标签里，点击切换）
+    - [x] 外部照片拖入转化为便签
+    - [x] 将图像拖出窗口（ctrl+鼠标左键）
 - Sound Sticker 音乐便签：放各种音乐小片段，默认播放是互斥的，（可能切换屏幕/焦点就禁止播放？），或者可以锁定让一个音频可持续可后台播放（这个锁定也是互斥的）。可以勾选是否循环播放。
     - [x] 支持哪些格式？mp3 ogg wav
-    - [ ] 拖入音频文件创建标签。
+    - [x] 拖入音频文件创建标签。
+    - [x] 序列化标签。
+    - [ ] 将音频文件拖出窗口（ctrl+鼠标左键）
     - [ ] 播放/暂停音频
     - [ ] 进度条（可拖动），显示播放时长和总时长
     - [ ] 调整音量（显示增减幅？）
@@ -41,14 +47,10 @@ An app to put anything on your desktop.
     - [ ] 音乐名称文字跑马灯marquee，播放、hover时滚动显示完整歌曲名称。
     - [ ] 提供一些小信息，如码率/格式（和歌曲名放在一个标签里，点击切换）、
     - [ ] 迷你模式，只保留名称和开始按钮？
-- 窗口 OnFilesDropped ：把外部内容拖入转化为便签
-    - [x] 图片转化为 photo 便签：保存到用户目录并转化为 ImageTexture
-    - [ ] 拖入文本：godot 不支持，暂时没有实现计划。
 - 窗口 DoDragDrop 把便签内容拖拽到外部
     - [x] 使用 ole native
     - [x] 引用 System.Windows.Forms ，csproj 里 TargetFramework 改为 net10.0-windows
     - [x] 图片点击触发 DoDragDrop
-    - [x] 增加限制，不要随便点一下就触发 ctrl+鼠标右键
 - UI 主题
     - [x] 按钮默认状态添加描边
     - [ ] 让hover状态不那么明显，否则拖拽的时候会闪来闪去（各个状态设置同一个style box）

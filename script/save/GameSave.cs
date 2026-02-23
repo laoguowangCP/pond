@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
 using Godot;
 
@@ -12,6 +13,7 @@ namespace LGWCP.Util.Save;
 [JsonDerivedType(typeof(SaveSticker), typeDiscriminator: "SaveSticker")]
 [JsonDerivedType(typeof(SaveStickerTip), typeDiscriminator: "SaveStickerTip")]
 [JsonDerivedType(typeof(SaveStickerPhoto), typeDiscriminator: "SaveStickerPhoto")]
+[JsonDerivedType(typeof(SaveStickerSound), typeDiscriminator: "SaveStickerSound")]
 public interface ISaveNode
 {
     public bool IsLeaf { get; set; }
@@ -36,6 +38,25 @@ public class SaveNodeBase : ISaveNode
         }
     }
 
+    public bool TryAddListChildrenWithIdx(int idx, ISaveNode saveNode)
+    {
+        // Expand list
+        if (ListChildren.Count <= idx)
+        {
+            ListChildren.AddRange(Enumerable.Repeat<ISaveNode>(null, idx - ListChildren.Count + 1));
+        }
+
+        if (ListChildren[idx] == null)
+        {
+            ListChildren[idx] = saveNode;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public void Clear()
     {
         if (IsLeaf)
@@ -45,13 +66,13 @@ public class SaveNodeBase : ISaveNode
 
         foreach (var child in ListChildren)
         {
-            child.Clear();
+            child?.Clear();
         }
         ListChildren.Clear();
 
         foreach (var child in MapChildren.Values)
         {
-            child.Clear();
+            child?.Clear();
         }
         MapChildren.Clear();
     }
@@ -84,3 +105,9 @@ public class SaveStickerPhoto : SaveSticker
     public string ImageFile;
 }
 
+
+public class SaveStickerSound : SaveSticker
+{
+    public SaveStickerSound(bool isLeaf = true) {}
+    public string AudioFile;
+}

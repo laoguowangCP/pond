@@ -10,7 +10,7 @@ public static class Filey
         if (File.Exists(fileName))
         {
             string fileExt = Path.GetExtension(fileName);
-            fileNameBuilder.Remove(fileNameBuilder.Length - fileExt.Length - 1, fileExt.Length + 1);
+            fileNameBuilder.Remove(fileNameBuilder.Length - fileExt.Length, fileExt.Length);
             fileNameBuilder.Append(DateTime.Now.ToString("_yyyyMMdd_HHmmssff"));
             // fileNameBuilder.Append('.');
             fileNameBuilder.Append(fileExt);

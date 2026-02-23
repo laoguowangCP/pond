@@ -133,6 +133,16 @@ public partial class StickerBuilder : ComponentResource
                 saveLoad.Load(savePhoto);
             }
         }
+        else if (save is SaveStickerSound saveSound
+            && !string.IsNullOrEmpty(saveSound.AudioFile))
+        {
+            sticker = SoundStickerScene.Instantiate<Node2D>();
+            HandleSticker.AddSticker(sticker);
+            if (sticker.TryGetComponent<SaveStickerSoundComponent>(out var saveLoad))
+            {
+                saveLoad.Load(saveSound);
+            }
+        }
         else
         {
             return false;

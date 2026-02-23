@@ -42,7 +42,7 @@ public partial class SaveStickerTipComponent : ComponentResource
             tipSave.Size = control.Size;
             tipSave.FontSizeId = ChangeFontSize.FontSizeId;
             tipSave.Text = TextEdit.Text;
-            save.ListChildren.Add(tipSave);
+            save.TryAddListChildrenWithIdx(entity.GetIndex(), tipSave);
         }
     }
 

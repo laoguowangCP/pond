@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://bdap5qtxhkrew" path="res://script/component/sticker/sound/AudioInfoLabel.cs" id="8_23lgj"]
 [ext_resource type="Script" uid="uid://bcxdwbyi3cxlm" path="res://script/component/sticker/StickerControlSize.cs" id="8_l00rh"]
 [ext_resource type="Script" uid="uid://bo8uw0h2t47u7" path="res://script/component/sticker/EntityControlSizeClamp.cs" id="9_23lgj"]
+[ext_resource type="Script" uid="uid://bru1fwv6gho6j" path="res://script/component/sticker/sound/SaveStickerSoundComponent.cs" id="9_x3438"]
 
 [sub_resource type="Resource" id="Resource_5hqom"]
 resource_local_to_scene = true
@@ -47,6 +48,11 @@ resource_local_to_scene = true
 script = ExtResource("8_23lgj")
 metadata/_custom_type_script = "uid://bdap5qtxhkrew"
 
+[sub_resource type="Resource" id="Resource_isdu6"]
+resource_local_to_scene = true
+script = ExtResource("9_x3438")
+metadata/_custom_type_script = "uid://bru1fwv6gho6j"
+
 [sub_resource type="Resource" id="Resource_oqc2b"]
 resource_local_to_scene = true
 script = ExtResource("9_23lgj")
@@ -63,6 +69,7 @@ Component07 = SubResource("Resource_lwtut")
 Component08 = SubResource("Resource_x3438")
 Component09 = SubResource("Resource_4gv70")
 Component10 = SubResource("Resource_h6mgm")
+Component11 = SubResource("Resource_isdu6")
 Component15 = SubResource("Resource_oqc2b")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 

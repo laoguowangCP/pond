@@ -7,9 +7,9 @@ namespace LGWCP.Pond;
 
 [GlobalClass]
 [Tool]
-public partial class SaveStickerPhotoComponent : ComponentResource
+public partial class SaveStickerSoundComponent : ComponentResource
 {
-    public override Type ComponentType => typeof(SaveStickerPhotoComponent);
+    public override Type ComponentType => typeof(SaveStickerSoundComponent);
     public override TickGroupEnum TickGroup => TickGroupEnum.Save;
     public override bool IsRegist => false;
 
@@ -19,26 +19,26 @@ public partial class SaveStickerPhotoComponent : ComponentResource
         {
             Holder.TryGetEntity<Node2D>(out var entity);
             Holder.TryGetNodeFromEntity<Control>("./EntityControl", out var control);
-            SaveStickerPhoto photoSave = new(false);
-            photoSave.GlobalPosition = entity.Position;
-            photoSave.Size = control.Size;
-            if (Holder.TryGetComponent<StickerPhotoLoadImage>(out var loadImage))
+            SaveStickerSound soundSave = new(false);
+            soundSave.GlobalPosition = entity.Position;
+            soundSave.Size = control.Size;
+            if (Holder.TryGetComponent<SoundStickerLoadAudio>(out var loadAudio))
             {
-                photoSave.ImageFile = loadImage.ImageFile;
+                soundSave.AudioFile = loadAudio.AudioFile;
             }
-            save.TryAddListChildrenWithIdx(entity.GetIndex(), photoSave);
+            save.TryAddListChildrenWithIdx(entity.GetIndex(), soundSave);
         }
     }
 
-    public void Load(SaveStickerPhoto save)
+    public void Load(SaveStickerSound save)
     {
         Holder.TryGetEntity<Node2D>(out var entity);
         Holder.TryGetNodeFromEntity<Control>("./EntityControl", out var control);
         entity.GlobalPosition = save.GlobalPosition;
         control.Size = save.Size;
-        if (Holder.TryGetComponent<StickerPhotoLoadImage>(out var loadImage))
+        if (Holder.TryGetComponent<SoundStickerLoadAudio>(out var loadAudio))
         {
-            loadImage.LoadFromFile(save.ImageFile);
+            loadAudio.LoadFromFile(save.AudioFile);
         }
     }
 }

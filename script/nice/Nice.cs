@@ -9,6 +9,7 @@ namespace LGWCP.NiceGD;
 
 public class Nice
 {
+    public const int TickOscillatorSuspend = -1000;
     public static readonly Nice I = new();
     public Dictionary<Type, InverseIndexList<RegistIndexable>> ComponentsRegisted;
     // public Dictionary<Type, InverseIndexList<RegistIndexable>> ComponentsRegisted;

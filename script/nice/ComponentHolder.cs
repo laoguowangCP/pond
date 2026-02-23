@@ -353,7 +353,7 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
         else if (tickGroup > TickGroupEnum.LowerCheckLocalGroup
             && tickGroup < TickGroupEnum.LowerCheckGlobalGroup)
         {
-            // Add global group
+            // Remove global group
             Nice.I.RemoveTickGroupGlobal(comp);
         }
     }
@@ -471,7 +471,8 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
     {
         ++comp.BlockCount;
         // Handle none tick component
-        if (comp.TickGroup == TickGroupEnum.None && comp.BlockCount == 1)
+        if ((comp.TickGroup == TickGroupEnum.None || comp.TickOscillator == Nice.TickOscillatorSuspend)
+            && comp.BlockCount == 1)
         {
             // comp.IsBlocked = true;
             comp.OnDeactivated();
@@ -481,7 +482,8 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
     public void Unblock(IComponent comp)
     {
         --comp.BlockCount;
-        if (comp.TickGroup == TickGroupEnum.None && comp.BlockCount == 0)
+        if ((comp.TickGroup == TickGroupEnum.None || comp.TickOscillator == Nice.TickOscillatorSuspend)
+            && comp.BlockCount == 0)
         {
             // comp.IsBlocked = false;
             comp.OnActivated();
@@ -724,7 +726,11 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
             {
                 var idxab = tryTickAfterWaits[tryIdx];
                 // if (!idxab.Wait.IsTicked)
-                if (!(idxab.Wait.TickOscillator == tickOscillator))
+                int waitTickOscillator = idxab.Wait.TickOscillator;
+
+                // If not suspended and not ticked
+                if (waitTickOscillator != Nice.TickOscillatorSuspend
+                    && waitTickOscillator != tickOscillator)
                 {
                     wait = idxab.Wait;
                     comp.TryTickAfterWaitsIdx = tryIdx; // Give back idx
@@ -777,5 +783,37 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
     {
         node = GetNodeOrNull<T>(pathFromHolder);
         return node == null;
+    }
+
+    /// <summary>
+    /// Suspend component, move out tick group.\n
+    /// OnActivated/OnDeactivated callback will be triggered once unblocked/blocked, as tick group none do.
+    /// </summary>
+    public void ComponentTickGroupSuspend(IComponent comp)
+    {
+        if (comp.Holder == this && comp.TickGroup != TickGroupEnum.None)
+        {
+            RemoveTickGroup(comp);
+            comp.TickOscillator = Nice.TickOscillatorSuspend;
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    /// <summary>
+    /// Unsuspend component, back to tick group.
+    /// </summary>
+    public void ComponentTickGroupUnsuspend(IComponent comp)
+    {
+        if (comp.Holder == this && comp.TickGroup != TickGroupEnum.None)
+        {
+            AddTickGroup(comp);
+        }
+        else
+        {
+            return;
+        }
     }
 }

@@ -20,7 +20,6 @@
 [ext_resource type="Script" uid="uid://jeo38ahacivr" path="res://script/component/main/SaveGameOnProgQuit.cs" id="16_tv8i1"]
 [ext_resource type="Script" uid="uid://hyjhgu4x8ljf" path="res://script/component/main/ForegroundDragShowDeleteBtn.cs" id="17_gjnwh"]
 [ext_resource type="Script" uid="uid://fw0hq5rlvfwy" path="res://script/component/main/ValidDragAreaVisialize.cs" id="19_0vlqb"]
-[ext_resource type="PackedScene" uid="uid://xyvcl62fe4v5" path="res://scene/sticker/sound.tscn" id="21_0d4pv"]
 [ext_resource type="Theme" uid="uid://liol3f3pxqvr" path="res://theme/main_theme.tres" id="21_fdqew"]
 
 [sub_resource type="Resource" id="Resource_wp4xf"]
@@ -247,9 +246,6 @@ text = "拖到此处删除"
 
 [node name="MainCanvasLayer" type="CanvasLayer" parent="." unique_id=1163269068]
 layer = 1000
-
-[node name="Sound" parent="MainCanvasLayer" unique_id=738328010 instance=ExtResource("21_0d4pv")]
-position = Vector2(902, 493)
 
 [node name="StatusIndicator" type="StatusIndicator" parent="." unique_id=1525914982]
 tooltip = "Hello"

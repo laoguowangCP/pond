@@ -14,21 +14,24 @@ public partial class SoundStickerPlayPause : ComponentResource
     public override bool IsRegist => false;
 
     protected static readonly NodePath NP_Player = "./AudioStreamPlayer";
-    protected AudioStreamPlayer Player;
+    public AudioStreamPlayer Player;
 
     protected static readonly NodePath NP_BtnAsPlayPause = "./EntityControl/PanelContainer/VBoxContainer/HBoxContainer/BtnAsPlayPause";
     protected Button BtnAsPlayPause;
 
-
-    
-    public override void OnEntityReady()
+    public override bool OnHolderTryAdd(ComponentHolder holder)
     {
+        Holder = holder;
         Holder.TryGetNodeFromEntity<AudioStreamPlayer>(NP_Player, out Player);
         Holder.TryGetNodeFromEntity<Button>(NP_BtnAsPlayPause, out BtnAsPlayPause);
 
         BtnAsPlayPause.ButtonUp += OnPlayPausePressed;
         Player.Finished += OnPlayerFinished;
+        return true;
+    }
 
+    public override void OnEntityReady()
+    {
         BtnHintPaused();
     }
 

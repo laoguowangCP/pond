@@ -52,6 +52,7 @@ public interface IComponent : IInverseIndexable<IComponent>
     public PooledList<TryTickAfterIndexable> TryTickAfterFroms { get; set; }
     // public List<TryTickAfterIndexable> TryTickAfterFroms { get; set; }
     public InverseIndexList<TryTickAfterIndexable> TryTickAfterWaits { get; set; }
+    // For component holder remember where to continue try tick after.
     public int TryTickAfterWaitsIdx { get; set; }
 
     public void Tick(TickContext ctx);
