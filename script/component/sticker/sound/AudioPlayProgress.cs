@@ -23,6 +23,8 @@ public partial class AudioPlayProgress : ComponentResource
 
     protected SoundStickerPlayPause PlayPause;
 
+    protected float TimeTotal;
+
 
     public override bool OnHolderTryAdd(ComponentHolder holder)
     {
@@ -30,14 +32,63 @@ public partial class AudioPlayProgress : ComponentResource
         Holder.TryGetNodeFromEntity<HSlider>(NP_HSliderAsProgress, out HSliderAsProgress);
         Holder.TryGetNodeFromEntity<Label>(NP_LabelAsPlayedTime, out LabelAsPlayedTime);
         Holder.TryGetNodeFromEntity<Label>(NP_LabelAsTotalTime, out LabelAsTotalTime);
+
+        Holder.TryAddTag(this, TagEnum.SoundStickerAudioPlaying);
         return true;
     }
 
     public override void OnEntityReady()
     {
         Holder.TryGetComponent<SoundStickerPlayPause>(out PlayPause);
-        Holder.ComponentTickGroupSuspend(this);
+        // HSlider.
     }
 
-    
+    public override bool OnHolderTryRemove()
+    {
+        return base.OnHolderTryRemove();
+    }
+
+    public override void OnDeactivated()
+    {
+        GD.Print("AudioPlayProgress OnDeactivated.");
+        Holder.TickGroupSuspend(this);
+    }
+
+    public override void OnActivated()
+    {
+        GD.Print("AudioPlayProgress OnActivated.");
+        Holder.TickGroupUnsuspend(this);
+    }
+
+
+    public override void Tick(TickContext ctx)
+    {
+        // float delta = ctx.AnyDelta;
+        // GD.Print("AudioPlayProgress tick.");
+        float timePlayed = PlayPause.Player.GetPlaybackPosition();
+        LabelAsPlayedTime.Text = GetLabelTimeFormat(timePlayed);
+        HSliderAsProgress.Value = timePlayed / TimeTotal * 100f;
+    }
+
+    public void ResetProgress(AudioStream stream)
+    {
+        LabelAsPlayedTime.Text = GetLabelTimeFormat(0.0f);
+        TimeTotal = (float)stream.GetLength();
+        LabelAsTotalTime.Text = GetLabelTimeFormat(TimeTotal);
+    }
+
+    protected static string GetLabelTimeFormat(float second)
+    {
+        string res;
+        var totalTime = TimeSpan.FromSeconds(second);
+        if (totalTime.Hours == 0)
+        {
+            res = totalTime.ToString(@"mm\:ss");
+        }
+        else
+        {
+            res = totalTime.ToString(@"hh\:mm\:ss");
+        }
+        return res;
+    }
 }

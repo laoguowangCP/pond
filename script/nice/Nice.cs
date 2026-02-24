@@ -10,6 +10,8 @@ namespace LGWCP.NiceGD;
 public class Nice
 {
     public const int TickOscillatorSuspend = -1000;
+    public const int TickOscillatorIdle = -1;
+
     public static readonly Nice I = new();
     public Dictionary<Type, InverseIndexList<RegistIndexable>> ComponentsRegisted;
     // public Dictionary<Type, InverseIndexList<RegistIndexable>> ComponentsRegisted;
@@ -17,6 +19,7 @@ public class Nice
     public InverseIndexList<IComponent>[] ComponentsTickGlobal;
     protected PooledQueue<(IComponent, IComponent)> TickAfterComponents = new();
     // protected Queue<(IComponent, IComponent)> TickAfterComponents = new();
+    public TickGroupEnum TickingTickGroup = TickGroupEnum.Idle;
 
     private Nice()
     {
@@ -32,16 +35,42 @@ public class Nice
 
     public void AddTickGroupGlobal(IComponent comp)
     {
-        int tickGroupIdx = comp.TickGroup - TickGroupEnum.GlobalGroupOffset;
-        comp.TickOscillator = OscillatorsTickGlobal[tickGroupIdx];
-        ComponentsTickGlobal[tickGroupIdx].TryAdd(comp);
+        if (comp.TickGroup != TickingTickGroup)
+        {
+            AddTickGroupGlobalMayDefered();
+        }
+        else
+        {
+            // Group is ticking, defered add
+            Callable.From(AddTickGroupGlobalMayDefered).CallDeferred();
+        }
+
+        void AddTickGroupGlobalMayDefered()
+        {
+            int tickGroupIdx = comp.TickGroup - TickGroupEnum.GlobalGroupOffset;
+            comp.TickOscillator = OscillatorsTickGlobal[tickGroupIdx];
+            ComponentsTickGlobal[tickGroupIdx].TryAdd(comp);
+        }
     }
 
-    public void RemoveTickGroupGlobal(IComponent comp)
+    public void RemoveTickGroupGlobal(IComponent comp, int tickOscillator = Nice.TickOscillatorIdle)
     {
-        int tickGroupIdx = comp.TickGroup - TickGroupEnum.GlobalGroupOffset;
-        comp.TickOscillator = -1;
-        ComponentsTickGlobal[tickGroupIdx].TryRemove(comp);
+        if (comp.TickGroup != TickingTickGroup)
+        {
+            RemoveTickGroupGlobalMayDefered();
+        }
+        else
+        {
+            // Group is ticking, defered add
+            Callable.From(RemoveTickGroupGlobalMayDefered).CallDeferred();
+        }
+
+        void RemoveTickGroupGlobalMayDefered()
+        {
+            int tickGroupIdx = comp.TickGroup - TickGroupEnum.GlobalGroupOffset;
+            comp.TickOscillator = tickOscillator;
+            ComponentsTickGlobal[tickGroupIdx].TryRemove(comp);
+        }
     }
 
     public void Regist(IComponent comp)
@@ -131,6 +160,7 @@ public class Nice
     // Copy paste from component holder
     protected void DoCheckAndTick(TickGroupEnum tickGroup, From from)
     {
+        TickingTickGroup = tickGroup;
         int tickGroupIdx = tickGroup - TickGroupEnum.GlobalGroupOffset;
         int tickOscillator = OscillatorsTickGlobal[tickGroupIdx] == 1 ? 0 : 1;
         OscillatorsTickGlobal[tickGroupIdx] = tickOscillator;
@@ -138,9 +168,9 @@ public class Nice
 
         foreach (var comp in comps)
         {
-            if (TryTickAfter(comp, out var wait, tickOscillator))
+            if (TryTickAfter(comp, out var waitee, tickOscillator))
             {
-                TickAfterComponents.Enqueue((comp, wait));
+                TickAfterComponents.Enqueue((comp, waitee));
             }
             else
             {
@@ -188,9 +218,10 @@ public class Nice
                 }
             }
         }
+        TickingTickGroup = TickGroupEnum.Idle;
     }
     
-    protected bool TryTickAfter(IComponent comp, out IComponent wait, int tickOscillator)
+    protected bool TryTickAfter(IComponent comp, out IComponent waitee, int tickOscillator)
     {
         var tryTickAfterWaits = comp.TryTickAfterWaits;
         int tryIdx = comp.TryTickAfterWaitsIdx;
@@ -199,17 +230,19 @@ public class Nice
             for (; tryIdx < tryTickAfterWaits.Count; ++tryIdx)
             {
                 var idxab = tryTickAfterWaits[tryIdx];
-                // if (!idxab.Wait.IsTicked)
-                if (!(idxab.Wait.TickOscillator == tickOscillator))
+                int waitTickOscillator = idxab.Waitee.TickOscillator;
+                // If not suspended nor idle and not ticked
+                if (waitTickOscillator >= 0
+                    && waitTickOscillator != tickOscillator)
                 {
-                    wait = idxab.Wait;
+                    waitee = idxab.Waitee;
                     comp.TryTickAfterWaitsIdx = tryIdx; // Give back idx
                     return true;
                 }
             }
             tryIdx = 0;
         }
-        wait = null;
+        waitee = null;
         comp.TryTickAfterWaitsIdx = tryIdx; // Give back idx
         return false;
     }

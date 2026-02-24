@@ -9,5 +9,6 @@ public enum TagEnum: int
     InitBlockedTag, // Initial blocked tags
     StickerDragging,
     ShowDragArea,
+    SoundStickerAudioPlaying,
     TagCount
 }

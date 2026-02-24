@@ -34,6 +34,7 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
     // public readonly Dictionary<Type, IComponent> KVComponents;
     public readonly int[] OscillatorsTickLocal;
     public readonly InverseIndexList<IComponent>[] ComponentsTickLocal;
+    public TickGroupEnum TickingTickGroup = TickGroupEnum.Idle;
     public PooledDictionary<TagEnum, InverseIndexList<TagIndexable>> KVTagIdxabs;
     // public readonly Dictionary<TagEnum, InverseIndexList<TagIndexable>> KVTagIdxabs;
     protected bool IsEntityReady = false;
@@ -328,9 +329,15 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
         if (tickGroup < TickGroupEnum.LowerCheckLocalGroup)
         {
             // Add local group
-            comp.TickOscillator = OscillatorsTickLocal[(int)tickGroup];
-            ComponentsTickLocal[(int)tickGroup].TryAdd(comp);
-            CheckGroupEmptyAndSetActivity(tickGroup);
+            if (TickingTickGroup != tickGroup)
+            {
+                AddTickGroupMayDefered();
+            }
+            else
+            {
+                // Group is ticking, defered add
+                Callable.From(AddTickGroupMayDefered).CallDeferred();
+            }
         }
         else if (tickGroup > TickGroupEnum.LowerCheckLocalGroup
             && tickGroup < TickGroupEnum.LowerCheckGlobalGroup)
@@ -338,23 +345,43 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
             // Add global group
             Nice.I.AddTickGroupGlobal(comp);
         }
+
+        void AddTickGroupMayDefered()
+        {
+            comp.TickOscillator = OscillatorsTickLocal[(int)tickGroup];
+            ComponentsTickLocal[(int)tickGroup].TryAdd(comp);
+            CheckGroupEmptyAndSetActivity(tickGroup);
+        }
     }
 
-    protected void RemoveTickGroup(IComponent comp)
+    protected void RemoveTickGroup(IComponent comp, int tickOscillator = Nice.TickOscillatorIdle)
     {
         var tickGroup = comp.TickGroup;
         if (tickGroup < TickGroupEnum.LowerCheckLocalGroup)
         {
             // Remove local group
-            comp.TickOscillator = -1;
-            ComponentsTickLocal[(int)tickGroup].TryRemove(comp);
-            CheckGroupEmptyAndSetActivity(tickGroup);
+            if (TickingTickGroup != tickGroup)
+            {
+                RemoveTickGroupMayDefered();
+            }
+            else
+            {
+                // Group is ticking, defered remove
+                Callable.From(RemoveTickGroupMayDefered).CallDeferred();
+            }
         }
         else if (tickGroup > TickGroupEnum.LowerCheckLocalGroup
             && tickGroup < TickGroupEnum.LowerCheckGlobalGroup)
         {
             // Remove global group
-            Nice.I.RemoveTickGroupGlobal(comp);
+            Nice.I.RemoveTickGroupGlobal(comp, tickOscillator);
+        }
+
+        void RemoveTickGroupMayDefered()
+        {
+            comp.TickOscillator = tickOscillator;
+            ComponentsTickLocal[(int)tickGroup].TryRemove(comp);
+            CheckGroupEmptyAndSetActivity(tickGroup);
         }
     }
 
@@ -469,10 +496,11 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
 
     public void Block(IComponent comp)
     {
+        // GD.Print("Block ", comp.ComponentType);
         ++comp.BlockCount;
         // Handle none tick component
-        if ((comp.TickGroup == TickGroupEnum.None || comp.TickOscillator == Nice.TickOscillatorSuspend)
-            && comp.BlockCount == 1)
+        if (comp.BlockCount == 1
+            && (comp.TickGroup == TickGroupEnum.None || comp.TickOscillator == Nice.TickOscillatorSuspend))
         {
             // comp.IsBlocked = true;
             comp.OnDeactivated();
@@ -481,9 +509,13 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
 
     public void Unblock(IComponent comp)
     {
+        // GD.Print("Unblock ", comp.ComponentType);
         --comp.BlockCount;
-        if ((comp.TickGroup == TickGroupEnum.None || comp.TickOscillator == Nice.TickOscillatorSuspend)
-            && comp.BlockCount == 0)
+        // GD.Print("- ", comp.BlockCount);
+        // GD.Print("- ", comp.TickGroup);
+        // GD.Print("- ", comp.TickOscillator);
+        if (comp.BlockCount == 0
+            && (comp.TickGroup == TickGroupEnum.None || comp.TickOscillator == Nice.TickOscillatorSuspend))
         {
             // comp.IsBlocked = false;
             comp.OnActivated();
@@ -657,6 +689,7 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
 
     protected void DoCheckAndTick(TickGroupEnum tickGroup)
     {
+        TickingTickGroup = tickGroup;
         int tickGroupIdx = (int)tickGroup;
         int tickOscillator = OscillatorsTickLocal[tickGroupIdx] == 1 ? 0 : 1;
         OscillatorsTickLocal[tickGroupIdx] = tickOscillator;
@@ -714,6 +747,7 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
                 }
             }
         }
+        TickingTickGroup = TickGroupEnum.Idle;
     }
     
     protected bool TryTickAfter(IComponent comp, out IComponent wait, int tickOscillator)
@@ -726,13 +760,12 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
             {
                 var idxab = tryTickAfterWaits[tryIdx];
                 // if (!idxab.Wait.IsTicked)
-                int waitTickOscillator = idxab.Wait.TickOscillator;
-
-                // If not suspended and not ticked
-                if (waitTickOscillator != Nice.TickOscillatorSuspend
+                int waitTickOscillator = idxab.Waitee.TickOscillator;
+                // If not suspended nor idle and not ticked
+                if (waitTickOscillator >= 0
                     && waitTickOscillator != tickOscillator)
                 {
-                    wait = idxab.Wait;
+                    wait = idxab.Waitee;
                     comp.TryTickAfterWaitsIdx = tryIdx; // Give back idx
                     return true;
                 }
@@ -789,12 +822,13 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
     /// Suspend component, move out tick group.\n
     /// OnActivated/OnDeactivated callback will be triggered once unblocked/blocked, as tick group none do.
     /// </summary>
-    public void ComponentTickGroupSuspend(IComponent comp)
+    public void TickGroupSuspend(IComponent comp)
     {
-        if (comp.Holder == this && comp.TickGroup != TickGroupEnum.None)
+        if (comp.Holder == this
+            && comp.TickGroup != TickGroupEnum.None
+            && comp.TickOscillator != Nice.TickOscillatorSuspend)
         {
-            RemoveTickGroup(comp);
-            comp.TickOscillator = Nice.TickOscillatorSuspend;
+            RemoveTickGroup(comp, Nice.TickOscillatorSuspend);
         }
         else
         {
@@ -805,9 +839,11 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
     /// <summary>
     /// Unsuspend component, back to tick group.
     /// </summary>
-    public void ComponentTickGroupUnsuspend(IComponent comp)
+    public void TickGroupUnsuspend(IComponent comp)
     {
-        if (comp.Holder == this && comp.TickGroup != TickGroupEnum.None)
+        if (comp.Holder == this
+            && comp.TickGroup != TickGroupEnum.None
+            && comp.TickOscillator == Nice.TickOscillatorSuspend)
         {
             AddTickGroup(comp);
         }

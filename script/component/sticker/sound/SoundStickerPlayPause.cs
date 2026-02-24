@@ -39,6 +39,7 @@ public partial class SoundStickerPlayPause : ComponentResource
     {
         Player.StreamPaused = false;
         BtnHintPaused();
+        Holder.BlockByTag(TagEnum.SoundStickerAudioPlaying);
     }
 
     protected void OnPlayPausePressed()
@@ -47,6 +48,7 @@ public partial class SoundStickerPlayPause : ComponentResource
         {
             Player.StreamPaused = true;
             BtnHintPaused();
+            Holder.BlockByTag(TagEnum.SoundStickerAudioPlaying);
         }
         else
         {
@@ -59,6 +61,7 @@ public partial class SoundStickerPlayPause : ComponentResource
                 Player.Play();
             }
             BtnHintPlaying();
+            Holder.UnblockByTag(TagEnum.SoundStickerAudioPlaying);
         }
     }
 
@@ -70,11 +73,11 @@ public partial class SoundStickerPlayPause : ComponentResource
 
     protected void BtnHintPlaying()
     {
-        BtnAsPlayPause.Text = "⏸";
+        BtnAsPlayPause.Text = "II";
     }
 
     protected void BtnHintPaused()
     {
-        BtnAsPlayPause.Text = "▶";
+        BtnAsPlayPause.Text = "I>";
     }
 }

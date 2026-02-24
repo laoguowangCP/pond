@@ -51,7 +51,7 @@ public partial class AudioInfoLabel : ComponentResource
         string ext = Path.GetExtension(file);
         TimeSpan length = TimeSpan.FromSeconds(stream.GetLength());
         ImageInfo.Add(name);
-        ImageInfo.Add(length.ToString(@"d\.hh\:mm\:ss\.fff") + " " + ext);
+        ImageInfo.Add(length.ToString(@"hh\:mm\:ss\.ff") + " " + ext);
         Label.Text = ImageInfo[ShowInfoIdx];
         Label.TooltipText = ImageInfo[ShowInfoIdx];
     }

@@ -49,5 +49,10 @@ public partial class SoundStickerLoadAudio : ComponentResource
         {
             audioInfoLabel.UpdateInfo(file, stream);
         }
+
+        if (Holder.TryGetComponent<AudioPlayProgress>(out var audioPlayProgress))
+        {
+            audioPlayProgress.ResetProgress(stream);
+        }
     }
 }
