@@ -22,24 +22,27 @@ public partial class PhotoStickerDoDragDrop : ComponentResource
         TextureRect.GuiInput += OnGuiInput;
     }
 
-    private void OnGuiInput(InputEvent @event)
+    protected void OnGuiInput(InputEvent @event)
     {
-        // GD.Print(@event.AsText());
-        if (Input.IsActionJustPressed("ctrl_mouse_left"))
+        using (@event)
         {
-            Holder.TryGetComponent<StickerPhotoLoadImage>(out var loadImage);
-            GD.Print(loadImage.ImageFile);
-            DragDropUtil.StartDragDrop(loadImage.ImageFile);
-        }
-        /*
-        if (@event is InputEventMouseButton mouseButton)
-        {
-            if (mouseButton.ButtonIndex == MouseButton.Left && mouseButton.Pressed)
+            // GD.Print(@event.AsText());
+            if (Input.IsActionJustPressed("ctrl_mouse_left"))
             {
                 Holder.TryGetComponent<StickerPhotoLoadImage>(out var loadImage);
                 GD.Print(loadImage.ImageFile);
                 DragDropUtil.StartDragDrop(loadImage.ImageFile);
             }
-        }*/
+            /*
+            if (@event is InputEventMouseButton mouseButton)
+            {
+                if (mouseButton.ButtonIndex == MouseButton.Left && mouseButton.Pressed)
+                {
+                    Holder.TryGetComponent<StickerPhotoLoadImage>(out var loadImage);
+                    GD.Print(loadImage.ImageFile);
+                    DragDropUtil.StartDragDrop(loadImage.ImageFile);
+                }
+            }*/
+        }
     }
 }

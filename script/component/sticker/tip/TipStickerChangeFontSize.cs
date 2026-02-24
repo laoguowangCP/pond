@@ -49,13 +49,16 @@ public partial class TipStickerChangeFontSize : ComponentResource
 
     protected void OnGuiInput(InputEvent @event)
     {
-        if (Input.IsActionJustPressed(SN_CtrlScrollUp))
+        using (@event)
         {
-            ChangeFontSize(1);
-        }
-        else if (Input.IsActionJustPressed(SN_CtrlScrollDown))
-        {
-            ChangeFontSize(-1);
+            if (Input.IsActionJustPressed(SN_CtrlScrollUp))
+            {
+                ChangeFontSize(1);
+            }
+            else if (Input.IsActionJustPressed(SN_CtrlScrollDown))
+            {
+                ChangeFontSize(-1);
+            }
         }
     }
 

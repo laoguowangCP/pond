@@ -100,41 +100,44 @@ public partial class BtnAsDragHandle : ComponentResource
 
     public void OnGuiInput(InputEvent @event)
     {
-        // GD.Print(Entity.GetPath(), ": OnGuiInput");
-        // Change node order
-        if (Input.IsActionJustPressed(SN_MouseLeft))
+        using (@event)
         {
-            if (Nice.I.TryGetRegistedComponentFirst<HandleStickerInSceneTree>(out var HandleStickerInSceneTree))
+            // GD.Print(Entity.GetPath(), ": OnGuiInput");
+            // Change node order
+            if (Input.IsActionJustPressed(SN_MouseLeft))
             {
-                HandleStickerInSceneTree.StickerMoveToTop(Entity);
+                if (Nice.I.TryGetRegistedComponentFirst<HandleStickerInSceneTree>(out var HandleStickerInSceneTree))
+                {
+                    HandleStickerInSceneTree.StickerMoveToTop(Entity);
+                }
             }
-        }
-        else if (Input.IsActionJustPressed(SN_MouseRight))
-        {
-            if (Nice.I.TryGetRegistedComponentFirst<HandleStickerInSceneTree>(out var HandleStickerInSceneTree))
+            else if (Input.IsActionJustPressed(SN_MouseRight))
             {
-                HandleStickerInSceneTree.StickerMoveToBottom(Entity);
+                if (Nice.I.TryGetRegistedComponentFirst<HandleStickerInSceneTree>(out var HandleStickerInSceneTree))
+                {
+                    HandleStickerInSceneTree.StickerMoveToBottom(Entity);
+                }
             }
-        }
 
-        if (CheckDragging())
-        {
-            // Update entity pos
-            Vector2 mousePos = Entity.GetGlobalMousePosition();
-            if (Nice.I.TryGetRegistedComponentFirst<DragArea>(out var dragArea))
+            if (CheckDragging())
             {
-                var mousePosNext = dragArea.GetGlobalPositionSoftRegulated(Entity.GlobalPosition - DragBeginDisplacement, mousePos);
-                Entity.GlobalPosition = mousePosNext + DragBeginDisplacement;
+                // Update entity pos
+                Vector2 mousePos = Entity.GetGlobalMousePosition();
+                if (Nice.I.TryGetRegistedComponentFirst<DragArea>(out var dragArea))
+                {
+                    var mousePosNext = dragArea.GetGlobalPositionSoftRegulated(Entity.GlobalPosition - DragBeginDisplacement, mousePos);
+                    Entity.GlobalPosition = mousePosNext + DragBeginDisplacement;
+                }
             }
-        }
 
-        /*
-        bool isHovered = HandleBtn.IsHovered();
-        if (isHovered != IsCursorDrag)
-        {
-            IsCursorDrag = isHovered;
-            DisplayServer.CursorSetShape(IsCursorDrag ? DisplayServer.CursorShape.Drag : DisplayServer.CursorShape.Arrow);
-        }*/
+            /*
+            bool isHovered = HandleBtn.IsHovered();
+            if (isHovered != IsCursorDrag)
+            {
+                IsCursorDrag = isHovered;
+                DisplayServer.CursorSetShape(IsCursorDrag ? DisplayServer.CursorShape.Drag : DisplayServer.CursorShape.Arrow);
+            }*/
+        }
     }
 
     /*

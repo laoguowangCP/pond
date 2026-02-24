@@ -88,22 +88,25 @@ public partial class BtnAsResizeHandleDownLeft : ComponentResource
 
     public void OnGuiInput(InputEvent @event)
     {
-        // GD.Print(Entity.GetPath(), ": OnGuiInput");
-        if (CheckDragging())
+        using (@event)
         {
-            // Update entity control size, also gonna change the pos
-            Vector2 mousePos = Entity.GetGlobalMousePosition();
-            if (Nice.I.TryGetRegistedComponentFirst<DragArea>(out var dragArea))
+            // GD.Print(Entity.GetPath(), ": OnGuiInput");
+            if (CheckDragging())
             {
-                mousePos = dragArea.GetGlobalPositionSoftRegulated(PrevMousePos, mousePos);
-                PrevMousePos = mousePos;
+                // Update entity control size, also gonna change the pos
+                Vector2 mousePos = Entity.GetGlobalMousePosition();
+                if (Nice.I.TryGetRegistedComponentFirst<DragArea>(out var dragArea))
+                {
+                    mousePos = dragArea.GetGlobalPositionSoftRegulated(PrevMousePos, mousePos);
+                    PrevMousePos = mousePos;
+                }
+                Vector2 size = new Vector2(
+                    (-mousePos + DragBeginPos + DragBeginEntitySize).X,
+                    (mousePos - DragBeginPos + DragBeginEntitySize).Y);
+                Vector2 nextSize = size.Clamp(SizeClamp.MinSize, SizeClamp.MaxSize);
+                EntityControl.Size = nextSize;
+                Entity.GlobalPosition = new Vector2(DragBeginEntityPos.X - (nextSize.X - DragBeginEntitySize.X), DragBeginEntityPos.Y);
             }
-            Vector2 size = new Vector2(
-                (-mousePos + DragBeginPos + DragBeginEntitySize).X,
-                (mousePos - DragBeginPos + DragBeginEntitySize).Y);
-            Vector2 nextSize = size.Clamp(SizeClamp.MinSize, SizeClamp.MaxSize);
-            EntityControl.Size = nextSize;
-            Entity.GlobalPosition = new Vector2(DragBeginEntityPos.X - (nextSize.X - DragBeginEntitySize.X), DragBeginEntityPos.Y);
         }
     }
 

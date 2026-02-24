@@ -72,38 +72,41 @@ public partial class BtnAsDragCreateTip : ComponentResource
 
     protected void OnGuiInput(InputEvent @event)
     {
-        if (IsTryCreateNewTip)
+        using (@event)
         {
-            Vector2 mousePos = Entity.GetGlobalMousePosition();
-            if (DragArea.CheckAvailableDragArea(mousePos)) // create tip
+            if (IsTryCreateNewTip)
             {
-                // 1. Create tip sticker
-                if (!Holder.TryGetComponent<StickerBuilder>(out var stickerBuilder)
-                    || !Holder.TryGetComponent<HandleStickerInSceneTree>(out var handleStickerInSceneTree))
+                Vector2 mousePos = Entity.GetGlobalMousePosition();
+                if (DragArea.CheckAvailableDragArea(mousePos)) // create tip
                 {
-                    return;
+                    // 1. Create tip sticker
+                    if (!Holder.TryGetComponent<StickerBuilder>(out var stickerBuilder)
+                        || !Holder.TryGetComponent<HandleStickerInSceneTree>(out var handleStickerInSceneTree))
+                    {
+                        return;
+                    }
+                    stickerBuilder.BuildStickerTip(null, out var tip);
+                    // handleStickerInSceneTree.AddSticker(tip);
+
+                    // 1.5. Let sticker follow mouse
+                    tip.TryGetComponent<StickerControlSize>(out var stickerControlSize);
+                    DragBeginDisplacement = new Vector2(stickerControlSize.Size.X / 2f, 0f);
+                    tip.GlobalPosition = mousePos - DragBeginDisplacement;
+
+                    // 2. Hide drag out hint
+
+                    // 3. Hint dragging mode
+                    IsDraggingNewTip = true;
+                    TipDragging = tip;
+
+                    IsTryCreateNewTip = false;
                 }
-                stickerBuilder.BuildStickerTip(null, out var tip);
-                // handleStickerInSceneTree.AddSticker(tip);
-
-                // 1.5. Let sticker follow mouse
-                tip.TryGetComponent<StickerControlSize>(out var stickerControlSize);
-                DragBeginDisplacement = new Vector2(stickerControlSize.Size.X / 2f, 0f);
-                tip.GlobalPosition = mousePos - DragBeginDisplacement;
-
-                // 2. Hide drag out hint
-
-                // 3. Hint dragging mode
-                IsDraggingNewTip = true;
-                TipDragging = tip;
-
-                IsTryCreateNewTip = false;
             }
-        }
-        else if (IsDraggingNewTip)
-        {
-            Vector2 mousePos = Entity.GetGlobalMousePosition();
-            TipDragging.GlobalPosition = DragArea.GetGlobalPositionRegulated(mousePos) - DragBeginDisplacement;
+            else if (IsDraggingNewTip)
+            {
+                Vector2 mousePos = Entity.GetGlobalMousePosition();
+                TipDragging.GlobalPosition = DragArea.GetGlobalPositionRegulated(mousePos) - DragBeginDisplacement;
+            }
         }
     }
 

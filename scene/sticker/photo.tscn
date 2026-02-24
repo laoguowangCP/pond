@@ -110,6 +110,7 @@ Component15 = SubResource("Resource_tmo60")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 
 [node name="Photo" type="Node2D" unique_id=30088802]
+z_as_relative = false
 
 [node name="ComponentHolder" type="Node" parent="." unique_id=731807094]
 script = ExtResource("1_menoa")

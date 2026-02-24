@@ -36,10 +36,12 @@ public partial class ImageInfoLabel : ComponentResource
 
     protected void OnGuiInput(InputEvent @event)
     {
-        GD.Print("ImageInfoLabel gui input.");
-        if (Input.IsActionJustPressed(SN_MouseLeft))
+        using (@event)
         {
-            ScrollInfo();
+            if (Input.IsActionJustPressed(SN_MouseLeft))
+            {
+                ScrollInfo();
+            }
         }
     }
 

@@ -4,6 +4,7 @@
 [ext_resource type="Theme" uid="uid://liol3f3pxqvr" path="res://theme/main_theme.tres" id="2_eh7wa"]
 [ext_resource type="Script" uid="uid://b2xcb4nsxu6qc" path="res://script/component/sticker/handle/BtnAsDragHandle.cs" id="2_u4jpa"]
 [ext_resource type="Script" uid="uid://de6f22o20s6ba" path="res://script/nice/component_res_ext/ComponentResExt16X.cs" id="3_asvi8"]
+[ext_resource type="Script" uid="uid://blmc34v7jwftc" path="res://script/component/sticker/OnStickerRemove.cs" id="3_etknf"]
 [ext_resource type="Script" uid="uid://7a0b3t17qkuf" path="res://script/component/sticker/handle/DragEndOnFocusExited.cs" id="6_710ii"]
 [ext_resource type="Script" uid="uid://bhyfofm1vvfy6" path="res://script/component/sticker/sound/SoundStickerLoadAudio.cs" id="6_l00rh"]
 [ext_resource type="Script" uid="uid://b8kopg4feu7j1" path="res://script/component/sticker/sound/SoundStickerPlayPause.cs" id="7_23lgj"]
@@ -17,6 +18,11 @@
 resource_local_to_scene = true
 script = ExtResource("2_u4jpa")
 metadata/_custom_type_script = "uid://b2xcb4nsxu6qc"
+
+[sub_resource type="Resource" id="Resource_pkdt8"]
+resource_local_to_scene = true
+script = ExtResource("3_etknf")
+metadata/_custom_type_script = "uid://blmc34v7jwftc"
 
 [sub_resource type="Resource" id="Resource_fl8q5"]
 resource_local_to_scene = true
@@ -63,6 +69,7 @@ metadata/_custom_type_script = "uid://bo8uw0h2t47u7"
 resource_local_to_scene = true
 script = ExtResource("3_asvi8")
 Component00 = SubResource("Resource_5hqom")
+Component01 = SubResource("Resource_pkdt8")
 Component04 = SubResource("Resource_fl8q5")
 Component06 = SubResource("Resource_etknf")
 Component07 = SubResource("Resource_lwtut")
@@ -74,6 +81,7 @@ Component15 = SubResource("Resource_oqc2b")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 
 [node name="Sound" type="Node2D" unique_id=564811543]
+z_as_relative = false
 
 [node name="ComponentHolder" type="Node" parent="." unique_id=1893612537]
 script = ExtResource("1_i2hgf")

@@ -92,7 +92,7 @@ public partial class StickerBuilder : ComponentResource
         sticker = TipStickerScene.Instantiate<Node2D>();
         HandleSticker.AddSticker(sticker);
 
-        if (!string.IsNullOrEmpty(text) && sticker.TryGetComponent<StickerTipTextCtrl>(out var textCtrl))
+        if (sticker.TryGetComponent<StickerTipTextCtrl>(out var textCtrl))
         {
             textCtrl.LoadText(text);
         }

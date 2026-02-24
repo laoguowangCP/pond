@@ -86,15 +86,17 @@ public partial class BackgroundClipboardPaste : ComponentResource
         Window window = Entity.GetWindow();
         // window.SetImePosition(new Vector2I((int)mousePos.X, (int)mousePos.Y));
         */
-
-        if (Input.IsActionJustReleased(SN_UiPaste))
-        // if (Input.IsActionJustReleased(SN_UiPaste)
-        //     && MousePressedLock)
+        using(@event)
         {
-            // GD.Print("> Background ui paste with mouse pressed.");
-            // GD.Print(DisplayServer.ClipboardGet());
-            // Start paste from clip board
-            OnClipboardRead();
+            if (Input.IsActionJustReleased(SN_UiPaste))
+            // if (Input.IsActionJustReleased(SN_UiPaste)
+            //     && MousePressedLock)
+            {
+                // GD.Print("> Background ui paste with mouse pressed.");
+                // GD.Print(DisplayServer.ClipboardGet());
+                // Start paste from clip board
+                OnClipboardRead();
+            }
         }
     }
 

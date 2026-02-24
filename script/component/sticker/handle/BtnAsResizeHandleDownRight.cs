@@ -88,18 +88,21 @@ public partial class BtnAsResizeHandleDownRight : ComponentResource
 
     public void OnGuiInput(InputEvent @event)
     {
-        // GD.Print(Entity.GetPath(), ": OnGuiInput");
-        if (CheckDragging())
+        using (@event)
         {
-            // Update entity control size
-            Vector2 mousePos = Entity.GetGlobalMousePosition();
-            if (Nice.I.TryGetRegistedComponentFirst<DragArea>(out var dragArea))
+            // GD.Print(Entity.GetPath(), ": OnGuiInput");
+            if (CheckDragging())
             {
-                mousePos = dragArea.GetGlobalPositionSoftRegulated(PrevMousePos, mousePos);
-                PrevMousePos = mousePos;
+                // Update entity control size
+                Vector2 mousePos = Entity.GetGlobalMousePosition();
+                if (Nice.I.TryGetRegistedComponentFirst<DragArea>(out var dragArea))
+                {
+                    mousePos = dragArea.GetGlobalPositionSoftRegulated(PrevMousePos, mousePos);
+                    PrevMousePos = mousePos;
+                }
+                Vector2 size = mousePos - DragBeginPos + DragBeginSize;
+                EntityControl.Size = size.Clamp(SizeClamp.MinSize, SizeClamp.MaxSize);
             }
-            Vector2 size = mousePos - DragBeginPos + DragBeginSize;
-            EntityControl.Size = size.Clamp(SizeClamp.MinSize, SizeClamp.MaxSize);
         }
     }
 

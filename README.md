@@ -61,4 +61,5 @@ An app to put anything on your desktop.
     - [x] 挂载桌面时，获取并使用正确的屏幕窗口位置，防止副屏在左上侧时的问题。
     - [x] 防止每次切换embed会让窗口积累偏移（切换无边框会略微改变窗口大小，但是不再有累积偏移）
     - [x] 窗口最大化下，切换无边框模式有问题。因此禁用窗口最大化（
-
+- [ ] 减少 ui drawcall 需要怎么做？尝试把ui改为不透明
+- [ ] GuiInput 回调产生大量 object ，使用 using 处理 OnGuiInput 输入事件，使其正确 dispose 。

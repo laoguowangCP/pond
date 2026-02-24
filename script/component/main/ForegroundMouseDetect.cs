@@ -53,7 +53,7 @@ public partial class ForegroundMouseDetect : ComponentResource
     public override void Tick(TickContext ctx)
     {
         // GD.Print("Fg input: ", BlockCount);
-        InputEvent @event = ctx.AnyInput;
+        // InputEvent @event = ctx.AnyInput;
         // if (@event is InputEventMouseMotion)
         {
             Vector2 mousePos = Entity.GetGlobalMousePosition();
