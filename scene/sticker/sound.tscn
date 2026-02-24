@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://b2xcb4nsxu6qc" path="res://script/component/sticker/handle/BtnAsDragHandle.cs" id="2_u4jpa"]
 [ext_resource type="Script" uid="uid://de6f22o20s6ba" path="res://script/nice/component_res_ext/ComponentResExt16X.cs" id="3_asvi8"]
 [ext_resource type="Script" uid="uid://blmc34v7jwftc" path="res://script/component/sticker/OnStickerRemove.cs" id="3_etknf"]
+[ext_resource type="Script" uid="uid://d2fwpj3e54nny" path="res://script/component/sticker/sound/SoundStickerRemoveDeleteFile.cs" id="4_lwtut"]
 [ext_resource type="Script" uid="uid://7a0b3t17qkuf" path="res://script/component/sticker/handle/DragEndOnFocusExited.cs" id="6_710ii"]
 [ext_resource type="Script" uid="uid://bhyfofm1vvfy6" path="res://script/component/sticker/sound/SoundStickerLoadAudio.cs" id="6_l00rh"]
 [ext_resource type="Script" uid="uid://b8kopg4feu7j1" path="res://script/component/sticker/sound/SoundStickerPlayPause.cs" id="7_23lgj"]
@@ -23,6 +24,11 @@ metadata/_custom_type_script = "uid://b2xcb4nsxu6qc"
 resource_local_to_scene = true
 script = ExtResource("3_etknf")
 metadata/_custom_type_script = "uid://blmc34v7jwftc"
+
+[sub_resource type="Resource" id="Resource_3kltg"]
+resource_local_to_scene = true
+script = ExtResource("4_lwtut")
+metadata/_custom_type_script = "uid://d2fwpj3e54nny"
 
 [sub_resource type="Resource" id="Resource_fl8q5"]
 resource_local_to_scene = true
@@ -70,6 +76,7 @@ resource_local_to_scene = true
 script = ExtResource("3_asvi8")
 Component00 = SubResource("Resource_5hqom")
 Component01 = SubResource("Resource_pkdt8")
+Component02 = SubResource("Resource_3kltg")
 Component04 = SubResource("Resource_fl8q5")
 Component06 = SubResource("Resource_etknf")
 Component07 = SubResource("Resource_lwtut")

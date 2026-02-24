@@ -17,6 +17,6 @@ public partial class OnStickerRemove : ComponentResource
 
     public void Trigger()
     {
-        StickerRemove.Invoke();
+        StickerRemove?.Invoke();
     }
 }

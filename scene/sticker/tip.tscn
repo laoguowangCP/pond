@@ -80,7 +80,7 @@ metadata/_custom_type_script = "uid://blmc34v7jwftc"
 [sub_resource type="Resource" id="Resource_uychi"]
 resource_local_to_scene = true
 script = ExtResource("4_be7s3")
-MinSize = Vector2(128, 128)
+MinSize = Vector2(128, 64)
 metadata/_custom_type_script = "uid://bo8uw0h2t47u7"
 
 [sub_resource type="Resource" id="Resource_y7nij"]
