@@ -62,7 +62,7 @@ public partial class AudioPlayProgress : ComponentResource
     public override void OnActivated()
     {
         GD.Print("AudioPlayProgress OnActivated, block count: ", BlockCount);
-        GD.Print(System.Environment.StackTrace);
+        // GD.Print(System.Environment.StackTrace);
         Holder.TickGroupUnsuspend(this);
     }
 

@@ -22,6 +22,8 @@ public partial class SoundStickerPlayPause : ComponentResource
     // Used when not played, store seek position for next play.
     protected float NextSeekPosition = 0f;
 
+    public bool IsLoopMode { get; protected set; } = false;
+
     public override bool OnHolderTryAdd(ComponentHolder holder)
     {
         Holder = holder;
@@ -47,9 +49,16 @@ public partial class SoundStickerPlayPause : ComponentResource
 
     protected void OnPlayerFinished()
     {
-        Player.StreamPaused = false;
-        BtnHintPaused();
-        Holder.BlockByTag(TagEnum.SoundStickerAudioPlaying);
+        if (!IsLoopMode)
+        {
+            Player.StreamPaused = false;
+            BtnHintPaused();
+            Holder.BlockByTag(TagEnum.SoundStickerAudioPlaying);
+        }
+        else
+        {
+            Player.Play();
+        }
     }
 
     protected void OnPlayPausePressed()
@@ -104,7 +113,7 @@ public partial class SoundStickerPlayPause : ComponentResource
     {
         /*
         1. Playing:
-            - If approx to max, stop
+            - If approx to max, stop (or loop mode restart)
             - Else seek
         2. Paused or stop
             - If approx to max, play(0)
@@ -117,9 +126,16 @@ public partial class SoundStickerPlayPause : ComponentResource
             // If too approx to max, handle as stop
             if (isApproxMaxHint)
             {
-                Player.Stop();
-                BtnHintPaused();
-                Holder.BlockByTag(TagEnum.SoundStickerAudioPlaying);
+                if (!IsLoopMode)
+                {
+                    Player.Stop();
+                    BtnHintPaused();
+                    Holder.BlockByTag(TagEnum.SoundStickerAudioPlaying);
+                }
+                else
+                {
+                     Player.Play();
+                }
             }
             else
             {
@@ -131,5 +147,10 @@ public partial class SoundStickerPlayPause : ComponentResource
             // Not playing, store seek position for next play.
             NextSeekPosition = isApproxMaxHint ? 0.0f : t;
         }
+    }
+
+    public void SwitchLoopMode()
+    {
+        IsLoopMode = ! IsLoopMode;
     }
 }

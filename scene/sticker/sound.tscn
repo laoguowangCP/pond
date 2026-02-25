@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://cqq73eytb5xa7" path="res://script/component/sticker/sound/AudioPlayProgress.cs" id="5_oqc2b"]
 [ext_resource type="Script" uid="uid://7a0b3t17qkuf" path="res://script/component/sticker/handle/DragEndOnFocusExited.cs" id="6_710ii"]
 [ext_resource type="Script" uid="uid://bhyfofm1vvfy6" path="res://script/component/sticker/sound/SoundStickerLoadAudio.cs" id="6_l00rh"]
+[ext_resource type="Script" uid="uid://cspqwhftn8pix" path="res://script/component/sticker/sound/SoundStickerSwitchLoopMode.cs" id="7_4gv70"]
 [ext_resource type="Script" uid="uid://b8kopg4feu7j1" path="res://script/component/sticker/sound/SoundStickerPlayPause.cs" id="7_23lgj"]
 [ext_resource type="Script" uid="uid://dtbo6p3yyu7qa" path="res://script/component/main/KeepInDragAreaOnWindowSizeChanged.cs" id="7_fl8q5"]
 [ext_resource type="Script" uid="uid://bdap5qtxhkrew" path="res://script/component/sticker/sound/AudioInfoLabel.cs" id="8_23lgj"]
@@ -40,6 +41,11 @@ metadata/_custom_type_script = "uid://cqq73eytb5xa7"
 resource_local_to_scene = true
 script = ExtResource("6_710ii")
 metadata/_custom_type_script = "uid://7a0b3t17qkuf"
+
+[sub_resource type="Resource" id="Resource_pwakl"]
+resource_local_to_scene = true
+script = ExtResource("7_4gv70")
+metadata/_custom_type_script = "uid://cspqwhftn8pix"
 
 [sub_resource type="Resource" id="Resource_etknf"]
 resource_local_to_scene = true
@@ -85,6 +91,7 @@ Component01 = SubResource("Resource_pkdt8")
 Component02 = SubResource("Resource_3kltg")
 Component03 = SubResource("Resource_r8505")
 Component04 = SubResource("Resource_fl8q5")
+Component05 = SubResource("Resource_pwakl")
 Component06 = SubResource("Resource_etknf")
 Component07 = SubResource("Resource_lwtut")
 Component08 = SubResource("Resource_x3438")
@@ -148,7 +155,7 @@ horizontal_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
-tooltip_text = "??:??"
+mouse_default_cursor_shape = 2
 scrollable = false
 
 [node name="TotalTimeLabel" type="Label" parent="EntityControl/PanelContainer/VBoxContainer/SliderHBoxContainer" unique_id=255914185]
@@ -163,21 +170,20 @@ layout_mode = 2
 alignment = 1
 
 [node name="BtnLeft" type="Button" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer" unique_id=300570090]
-custom_minimum_size = Vector2(32, 32)
+custom_minimum_size = Vector2(36, 36)
 layout_mode = 2
 mouse_default_cursor_shape = 2
-text = "∞"
+theme_override_font_sizes/font_size = 18
 
 [node name="BtnAsPlayPause" type="Button" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer" unique_id=253503143]
-custom_minimum_size = Vector2(48, 32)
+custom_minimum_size = Vector2(64, 36)
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 24
 text = "I>"
-icon_alignment = 1
 
 [node name="BtnRight" type="Button" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer" unique_id=859588259]
-custom_minimum_size = Vector2(32, 32)
+custom_minimum_size = Vector2(36, 36)
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 14

@@ -293,6 +293,21 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
         return false;
     }
 
+    public T GetComponent<T>()
+    {
+        if (KVComponents.TryGetValue(typeof(T), out var value))
+        {
+            return (T)value;
+        }
+        else
+        {
+#if DEBUG
+            GD.PushWarning(GetPath(), ": component <", typeof(T), "> is expected but not exist.");
+#endif
+            return default;
+        }
+    }
+
     public bool TryGetComponent<T>(out T comp)
         where T : IComponent
     {
@@ -301,14 +316,14 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
             comp = (T)value;
             return true;
         }
-
+/*
 #if DEBUG
         else
         {
             GD.PushWarning(GetPath(), ": component <", typeof(T), "> is expected but not exist.");
         }
 #endif
-
+*/
         comp = default;
         return false;
     }
