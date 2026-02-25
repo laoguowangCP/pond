@@ -148,6 +148,7 @@ horizontal_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
+tooltip_text = "??:??"
 scrollable = false
 
 [node name="TotalTimeLabel" type="Label" parent="EntityControl/PanelContainer/VBoxContainer/SliderHBoxContainer" unique_id=255914185]
@@ -171,6 +172,8 @@ text = "∞"
 custom_minimum_size = Vector2(48, 32)
 layout_mode = 2
 mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 24
+text = "I>"
 icon_alignment = 1
 
 [node name="BtnRight" type="Button" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer" unique_id=859588259]

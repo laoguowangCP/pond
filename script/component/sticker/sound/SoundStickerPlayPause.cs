@@ -19,6 +19,9 @@ public partial class SoundStickerPlayPause : ComponentResource
     protected static readonly NodePath NP_BtnAsPlayPause = "./EntityControl/PanelContainer/VBoxContainer/HBoxContainer/BtnAsPlayPause";
     protected Button BtnAsPlayPause;
 
+    // Used when not played, store seek position for next play.
+    protected float NextSeekPosition = 0f;
+
     public override bool OnHolderTryAdd(ComponentHolder holder)
     {
         Holder = holder;
@@ -28,6 +31,13 @@ public partial class SoundStickerPlayPause : ComponentResource
         BtnAsPlayPause.ButtonUp += OnPlayPausePressed;
         Player.Finished += OnPlayerFinished;
         return true;
+    }
+
+    public override bool OnHolderTryRemove()
+    {
+        BtnAsPlayPause.ButtonUp -= OnPlayPausePressed;
+        Player.Finished -= OnPlayerFinished;
+        return base.OnHolderTryRemove();
     }
 
     public override void OnEntityReady()
@@ -50,25 +60,34 @@ public partial class SoundStickerPlayPause : ComponentResource
             BtnHintPaused();
             Holder.BlockByTag(TagEnum.SoundStickerAudioPlaying);
         }
-        else
+        else // Not playing
         {
-            if (Player.StreamPaused == true)
+            if (Player.StreamPaused == true) // Paused
             {
-                Player.StreamPaused = false;
+                if (NextSeekPosition >= 0f) // Resume but position changed
+                {
+                    Player.Play(NextSeekPosition);
+                }
+                else // Resume no change
+                {
+                    Player.StreamPaused = false; 
+                }
             }
-            else
+            else // Idle
             {
-                Player.Play();
+                if (NextSeekPosition >= 0f) // Play from seek
+                {
+                    Player.Play(NextSeekPosition);
+                }
+                else // Play from start
+                {
+                    Player.Play();
+                }
             }
+            NextSeekPosition = -1f;
             BtnHintPlaying();
             Holder.UnblockByTag(TagEnum.SoundStickerAudioPlaying);
         }
-    }
-
-    public override bool OnHolderTryRemove()
-    {
-
-        return base.OnHolderTryRemove();
     }
 
     protected void BtnHintPlaying()
@@ -79,5 +98,38 @@ public partial class SoundStickerPlayPause : ComponentResource
     protected void BtnHintPaused()
     {
         BtnAsPlayPause.Text = "I>";
+    }
+
+    public void StreamPlayerSeek(float t)
+    {
+        /*
+        1. Playing:
+            - If approx to max, stop
+            - Else seek
+        2. Paused or stop
+            - If approx to max, play(0)
+            - Else play(t)
+        */
+        float totalTime = (float)Player.Stream.GetLength();
+        bool isApproxMaxHint = MathF.Abs(totalTime - t) / totalTime <= 0.005f;
+        if (Player.Playing)
+        {
+            // If too approx to max, handle as stop
+            if (isApproxMaxHint)
+            {
+                Player.Stop();
+                BtnHintPaused();
+                Holder.BlockByTag(TagEnum.SoundStickerAudioPlaying);
+            }
+            else
+            {
+                Player.Seek(t);
+            }
+        }
+        else
+        {
+            // Not playing, store seek position for next play.
+            NextSeekPosition = isApproxMaxHint ? 0.0f : t;
+        }
     }
 }

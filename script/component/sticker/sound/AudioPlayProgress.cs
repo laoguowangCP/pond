@@ -25,6 +25,8 @@ public partial class AudioPlayProgress : ComponentResource
 
     protected float TimeTotal;
 
+    protected bool IsSliderDragging = false;
+
 
     public override bool OnHolderTryAdd(ComponentHolder holder)
     {
@@ -40,7 +42,10 @@ public partial class AudioPlayProgress : ComponentResource
     public override void OnEntityReady()
     {
         Holder.TryGetComponent<SoundStickerPlayPause>(out PlayPause);
-        // HSlider.
+        
+        HSliderAsProgress.DragStarted += OnSliderDragStarted;
+        HSliderAsProgress.DragEnded += OnSliderDragEnded;
+        HSliderAsProgress.ValueChanged += OnSliderValueChanged;
     }
 
     public override bool OnHolderTryRemove()
@@ -50,14 +55,42 @@ public partial class AudioPlayProgress : ComponentResource
 
     public override void OnDeactivated()
     {
-        GD.Print("AudioPlayProgress OnDeactivated.");
+        GD.Print("AudioPlayProgress OnDeactivated, block count: ", BlockCount);
         Holder.TickGroupSuspend(this);
     }
 
     public override void OnActivated()
     {
-        GD.Print("AudioPlayProgress OnActivated.");
+        GD.Print("AudioPlayProgress OnActivated, block count: ", BlockCount);
+        GD.Print(System.Environment.StackTrace);
         Holder.TickGroupUnsuspend(this);
+    }
+
+    protected void OnSliderDragStarted()
+    {
+        IsSliderDragging = true;
+    }
+
+    protected void OnSliderDragEnded(bool valueChanged)
+    {
+        IsSliderDragging = false;
+        if (valueChanged)
+        {
+            float t = (float)(HSliderAsProgress.Value * TimeTotal / HSliderAsProgress.MaxValue);
+            t = Math.Clamp(t, 0.0f, TimeTotal);
+            PlayPause.StreamPlayerSeek(t);
+        }
+        // GD.Print("Slider value changed: ", valueChanged, ", ", HSliderAsProgress.Value);
+    }
+
+    protected void OnSliderValueChanged(double value)
+    {
+        if (!IsSliderDragging)
+        {
+            return;
+        }
+        float t = (float)(value * TimeTotal / HSliderAsProgress.MaxValue);
+        LabelAsPlayedTime.Text = GetLabelTimeFormat(t);
     }
 
 
@@ -65,9 +98,17 @@ public partial class AudioPlayProgress : ComponentResource
     {
         // float delta = ctx.AnyDelta;
         // GD.Print("AudioPlayProgress tick.");
-        float timePlayed = PlayPause.Player.GetPlaybackPosition();
-        LabelAsPlayedTime.Text = GetLabelTimeFormat(timePlayed);
-        HSliderAsProgress.Value = timePlayed / TimeTotal * 100f;
+        if (!IsSliderDragging && PlayPause.Player.Playing)
+        {
+            // Slider not dragging, update value.
+            float timePlayed = PlayPause.Player.GetPlaybackPosition();
+            LabelAsPlayedTime.Text = GetLabelTimeFormat(timePlayed);
+            HSliderAsProgress.SetValueNoSignal(timePlayed * 100f / TimeTotal);
+        }
+        else
+        {
+            // Slider grabber is dragging
+        }
     }
 
     public void ResetProgress(AudioStream stream)

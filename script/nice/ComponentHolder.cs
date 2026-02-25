@@ -503,6 +503,7 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
             && (comp.TickGroup == TickGroupEnum.None || comp.TickOscillator == Nice.TickOscillatorSuspend))
         {
             // comp.IsBlocked = true;
+            comp.IsActivated = false;
             comp.OnDeactivated();
         }
     }
@@ -518,6 +519,7 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
             && (comp.TickGroup == TickGroupEnum.None || comp.TickOscillator == Nice.TickOscillatorSuspend))
         {
             // comp.IsBlocked = false;
+            comp.IsActivated = true;
             comp.OnActivated();
         }
 #if DEBUG
