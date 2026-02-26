@@ -70,12 +70,12 @@ public partial class BtnAsChangeVolume : ComponentResource
         VolumeDb = volumeDb;
         if (isVolumeAdjust)
         {
-            Button.TooltipText = $"Volume adjust on";
+            Button.TooltipText = "Volume adjust on\n- Mouse middle: toggle volume adjust\n- Mouse left: volume up\n- Mouse right: volume down";
             PlayPause.Player.VolumeDb = VolumeDb;
         }
         else
         {
-            Button.TooltipText = "volume adjust off";
+            Button.TooltipText = "volume adjust off\n- Mouse middle: toggle volume adjust\n- Mouse left: volume up\n- Mouse right: volume down";
             PlayPause.Player.VolumeDb = 0f;
         }
         if (VolumeDb >= 0f)
