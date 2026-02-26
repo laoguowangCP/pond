@@ -22,7 +22,7 @@ public partial class SoundStickerPlayPause : ComponentResource
     // Used when not played, store seek position for next play.
     protected float NextSeekPosition = 0f;
 
-    public bool IsLoopMode { get; protected set; } = false;
+    public bool IsLoopMode = false;
 
     public override bool OnHolderTryAdd(ComponentHolder holder)
     {
@@ -147,10 +147,5 @@ public partial class SoundStickerPlayPause : ComponentResource
             // Not playing, store seek position for next play.
             NextSeekPosition = isApproxMaxHint ? 0.0f : t;
         }
-    }
-
-    public void SwitchLoopMode()
-    {
-        IsLoopMode = ! IsLoopMode;
     }
 }

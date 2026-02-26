@@ -9,13 +9,14 @@
 [ext_resource type="Script" uid="uid://cqq73eytb5xa7" path="res://script/component/sticker/sound/AudioPlayProgress.cs" id="5_oqc2b"]
 [ext_resource type="Script" uid="uid://7a0b3t17qkuf" path="res://script/component/sticker/handle/DragEndOnFocusExited.cs" id="6_710ii"]
 [ext_resource type="Script" uid="uid://bhyfofm1vvfy6" path="res://script/component/sticker/sound/SoundStickerLoadAudio.cs" id="6_l00rh"]
-[ext_resource type="Script" uid="uid://cspqwhftn8pix" path="res://script/component/sticker/sound/SoundStickerSwitchLoopMode.cs" id="7_4gv70"]
+[ext_resource type="Script" uid="uid://cspqwhftn8pix" path="res://script/component/sticker/sound/BtnAsSwitchLoopMode.cs" id="7_4gv70"]
 [ext_resource type="Script" uid="uid://b8kopg4feu7j1" path="res://script/component/sticker/sound/SoundStickerPlayPause.cs" id="7_23lgj"]
 [ext_resource type="Script" uid="uid://dtbo6p3yyu7qa" path="res://script/component/main/KeepInDragAreaOnWindowSizeChanged.cs" id="7_fl8q5"]
 [ext_resource type="Script" uid="uid://bdap5qtxhkrew" path="res://script/component/sticker/sound/AudioInfoLabel.cs" id="8_23lgj"]
 [ext_resource type="Script" uid="uid://bcxdwbyi3cxlm" path="res://script/component/sticker/StickerControlSize.cs" id="8_l00rh"]
 [ext_resource type="Script" uid="uid://bo8uw0h2t47u7" path="res://script/component/sticker/EntityControlSizeClamp.cs" id="9_23lgj"]
 [ext_resource type="Script" uid="uid://bru1fwv6gho6j" path="res://script/component/sticker/sound/SaveStickerSoundComponent.cs" id="9_x3438"]
+[ext_resource type="Script" uid="uid://bn0pvpb57e7lo" path="res://script/component/sticker/sound/BtnAsChangeVolume.cs" id="14_h6mgm"]
 
 [sub_resource type="Resource" id="Resource_5hqom"]
 resource_local_to_scene = true
@@ -77,6 +78,11 @@ resource_local_to_scene = true
 script = ExtResource("9_x3438")
 metadata/_custom_type_script = "uid://bru1fwv6gho6j"
 
+[sub_resource type="Resource" id="Resource_mdq4s"]
+resource_local_to_scene = true
+script = ExtResource("14_h6mgm")
+metadata/_custom_type_script = "uid://bn0pvpb57e7lo"
+
 [sub_resource type="Resource" id="Resource_oqc2b"]
 resource_local_to_scene = true
 script = ExtResource("9_23lgj")
@@ -98,6 +104,7 @@ Component08 = SubResource("Resource_x3438")
 Component09 = SubResource("Resource_4gv70")
 Component10 = SubResource("Resource_h6mgm")
 Component11 = SubResource("Resource_isdu6")
+Component12 = SubResource("Resource_mdq4s")
 Component15 = SubResource("Resource_oqc2b")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 
@@ -165,15 +172,22 @@ theme_override_font_sizes/font_size = 10
 text = "00:00"
 horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="EntityControl/PanelContainer/VBoxContainer" unique_id=1296012516]
+[node name="HBoxContainer" type="HBoxContainer" parent="EntityControl/PanelContainer/VBoxContainer" unique_id=126045215]
 layout_mode = 2
 alignment = 1
 
-[node name="BtnLeft" type="Button" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer" unique_id=300570090]
-custom_minimum_size = Vector2(36, 36)
+[node name="Left" type="HBoxContainer" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer" unique_id=376228020]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="BtnLeft" type="Button" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer/Left" unique_id=300570090]
+custom_minimum_size = Vector2(48, 36)
 layout_mode = 2
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 24
+toggle_mode = true
+text = "∞"
 
 [node name="BtnAsPlayPause" type="Button" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer" unique_id=253503143]
 custom_minimum_size = Vector2(64, 36)
@@ -182,11 +196,65 @@ mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 24
 text = "I>"
 
-[node name="BtnRight" type="Button" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer" unique_id=859588259]
-custom_minimum_size = Vector2(36, 36)
+[node name="Right" type="HBoxContainer" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer" unique_id=817423101]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BtnVolumeUp" type="Button" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer/Right" unique_id=101853864]
+visible = false
+custom_minimum_size = Vector2(24, 16)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 14
+text = "+"
+
+[node name="VolumeChange" type="Button" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer/Right" unique_id=815141782]
+custom_minimum_size = Vector2(48, 36)
 layout_mode = 2
 mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 12
+toggle_mode = true
+button_mask = 0
+text = "+0db"
+
+[node name="BtnVolumeDown" type="Button" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer/Right" unique_id=1416478369]
+visible = false
+custom_minimum_size = Vector2(24, 16)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_override_font_sizes/font_size = 14
-text = "/\\"
+text = "-"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer/Right" unique_id=1296654198]
+visible = false
+layout_mode = 2
+alignment = 1
+
+[node name="BtnVolumeUp" type="Button" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer/Right/VBoxContainer" unique_id=927948129]
+visible = false
+custom_minimum_size = Vector2(16, 8)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 4
+text = "+"
+
+[node name="BtnVolumeDown" type="Button" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer/Right/VBoxContainer" unique_id=1790526164]
+visible = false
+custom_minimum_size = Vector2(16, 8)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 4
+text = "-"
+
+[node name="HSlider" type="HSlider" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer/Right" unique_id=1773223438]
+visible = false
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1238287388]

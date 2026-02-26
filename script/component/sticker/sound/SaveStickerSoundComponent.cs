@@ -26,6 +26,16 @@ public partial class SaveStickerSoundComponent : ComponentResource
             {
                 soundSave.AudioFile = loadAudio.AudioFile;
             }
+            if (Holder.TryGetComponent<SoundStickerPlayPause>(out var playPause))
+            {
+                soundSave.TimePlayed = playPause.Player.GetPlaybackPosition();
+                soundSave.IsLoopMode = playPause.IsLoopMode;
+            }
+            if (Holder.TryGetComponent<BtnAsChangeVolume>(out var changeVolume))
+            {
+                soundSave.IsVolumeAdjust = changeVolume.IsVolumeAdjust;
+                soundSave.VolumeDb = changeVolume.VolumeDb;
+            }
             save.TryAddListChildrenWithIdx(entity.GetIndex(), soundSave);
         }
     }
@@ -39,6 +49,18 @@ public partial class SaveStickerSoundComponent : ComponentResource
         if (Holder.TryGetComponent<SoundStickerLoadAudio>(out var loadAudio))
         {
             loadAudio.LoadFromFile(save.AudioFile);
+        }
+        if (Holder.TryGetComponent<AudioPlayProgress>(out var audioPlayProgress))
+        {
+            audioPlayProgress.SetProgressInitial(save.TimePlayed);
+        }
+        if (Holder.TryGetComponent<BtnAsSwitchLoopMode>(out var loopMode))
+        {
+            loopMode.SetLoopModeInitial(save.IsLoopMode);
+        }
+        if (Holder.TryGetComponent<BtnAsChangeVolume>(out var changeVolume))
+        {
+            changeVolume.SetVolumeAdjustInitial(save.IsVolumeAdjust, save.VolumeDb);
         }
     }
 }

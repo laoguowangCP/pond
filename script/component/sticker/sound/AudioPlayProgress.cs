@@ -79,6 +79,7 @@ public partial class AudioPlayProgress : ComponentResource
             float t = (float)(HSliderAsProgress.Value * TimeTotal / HSliderAsProgress.MaxValue);
             t = Math.Clamp(t, 0.0f, TimeTotal);
             PlayPause.StreamPlayerSeek(t);
+            LabelAsPlayedTime.Text = GetLabelTimeFormat(t);
         }
         // GD.Print("Slider value changed: ", valueChanged, ", ", HSliderAsProgress.Value);
     }
@@ -116,6 +117,13 @@ public partial class AudioPlayProgress : ComponentResource
         LabelAsPlayedTime.Text = GetLabelTimeFormat(0.0f);
         TimeTotal = (float)stream.GetLength();
         LabelAsTotalTime.Text = GetLabelTimeFormat(TimeTotal);
+    }
+
+    public void SetProgressInitial(float timePlayed)
+    {
+        LabelAsPlayedTime.Text = GetLabelTimeFormat(timePlayed);
+        HSliderAsProgress.SetValueNoSignal(timePlayed * 100f / TimeTotal);
+        PlayPause.StreamPlayerSeek(timePlayed);
     }
 
     protected static string GetLabelTimeFormat(float second)

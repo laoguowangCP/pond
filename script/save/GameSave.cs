@@ -110,4 +110,9 @@ public class SaveStickerSound : SaveSticker
 {
     public SaveStickerSound(bool isLeaf = true) {}
     public string AudioFile;
+
+    public float TimePlayed;
+    public bool IsLoopMode;
+    public bool IsVolumeAdjust;
+    public float VolumeDb;
 }
