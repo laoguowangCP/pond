@@ -25,10 +25,10 @@ public class Nice
     {
         ComponentsRegisted = new();
         OscillatorsTickGlobal = new int[(int)TickGroupEnum.GlobalGroupCount];
+        Array.Fill<int>(OscillatorsTickGlobal, 0);
         ComponentsTickGlobal = new InverseIndexList<IComponent>[(int)TickGroupEnum.GlobalGroupCount];
         for (int i = 0; i < ComponentsTickGlobal.Length; ++i)
         {
-            OscillatorsTickGlobal[i] = 0;
             ComponentsTickGlobal[i] = new();
         }
     }
@@ -230,12 +230,12 @@ public class Nice
             for (; tryIdx < tryTickAfterWaits.Count; ++tryIdx)
             {
                 var idxab = tryTickAfterWaits[tryIdx];
-                int waitTickOscillator = idxab.Waitee.TickOscillator;
+                int waitTickOscillator = idxab.Wait.TickOscillator;
                 // If not suspended nor idle and not ticked
                 if (waitTickOscillator >= 0
                     && waitTickOscillator != tickOscillator)
                 {
-                    waitee = idxab.Waitee;
+                    waitee = idxab.Wait;
                     comp.TryTickAfterWaitsIdx = tryIdx; // Give back idx
                     return true;
                 }

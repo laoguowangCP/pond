@@ -6,6 +6,7 @@ using LGWCP.Util.Collecty;
 using LGWCP.Extension;
 using System.Linq;
 using GodotTask;
+using System.Text;
 
 namespace LGWCP.NiceGD;
 
@@ -50,15 +51,19 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
     public int InverseIndex { get; set; } = -1;
     public InverseIndexList<ComponentHolder> InverseIndexList { get; set; }
 
+    protected readonly bool[] IsTickOrderStable;
+    protected int TickOrderSwapBudget = 8;
 
     public ComponentHolder()
     {
         KVComponents = new();
+        IsTickOrderStable = new bool[(int)TickGroupEnum.LocalGroupCount];
+        Array.Fill<bool>(IsTickOrderStable, false);
         OscillatorsTickLocal = new int[(int)TickGroupEnum.LocalGroupCount];
+        Array.Fill<int>(OscillatorsTickLocal, 0);
         ComponentsTickLocal = new InverseIndexList<IComponent>[(int)TickGroupEnum.LocalGroupCount];
         for (int i = 0; i < ComponentsTickLocal.Length; ++i)
         {
-            OscillatorsTickLocal[i] = 0;
             ComponentsTickLocal[i] = new();
         }
 
@@ -353,6 +358,7 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
                 // Group is ticking, defered add
                 Callable.From(AddTickGroupMayDefered).CallDeferred();
             }
+            IsTickOrderStable[(int)tickGroup] = false;
         }
         else if (tickGroup > TickGroupEnum.LowerCheckLocalGroup
             && tickGroup < TickGroupEnum.LowerCheckGlobalGroup)
@@ -597,7 +603,11 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
         }
     }
 
-    // Comp should tick after T
+    /// <summary>
+    /// Comp should tick after T in this holder.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="comp"></param>
     public void ShouldTickAfter<T>(IComponent comp)
         where T : IComponent
     {
@@ -607,7 +617,11 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
         }
     }
 
-    // Comp should tick before T
+    /// <summary>
+    /// Comp should tick before T in this holder.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="comp"></param>
     public void ShouldTickBefore<T>(IComponent comp)
         where T : IComponent
     {
@@ -628,22 +642,16 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
         }
 
         TryTickAfterIndexable idxab = new(from, wait);
-        if (from.TryTickAfterWaits == null)
-        {
-            from.TryTickAfterWaits = new();
-        }
+        from.TryTickAfterWaits ??= new();
         from.TryTickAfterWaits.TryAdd(idxab);
 
-        if (wait.TryTickAfterFroms == null)
-        {
-            wait.TryTickAfterFroms = new();
-        }
+        wait.TryTickAfterFroms ??= new();
         wait.TryTickAfterFroms.Add(idxab);
     }
 
     protected void ClearTickOrders(IComponent comp)
     {
-        // Don't wait me anymore
+        // Don't wait comp anymore
         var tryTickAfterFroms = comp.TryTickAfterFroms;
         if (tryTickAfterFroms != null)
         {
@@ -712,55 +720,85 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
         OscillatorsTickLocal[tickGroupIdx] = tickOscillator;
         var comps = ComponentsTickLocal[tickGroupIdx];
 
-        foreach (var comp in comps)
+        if (IsTickOrderStable[tickGroupIdx])
         {
-            if (TryTickAfter(comp, out var wait, tickOscillator))
-            {
-                TickAfterComponents.Enqueue((comp, wait));
-            }
-            else
+            foreach (var comp in comps)
             {
                 HandleBlockStateTickStateAndDoTick(comp, tickOscillator);
+            }
+        }
+        else // Tick order not stable, should test tick order
+        {
+            foreach (var comp in comps)
+            {
+                if (TryTickAfter(comp, out var wait, tickOscillator))
+                {
+                    TickAfterComponents.Enqueue((comp, wait));
+                }
+                else
+                {
+                    HandleBlockStateTickStateAndDoTick(comp, tickOscillator);
+                }
             }
         }
 
         // Handle components trying to wait the other.
         int remainCnt = TickAfterComponents.Count;
-        int iterCnt = 0;
-        while (remainCnt > 0)
+        if (remainCnt == 0)
         {
-            // Detect cyclic wait
-            if (iterCnt == remainCnt) // Cyclic
+            IsTickOrderStable[tickGroupIdx] = true;
+        }
+        else // Handle tick order
+        {
+            int iterCnt = 0;
+            int swapBudget = TickOrderSwapBudget;
+            while (remainCnt > 0)
             {
-#if DEBUG
-                var (cyclicCompTryWait, cyclicCompBeWaited) = TickAfterComponents.Peek();
-                GD.PushWarning(this.GetPath(), ": cyclic component try tick after, ", cyclicCompTryWait.ComponentType, " is waiting ", cyclicCompBeWaited.ComponentType);
-#endif
-                // Tick ignoring order.
-                while (TickAfterComponents.TryDequeue(out var compPair))
+                // Detect cyclic wait
+                if (iterCnt != remainCnt) // No cyclic
                 {
-                    var (comp, _) = compPair;
-                    HandleBlockStateTickStateAndDoTick(comp, tickOscillator);
+                    var (comp, wait) = TickAfterComponents.Dequeue();
+                    // Swap
+                    if (swapBudget > 0)
+                    {
+                        comps.TrySwap(comp, wait);
+                        --swapBudget;
+                    }
+                    if (TryTickAfter(comp, out var waitNext, tickOscillator))
+                    {
+                        // Still wait
+                        TickAfterComponents.Enqueue((comp, waitNext));
+                        ++iterCnt;
+                    }
+                    else
+                    {
+                        HandleBlockStateTickStateAndDoTick(comp, tickOscillator);
+                        // Reset iter count.
+                        iterCnt = 0;
+                        --remainCnt;
+                    }
                 }
-                break;
-            }
-            else // No cyclic
-            {
-                var (comp, wait) = TickAfterComponents.Dequeue();
-                // Swap
-                comps.TrySwap(comp, wait);
-                if (TryTickAfter(comp, out var waitNext, tickOscillator))
+                else // Cyclic
                 {
-                    // Still wait
-                    TickAfterComponents.Enqueue((comp, waitNext));
-                    ++iterCnt;
-                }
-                else
-                {
-                    HandleBlockStateTickStateAndDoTick(comp, tickOscillator);
-                    // Reset iter count.
-                    iterCnt = 0;
-                    --remainCnt;
+    #if DEBUG
+                    StringBuilder cyclicWarningBuilder = new();
+                    cyclicWarningBuilder
+                        .Append(this.GetPath())
+                        .Append(": cyclic component try tick after:\n");
+                    foreach (var (cyclicFrom, cyclicWait) in TickAfterComponents)
+                    {
+                        cyclicWarningBuilder
+                            .Append("- [{cyclicFrom.ComponentType}] waits [{cyclicWait.ComponentType}]");
+                    }
+                    GD.PushWarning(cyclicWarningBuilder.ToString());
+    #endif
+                    // Tick ignoring order.
+                    while (TickAfterComponents.TryDequeue(out var compPair))
+                    {
+                        var (comp, _) = compPair;
+                        HandleBlockStateTickStateAndDoTick(comp, tickOscillator);
+                    }
+                    break;
                 }
             }
         }
@@ -777,12 +815,12 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
             {
                 var idxab = tryTickAfterWaits[tryIdx];
                 // if (!idxab.Wait.IsTicked)
-                int waitTickOscillator = idxab.Waitee.TickOscillator;
+                int waitTickOscillator = idxab.Wait.TickOscillator;
                 // If not suspended nor idle and not ticked
                 if (waitTickOscillator >= 0
                     && waitTickOscillator != tickOscillator)
                 {
-                    wait = idxab.Waitee;
+                    wait = idxab.Wait;
                     comp.TryTickAfterWaitsIdx = tryIdx; // Give back idx
                     return true;
                 }

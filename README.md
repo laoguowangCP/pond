@@ -45,7 +45,7 @@ An app to put anything on your desktop.
     - [ ] 音乐名称文字跑马灯marquee，播放、hover时滚动显示完整歌曲名称。
     - [x] 提供一些小信息，长度、格式（和歌曲名放在一个标签里，点击切换）
     - [x] 切换循环播放。
-    - [ ] 存档保存音频路径、播放进度、音量。
+    - [x] 存档保存音频路径、播放进度、音量。
     - [ ] 互斥播放：正常状态下，只能有一个音乐便签可以播放声音？
     - [ ] 窗口失去焦点或控件失去焦点就停止播放？
     - [ ] BGM锁定：可以把音频锁定为背景音乐，离开窗口焦点也能持续播放，不会被其他音频打断（但是会暂时静音？）
@@ -64,8 +64,8 @@ An app to put anything on your desktop.
     - [x] 挂载桌面时，获取并使用正确的屏幕窗口位置，防止副屏在左上侧时的问题。
     - [x] 防止每次切换embed会让窗口积累偏移（切换无边框会略微改变窗口大小，但是不再有累积偏移）
     - [x] 窗口最大化下，切换无边框模式有问题。因此禁用窗口最大化（
-- [ ] 减少 ui drawcall 需要怎么做？尝试把ui改为不透明
-- [ ] GuiInput 回调产生大量 object ，使用 using 处理 OnGuiInput 输入事件，使其正确 dispose 。
-- [ ] ComponentHolder tick order 注册阶段提前（或单独拿出一个回调函数），使 ready 阶段可以保持顺序。存储所有 tick order （一个全局字典），用于动态添加、删除组件时的排序。
+- [ ] 减少 ui drawcall 需要怎么做？虽然也不怎么卡。尝试把ui改为不透明？
+- [x] GuiInput 回调产生大量 object ，使用 using 处理 OnGuiInput 输入事件，使其正确 dispose 。
+- [ ] ComponentHolder tick order 注册阶段提前（或单独拿出一个回调函数），使 ready 阶段可以保持顺序。存储所有 tick order （一个全局字典），用于动态添加、删除组件时的排序。或许不是必要的？
 - [ ] ComponentHolder 遍历排序优化：达到稳定状态后不再执行排序测试。增加、删除、挂起组件破坏稳定状态。
 

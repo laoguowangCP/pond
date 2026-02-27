@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 using Godot;
 
@@ -41,9 +42,17 @@ public class SaveNodeBase : ISaveNode
     public bool TryAddListChildrenWithIdx(int idx, ISaveNode saveNode)
     {
         // Expand list
-        if (ListChildren.Count <= idx)
+        int requireCnt = idx + 1;
+        if (ListChildren.Count < requireCnt)
         {
-            ListChildren.AddRange(Enumerable.Repeat<ISaveNode>(null, idx - ListChildren.Count + 1));
+            /*
+            if (ListChildren.Capacity < requireCnt)
+            {
+                ListChildren.Capacity = requireCnt;
+            }
+            ListChildren.AddRange(Enumerable.Repeat<ISaveNode>(null, requireCnt - ListChildren.Count));
+            */
+            CollectionsMarshal.SetCount<ISaveNode>(ListChildren, requireCnt);
         }
 
         if (ListChildren[idx] == null)
