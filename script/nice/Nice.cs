@@ -10,6 +10,7 @@ namespace LGWCP.NiceGD;
 public class Nice
 {
     public const int TickOscillatorSuspend = -1000;
+    public const int TickOscillatorDeferedUnsuspend = -999;
     public const int TickOscillatorIdle = -1;
 
     public static readonly Nice I = new();
@@ -33,19 +34,20 @@ public class Nice
         }
     }
 
-    public void AddTickGroupGlobal(IComponent comp)
+    public void AddTickGroupGlobal(IComponent comp, bool isUnsuspend = false)
     {
         if (comp.TickGroup != TickingTickGroup)
         {
-            AddTickGroupGlobalMayDefered();
+            AddTickGroupGlobalMayDeferedPart();
         }
         else
         {
             // Group is ticking, defered add
-            Callable.From(AddTickGroupGlobalMayDefered).CallDeferred();
+            comp.TickOscillator = isUnsuspend ? Nice.TickOscillatorDeferedUnsuspend : Nice.TickOscillatorIdle;
+            Callable.From(AddTickGroupGlobalMayDeferedPart).CallDeferred();
         }
 
-        void AddTickGroupGlobalMayDefered()
+        void AddTickGroupGlobalMayDeferedPart()
         {
             int tickGroupIdx = comp.TickGroup - TickGroupEnum.GlobalGroupOffset;
             comp.TickOscillator = OscillatorsTickGlobal[tickGroupIdx];
@@ -53,22 +55,22 @@ public class Nice
         }
     }
 
-    public void RemoveTickGroupGlobal(IComponent comp, int tickOscillator = Nice.TickOscillatorIdle)
+    public void RemoveTickGroupGlobal(IComponent comp, bool isSuspend)
     {
+        comp.TickOscillator = isSuspend ? Nice.TickOscillatorSuspend : Nice.TickOscillatorIdle;
         if (comp.TickGroup != TickingTickGroup)
         {
-            RemoveTickGroupGlobalMayDefered();
+            RemoveTickGroupGlobalMayDeferedPart();
         }
         else
         {
             // Group is ticking, defered add
-            Callable.From(RemoveTickGroupGlobalMayDefered).CallDeferred();
+            Callable.From(RemoveTickGroupGlobalMayDeferedPart).CallDeferred();
         }
 
-        void RemoveTickGroupGlobalMayDefered()
+        void RemoveTickGroupGlobalMayDeferedPart()
         {
             int tickGroupIdx = comp.TickGroup - TickGroupEnum.GlobalGroupOffset;
-            comp.TickOscillator = tickOscillator;
             ComponentsTickGlobal[tickGroupIdx].TryRemove(comp);
         }
     }

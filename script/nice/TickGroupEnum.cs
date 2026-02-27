@@ -2,7 +2,7 @@ namespace LGWCP.NiceGD;
 
 public enum TickGroupEnum: int
 {
-    Idle = -1000, // Component holder is idle, not ticking any group.
+    Idle = -100, // Component holder is idle, not ticking any group.
 
     // -------- Node tick --------
     Process = 0,
