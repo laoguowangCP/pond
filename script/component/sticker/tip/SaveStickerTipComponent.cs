@@ -13,7 +13,7 @@ public partial class SaveStickerTipComponent : ComponentResource
     public override TickGroupEnum TickGroup => TickGroupEnum.Save;
     public override bool IsRegist => false;
 
-    protected static NodePath NP_TextEdit = new("./EntityControl/TextEdit");
+    protected static NodePath NP_TextEdit = "./EntityControl/PanelContainer/VBoxContainer/TextEdit";
     protected TextEdit TextEdit;
     protected TipStickerChangeFontSize ChangeFontSize;
 

@@ -13,9 +13,9 @@ public partial class TipStickerUpdateUri : ComponentResource
     public override Type ComponentType => typeof(TipStickerUpdateUri);
     public override TickGroupEnum TickGroup => TickGroupEnum.None;
     public override bool IsRegist => false;
-    protected static readonly NodePath NP_UriBtn = "./EntityControl/LinkButton";
+    protected static readonly NodePath NP_UriBtn = "./EntityControl/PanelContainer/VBoxContainer/LinkButton";
     protected Button UriBtn;
-    protected static NodePath NP_TextEdit = "./EntityControl/TextEdit";
+    protected static NodePath NP_TextEdit = "./EntityControl/PanelContainer/VBoxContainer/TextEdit";
     protected TextEdit TextEdit;
     protected string UriStr;
 

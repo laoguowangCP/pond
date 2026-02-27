@@ -15,7 +15,7 @@
 [ext_resource type="Script" uid="uid://bcxdwbyi3cxlm" path="res://script/component/sticker/StickerControlSize.cs" id="10_6brdl"]
 [ext_resource type="Script" uid="uid://blmc34v7jwftc" path="res://script/component/sticker/OnStickerRemove.cs" id="11_xpyjd"]
 [ext_resource type="Script" uid="uid://dh8igljmv4cqs" path="res://script/component/sticker/photo/PhotoStickerRemoveDeleteFile.cs" id="12_tmo60"]
-[ext_resource type="Script" uid="uid://bewvawlty86rx" path="res://script/component/sticker/photo/PhotoStickerDoDragDrop.cs" id="13_tmo60"]
+[ext_resource type="Script" uid="uid://dijjotxvhn4x8" path="res://script/component/sticker/photo/PhotoStickerPannerView.cs" id="13_j4nui"]
 [ext_resource type="Script" uid="uid://ccwpmopdfhfkc" path="res://script/component/sticker/photo/ImageInfoLabel.cs" id="14_j4nui"]
 
 [sub_resource type="Resource" id="Resource_stqh4"]
@@ -75,8 +75,8 @@ metadata/_custom_type_script = "uid://dh8igljmv4cqs"
 
 [sub_resource type="Resource" id="Resource_tqb00"]
 resource_local_to_scene = true
-script = ExtResource("13_tmo60")
-metadata/_custom_type_script = "uid://bewvawlty86rx"
+script = ExtResource("13_j4nui")
+metadata/_custom_type_script = "uid://dijjotxvhn4x8"
 
 [sub_resource type="Resource" id="Resource_to83v"]
 resource_local_to_scene = true
@@ -141,8 +141,14 @@ size_flags_vertical = 3
 [node name="VBoxContainer" type="VBoxContainer" parent="EntityControl/PanelContainer" unique_id=1377079164]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="EntityControl/PanelContainer/VBoxContainer" unique_id=2079589297]
+[node name="ScrollContainer" type="ScrollContainer" parent="EntityControl/PanelContainer/VBoxContainer" unique_id=65286351]
 layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="EntityControl/PanelContainer/VBoxContainer/ScrollContainer" unique_id=2079589297]
+texture_filter = 4
+layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 expand_mode = 1
 stretch_mode = 5

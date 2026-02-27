@@ -13,12 +13,13 @@ public partial class PhotoStickerDoDragDrop : ComponentResource
     public override Type ComponentType => typeof(PhotoStickerDoDragDrop);
     public override TickGroupEnum TickGroup => TickGroupEnum.None;
     public override bool IsRegist => false;
-    protected static readonly NodePath NP_TextureRect = "./EntityControl/PanelContainer/VBoxContainer/TextureRect";
+    // protected static readonly NodePath NP_TextureRect = "./EntityControl/PanelContainer/VBoxContainer/TextureRect";
     protected TextureRect TextureRect;
+    protected static readonly StringName SN_CtrlMouseLeft = "ctrl_mouse_left";
 
     public override void OnEntityReady()
     {
-        Holder.TryGetNodeFromEntity<TextureRect>(NP_TextureRect, out TextureRect);
+        Holder.TryGetNodeFromEntity<TextureRect>(Name.NP_PhotoStickerTextureRect, out TextureRect);
         TextureRect.GuiInput += OnGuiInput;
     }
 
@@ -27,10 +28,10 @@ public partial class PhotoStickerDoDragDrop : ComponentResource
         using (@event)
         {
             // GD.Print(@event.AsText());
-            if (Input.IsActionJustPressed("ctrl_mouse_left"))
+            if (Input.IsActionJustPressed(SN_CtrlMouseLeft))
             {
                 Holder.TryGetComponent<StickerPhotoLoadImage>(out var loadImage);
-                GD.Print(loadImage.ImageFile);
+                // GD.Print(loadImage.ImageFile);
                 DragDropUtil.StartDragDrop(loadImage.ImageFile);
             }
             /*

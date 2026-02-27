@@ -13,7 +13,7 @@ public partial class StickerTipTextCtrl : ComponentResource
     public override TickGroupEnum TickGroup => TickGroupEnum.Save;
     public override bool IsRegist => false;
 
-    protected static NodePath NP_TextEdit = "./EntityControl/TextEdit";
+    protected static NodePath NP_TextEdit = "./EntityControl/PanelContainer/VBoxContainer/TextEdit";
     protected TextEdit TextEdit;
 
     public override void OnEntityReady()

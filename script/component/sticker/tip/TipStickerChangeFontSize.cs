@@ -14,11 +14,11 @@ public partial class TipStickerChangeFontSize : ComponentResource
     public override TickGroupEnum TickGroup => TickGroupEnum.None;
     public override bool IsRegist => false;
 
-    protected static NodePath NP_TextEdit = "./EntityControl/TextEdit";
+    protected static NodePath NP_TextEdit = "./EntityControl/PanelContainer/VBoxContainer/TextEdit";
     protected TextEdit TextEdit;
 
-    public static readonly StringName SN_CtrlScrollUp = "ctrl_scroll_up";
-    public static readonly StringName SN_CtrlScrollDown = "ctrl_scroll_down";
+    // public static readonly StringName SN_CtrlScrollUp = "ctrl_scroll_up";
+    // public static readonly StringName SN_CtrlScrollDown = "ctrl_scroll_down";
     public static readonly StringName SN_FontSize = "font_size";
 
     public static readonly PooledDictionary<int, int> KVFontSize = new()
@@ -51,11 +51,11 @@ public partial class TipStickerChangeFontSize : ComponentResource
     {
         using (@event)
         {
-            if (Input.IsActionJustPressed(SN_CtrlScrollUp))
+            if (Input.IsActionJustPressed(Name.SN_CtrlScrollUp))
             {
                 ChangeFontSize(1);
             }
-            else if (Input.IsActionJustPressed(SN_CtrlScrollDown))
+            else if (Input.IsActionJustPressed(Name.SN_CtrlScrollDown))
             {
                 ChangeFontSize(-1);
             }

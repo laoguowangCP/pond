@@ -402,7 +402,7 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
 
         void RemoveTickGroupMayDeferedPart()
         {
-            GD.Print($"{comp.ComponentType}, {comp.TickOscillator}");
+            // GD.Print($"{comp.ComponentType}, {comp.TickOscillator}");
             ComponentsTickLocal[(int)tickGroup].TryRemove(comp);
             CheckGroupEmptyAndSetActivity(tickGroup);
         }
@@ -533,16 +533,15 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
 
     public void Unblock(IComponent comp)
     {
-        GD.Print("Try unblock ", comp.ComponentType);
+        // GD.Print("Try unblock ", comp.ComponentType);
         --comp.BlockCount;
-        GD.Print("- ", comp.BlockCount);
-        GD.Print("- ", comp.TickGroup);
-        GD.Print("- ", comp.TickOscillator);
+        // GD.Print("- ", comp.BlockCount);
+        // GD.Print("- ", comp.TickGroup);
+        // GD.Print("- ", comp.TickOscillator);
         if (comp.BlockCount == 0
             && (comp.TickGroup == TickGroupEnum.None || comp.TickOscillator < Nice.TickOscillatorIdle))
         {
             // comp.IsBlocked = false;
-            GD.Print("Unblock ", comp.ComponentType);
             comp.IsActivated = true;
             comp.OnActivated();
         }

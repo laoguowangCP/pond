@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Godot;
 using LGWCP.NiceGD;
+using LGWCP.Util.WinApiNative;
 
 namespace LGWCP.Pond;
 
@@ -19,7 +20,8 @@ public partial class ImageInfoLabel : ComponentResource
     protected Label Label;
     protected List<string> ImageInfo = new();
 
-    protected StringName SN_MouseLeft = "mouse_left";
+    protected static readonly StringName SN_CtrlMouseLeft = "ctrl_mouse_left";
+    protected static readonly StringName SN_MouseLeft = "mouse_left";
     protected int ShowInfoIdx = 0;
 
     public override void OnEntityReady()
@@ -38,7 +40,13 @@ public partial class ImageInfoLabel : ComponentResource
     {
         using (@event)
         {
-            if (Input.IsActionJustPressed(SN_MouseLeft))
+            if (Input.IsActionJustPressed(SN_CtrlMouseLeft))
+            {
+                Holder.TryGetComponent<StickerPhotoLoadImage>(out var loadImage);
+                // GD.Print(loadImage.ImageFile);
+                DragDropUtil.StartDragDrop(loadImage.ImageFile);
+            }
+            else if (Input.IsActionJustPressed(SN_MouseLeft))
             {
                 ScrollInfo();
             }
