@@ -17,6 +17,7 @@
 [ext_resource type="Script" uid="uid://dh8igljmv4cqs" path="res://script/component/sticker/photo/PhotoStickerRemoveDeleteFile.cs" id="12_tmo60"]
 [ext_resource type="Script" uid="uid://dijjotxvhn4x8" path="res://script/component/sticker/photo/PhotoStickerPannerView.cs" id="13_j4nui"]
 [ext_resource type="Script" uid="uid://ccwpmopdfhfkc" path="res://script/component/sticker/photo/ImageInfoLabel.cs" id="14_j4nui"]
+[ext_resource type="Script" uid="uid://b5hdl0ok84t2m" path="res://script/component/sticker/OnStickerSizeChanged.cs" id="15_vn5e2"]
 
 [sub_resource type="Resource" id="Resource_stqh4"]
 resource_local_to_scene = true
@@ -83,6 +84,11 @@ resource_local_to_scene = true
 script = ExtResource("14_j4nui")
 metadata/_custom_type_script = "uid://ccwpmopdfhfkc"
 
+[sub_resource type="Resource" id="Resource_53e1e"]
+resource_local_to_scene = true
+script = ExtResource("15_vn5e2")
+metadata/_custom_type_script = "uid://b5hdl0ok84t2m"
+
 [sub_resource type="Resource" id="Resource_tmo60"]
 resource_local_to_scene = true
 script = ExtResource("8_stqh4")
@@ -106,6 +112,7 @@ Component09 = SubResource("Resource_hsokh")
 Component10 = SubResource("Resource_y3j5s")
 Component11 = SubResource("Resource_tqb00")
 Component12 = SubResource("Resource_to83v")
+Component13 = SubResource("Resource_53e1e")
 Component15 = SubResource("Resource_tmo60")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 
@@ -146,7 +153,7 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="TextureRect" type="TextureRect" parent="EntityControl/PanelContainer/VBoxContainer/ScrollContainer" unique_id=2079589297]
-texture_filter = 4
+texture_filter = 6
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3

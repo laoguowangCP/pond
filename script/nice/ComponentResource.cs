@@ -85,31 +85,5 @@ public abstract partial class ComponentResource : Resource, IComponent
     public InverseIndexList<TryTickAfterIndexable> TryTickAfterWaits { get; set; }
     public int TryTickAfterWaitsIdx { get; set; } = 0;
 
-    public virtual void Tick(TickContext ctx)
-    {
-        /*
-        // ---------------- Tick convention begin ----------------
-        if (IsBlocked && BlockCount == 0)
-        {
-            // On unblock
-        }
-        else if (!IsBlocked && BlockCount > 0)
-        {
-            // On block
-        }
-
-        // Update block state
-        IsBlocked = BlockCount > 0;
-
-        if (IsBlocked)
-        {
-            // Do blocked logic
-            return;
-        }
-
-        // ---------------- Tick convention end ----------------
-
-        // Do Unblocked logic
-        */
-    }
+    public virtual void Tick(TickContext ctx) {}
 }

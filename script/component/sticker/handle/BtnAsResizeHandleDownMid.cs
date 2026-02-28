@@ -23,6 +23,7 @@ public partial class BtnAsResizeHandleDownMid : ComponentResource
     public Vector2 DragBeginSize { get; protected set; } = Vector2.Zero;
 
     protected EntityControlSizeClamp SizeClamp;
+    protected OnStickerSizeChanged OnStickerSizeChanged;
 
     protected Vector2 PrevMousePos;
 
@@ -30,6 +31,7 @@ public partial class BtnAsResizeHandleDownMid : ComponentResource
     {
         Holder.TryGetEntity<Node2D>(out Entity);
         Holder.TryGetComponent<EntityControlSizeClamp>(out SizeClamp);
+        Holder.TryGetComponent<OnStickerSizeChanged>(out OnStickerSizeChanged);
         Holder.TryGetNodeFromEntity<Control>(NP_EntityControl, out EntityControl);
         Holder.TryGetNodeFromEntity<Button>(NP_HandleBtn, out HandleBtn);
         HandleBtn.FocusMode = Control.FocusModeEnum.None;
@@ -83,6 +85,7 @@ public partial class BtnAsResizeHandleDownMid : ComponentResource
                 // Clear displacement
                 DragBeginPos = Vector2.Zero;
                 HandleBtn.FocusMode = Control.FocusModeEnum.None;
+                OnStickerSizeChanged.Trigger();
             }
         }
     }

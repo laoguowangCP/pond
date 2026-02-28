@@ -14,6 +14,7 @@ public partial class PhotoStickerPannerView : ComponentResource
 
     protected TextureRect TextureRect;
     protected ScrollContainer ScrollContainer;
+    protected OnStickerSizeChanged OnStickerSizeChanged;
 
     protected float ZoomLevel = 1f;
 
@@ -26,9 +27,18 @@ public partial class PhotoStickerPannerView : ComponentResource
         return true;
     }
 
+    public override void OnEntityReady()
+    {
+        // Get other components here.
+        // Add tick order here.
+        Holder.TryGetComponent<OnStickerSizeChanged>(out OnStickerSizeChanged);
+        OnStickerSizeChanged.StickerSizeChanged += CheckShouldResetMinimumSize;
+    }
+
     public override bool OnHolderTryRemove()
     {
         TextureRect.GuiInput -= OnGuiInput;
+        OnStickerSizeChanged.StickerSizeChanged -= CheckShouldResetMinimumSize;
         return base.OnHolderTryRemove();
     }
 
@@ -93,11 +103,25 @@ public partial class PhotoStickerPannerView : ComponentResource
             }
             */
         }
+        /*
         if (nextMinimumSize.X <= ScrollContainer.Size.X
             && (nextMinimumSize.Y <= ScrollContainer.Size.Y))
         {
             nextMinimumSize = Vector2.Zero;
         }
+        */
         TextureRect.CustomMinimumSize = nextMinimumSize;
+        CheckShouldResetMinimumSize();
+    }
+
+    public void CheckShouldResetMinimumSize()
+    {
+        var minimumSize = TextureRect.CustomMinimumSize;
+        if (minimumSize.X <= ScrollContainer.Size.X
+            && (minimumSize.Y <= ScrollContainer.Size.Y))
+        {
+            minimumSize = Vector2.Zero;
+        }
+        TextureRect.CustomMinimumSize = minimumSize;
     }
 }

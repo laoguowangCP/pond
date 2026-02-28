@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://htk7nt8cayww" path="res://script/component/sticker/tip/TipStickerUpdateUri.cs" id="11_agb2p"]
 [ext_resource type="Script" uid="uid://cmfdlxovopysh" path="res://script/component/sticker/tip/TipStickerChangeFontSize.cs" id="12_klwgr"]
 [ext_resource type="Script" uid="uid://blmc34v7jwftc" path="res://script/component/sticker/OnStickerRemove.cs" id="13_xd4p0"]
+[ext_resource type="Script" uid="uid://b5hdl0ok84t2m" path="res://script/component/sticker/OnStickerSizeChanged.cs" id="14_g53tv"]
 
 [sub_resource type="Resource" id="Resource_k4kkr"]
 resource_local_to_scene = true
@@ -77,6 +78,11 @@ resource_local_to_scene = true
 script = ExtResource("13_xd4p0")
 metadata/_custom_type_script = "uid://blmc34v7jwftc"
 
+[sub_resource type="Resource" id="Resource_t6i5s"]
+resource_local_to_scene = true
+script = ExtResource("14_g53tv")
+metadata/_custom_type_script = "uid://b5hdl0ok84t2m"
+
 [sub_resource type="Resource" id="Resource_uychi"]
 resource_local_to_scene = true
 script = ExtResource("4_be7s3")
@@ -98,6 +104,7 @@ Component08 = SubResource("Resource_g53tv")
 Component09 = SubResource("Resource_jr6xe")
 Component10 = SubResource("Resource_rqnl6")
 Component11 = SubResource("Resource_g7bgn")
+Component12 = SubResource("Resource_t6i5s")
 Component15 = SubResource("Resource_uychi")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 

@@ -13,10 +13,21 @@ public partial class SoundStickerRemoveDeleteFile : ComponentResource
     public override TickGroupEnum TickGroup => TickGroupEnum.None;
     public override bool IsRegist => false;
 
+    protected OnStickerRemove OnStickerRemove;
+
     public override void OnEntityReady()
     {
-        Holder.TryGetComponent<OnStickerRemove>(out var onStickerRemove);
-        onStickerRemove.StickerRemove += DeleteAudioFile;
+        Holder.TryGetComponent<OnStickerRemove>(out OnStickerRemove);
+        OnStickerRemove.StickerRemove += DeleteAudioFile;
+    }
+
+    public override bool OnHolderTryRemove()
+    {
+        OnStickerRemove.StickerRemove -= DeleteAudioFile;
+        // Simply return true.
+        // Or remove other component you want.
+        Holder = null;
+        return true;
     }
 
     private void DeleteAudioFile()
