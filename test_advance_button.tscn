@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://bkbocs7hck7lw"]
+
+[node name="Control" type="Control" unique_id=354904973]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1121570538]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Button" type="Button" parent="PanelContainer" unique_id=347206688]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=1654417839]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer" unique_id=614006361]
+layout_mode = 2
+text = "asdfasdfasdfasdfa"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=1660623270]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="HSlider" type="HSlider" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=404844027]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=2141977495]
+layout_mode = 2
+text = "Hello"

@@ -200,15 +200,6 @@ text = "I>"
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="BtnVolumeUp" type="Button" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer/Right" unique_id=101853864]
-visible = false
-custom_minimum_size = Vector2(24, 16)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_font_sizes/font_size = 14
-text = "+"
-
 [node name="VolumeChange" type="Button" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer/Right" unique_id=815141782]
 custom_minimum_size = Vector2(48, 36)
 layout_mode = 2
@@ -217,44 +208,5 @@ theme_override_font_sizes/font_size = 12
 toggle_mode = true
 button_mask = 0
 text = "+0db"
-
-[node name="BtnVolumeDown" type="Button" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer/Right" unique_id=1416478369]
-visible = false
-custom_minimum_size = Vector2(24, 16)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_font_sizes/font_size = 14
-text = "-"
-
-[node name="VBoxContainer" type="VBoxContainer" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer/Right" unique_id=1296654198]
-visible = false
-layout_mode = 2
-alignment = 1
-
-[node name="BtnVolumeUp" type="Button" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer/Right/VBoxContainer" unique_id=927948129]
-visible = false
-custom_minimum_size = Vector2(16, 8)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_font_sizes/font_size = 4
-text = "+"
-
-[node name="BtnVolumeDown" type="Button" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer/Right/VBoxContainer" unique_id=1790526164]
-visible = false
-custom_minimum_size = Vector2(16, 8)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_font_sizes/font_size = 4
-text = "-"
-
-[node name="HSlider" type="HSlider" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer/Right" unique_id=1773223438]
-visible = false
-custom_minimum_size = Vector2(64, 0)
-layout_mode = 2
-size_flags_horizontal = 6
-size_flags_vertical = 4
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1238287388]

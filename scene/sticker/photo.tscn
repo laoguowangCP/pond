@@ -151,12 +151,16 @@ layout_mode = 2
 [node name="ScrollContainer" type="ScrollContainer" parent="EntityControl/PanelContainer/VBoxContainer" unique_id=65286351]
 layout_mode = 2
 size_flags_vertical = 3
+horizontal_scroll_mode = 4
+vertical_scroll_mode = 4
 
 [node name="TextureRect" type="TextureRect" parent="EntityControl/PanelContainer/VBoxContainer/ScrollContainer" unique_id=2079589297]
 texture_filter = 6
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 0
+mouse_force_pass_scroll_events = false
 expand_mode = 1
 stretch_mode = 5
 
