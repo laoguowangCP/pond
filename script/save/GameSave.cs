@@ -112,6 +112,9 @@ public class SaveStickerPhoto : SaveSticker
 {
     public SaveStickerPhoto(bool isLeaf = true) {}
     public string ImageFile;
+    public Vector2 TextureRectCustomMinimumSize;
+    public int HScrollValue;
+    public int VScrollValue;
 }
 
 

@@ -26,6 +26,12 @@ public partial class SaveStickerPhotoComponent : ComponentResource
             {
                 photoSave.ImageFile = loadImage.ImageFile;
             }
+            if (Holder.TryGetComponent<PhotoStickerPannerView>(out var pannerView))
+            {
+                photoSave.TextureRectCustomMinimumSize = pannerView.TextureRect.CustomMinimumSize;
+                photoSave.HScrollValue = pannerView.ScrollContainer.ScrollHorizontal;
+                photoSave.VScrollValue = pannerView.ScrollContainer.ScrollVertical;
+            }
             save.TryAddListChildrenWithIdx(entity.GetIndex(), photoSave);
         }
     }
@@ -39,6 +45,13 @@ public partial class SaveStickerPhotoComponent : ComponentResource
         if (Holder.TryGetComponent<StickerPhotoLoadImage>(out var loadImage))
         {
             loadImage.LoadFromFile(save.ImageFile);
+        }
+        if (Holder.TryGetComponent<PhotoStickerPannerView>(out var pannerView))
+        {
+            pannerView.SetPannerViewInit(
+                save.TextureRectCustomMinimumSize,
+                save.HScrollValue,
+                save.VScrollValue);
         }
     }
 }

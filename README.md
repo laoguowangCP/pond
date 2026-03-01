@@ -35,7 +35,12 @@ An app to put anything on your desktop.
     - [ ] 缩放图像（在容器范围内）？有缩放的情况下调整便签大小该如何处理？放大触发 panner view，缩小最小到 panner 不触发（图片custom minimun size xy 都小于 ScrollContainer）。
         - [x] 缩放，且放大时参考图片自身长宽比例。
         - [x] 便签尺寸完成变化后，检测是否触发了panner view，如果不再触发panner就需要将custom minimun size xy归零。
-        - [ ] 缩放时保持图片鼠标中心不变。
+        - [x] 缩放时保持图片鼠标中心不变。
+        - [x] Ctrl+滚轮和普通滚轮冲突。
+        - [x] 双击取消缩放&快速缩放
+        - [x] 缩放最大比例？
+        - [x] 保存 custom minimum size 和 scroll position
+        - [x] 读取 custom minimum size 和 scroll position
 - Sound Sticker 音乐便签：放各种音乐小片段，默认播放是互斥的，（可能切换屏幕/焦点就禁止播放？），或者可以锁定让一个音频可持续可后台播放（这个锁定也是互斥的）。可以勾选是否循环播放。
     - [x] 支持哪些格式？mp3 ogg wav
     - [x] 拖入音频文件创建标签。

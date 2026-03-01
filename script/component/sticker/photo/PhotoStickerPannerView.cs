@@ -14,19 +14,21 @@ public partial class PhotoStickerPannerView : ComponentResource
     public override TickGroupEnum TickGroup => TickGroupEnum.None;
     public override bool IsRegist => false;
 
-    protected TextureRect TextureRect;
-    protected ScrollContainer ScrollContainer;
+    public TextureRect TextureRect;
+    public ScrollContainer ScrollContainer;
     protected OnStickerSizeChanged OnStickerSizeChanged;
 
     protected float ZoomLevel = 1f;
+    protected float MaxZoomLevel = 10f;
+    protected bool IsPanning = false;
 
     public override bool OnHolderTryAdd(ComponentHolder holder)
     {
         Holder = holder;
         Holder.TryGetNodeFromEntity<TextureRect>(Name.NP_PhotoStickerTextureRect, out TextureRect);
         TextureRect.GuiInput += OnGuiInput;
-        TextureRect.MouseEntered += OnMouseEntered;
-        TextureRect.MouseExited += OnMouseExited;
+        // TextureRect.MouseEntered += OnMouseEntered;
+        // TextureRect.MouseExited += OnMouseExited;
         ScrollContainer = TextureRect.GetParentOrNull<ScrollContainer>();
         return true;
     }
@@ -42,44 +44,78 @@ public partial class PhotoStickerPannerView : ComponentResource
     public override bool OnHolderTryRemove()
     {
         TextureRect.GuiInput -= OnGuiInput;
-        TextureRect.MouseEntered -= OnMouseEntered;
-        TextureRect.MouseExited -= OnMouseExited;
+        // TextureRect.MouseEntered -= OnMouseEntered;
+        // TextureRect.MouseExited -= OnMouseExited;
         OnStickerSizeChanged.StickerSizeChanged -= CheckShouldResetMinimumSize;
         return base.OnHolderTryRemove();
     }
 
-    public override void Tick(TickContext ctx)
-    {
-        if (Input.IsActionJustReleased(Name.SN_CtrlScrollUp, true))
-        {
-            SetZoomLevel(1.1f);
-            TextureRect.AcceptEvent();
-        }
-        else if (Input.IsActionJustReleased(Name.SN_CtrlScrollDown, true))
-        {
-            SetZoomLevel(1f/1.1f);
-            TextureRect.AcceptEvent();
-        }
-    }
 
 
     protected void OnGuiInput(InputEvent @event)
     {
         using (@event)
         {
-            if (Input.IsActionJustPressed(Name.SN_Ctrl))
-            {
-                GD.Print("Ctrl is pressed down.");
-            }
             if (Input.IsActionJustReleased(Name.SN_CtrlScrollUp, true))
             {
-                SetZoomLevel(1.1f);
+                ChangeZoomLevel(1.1f);
                 TextureRect.AcceptEvent();
+                // TextureRect.GetViewport().SetInputAsHandled();
             }
             else if (Input.IsActionJustReleased(Name.SN_CtrlScrollDown, true))
             {
-                SetZoomLevel(1f/1.1f);
+                ChangeZoomLevel(1f/1.1f);
                 TextureRect.AcceptEvent();
+                // TextureRect.GetViewport().SetInputAsHandled();
+            }
+            else if (Input.IsActionJustReleased(Name.SN_ShiftScrollUp, true))
+            {
+                ScrollContainer.ScrollHorizontal -= 32;
+            }
+            else if (Input.IsActionJustReleased(Name.SN_ShiftScrollDown, true))
+            {
+                ScrollContainer.ScrollHorizontal += 32;
+            }
+            else if (Input.IsActionJustReleased(Name.SN_ScrollUp, true))
+            {
+                ScrollContainer.ScrollVertical -= 32;
+            }
+            else if (Input.IsActionJustReleased(Name.SN_ScrollDown, true))
+            {
+                ScrollContainer.ScrollVertical += 32;
+            }
+
+            if (@event is InputEventMouseButton mouseButton
+                && mouseButton.ButtonIndex == MouseButton.Left)
+            {
+                if (mouseButton.IsPressed() && mouseButton.DoubleClick)
+                {
+                    IsPanning = false;
+                    if (GetZoomLevel() > 1.001f)
+                    {
+                        ChangeZoomLevel(0f);
+                    }
+                    else
+                    {
+                        ChangeZoomLevel(1.5f);
+                    }
+                }
+                else if (mouseButton.IsPressed())
+                {
+                    IsPanning = true;
+                }
+                else if (mouseButton.IsReleased())
+                {
+                    IsPanning = false;
+                }
+            }
+
+            if (IsPanning
+                && @event is InputEventMouseMotion mouseMotion)
+            {
+                Vector2 panMove = mouseMotion.Relative;
+                ScrollContainer.ScrollHorizontal -= Mathf.RoundToInt(panMove.X);
+                ScrollContainer.ScrollVertical -= Mathf.RoundToInt(panMove.Y);
             }
         }
     }
@@ -96,16 +132,31 @@ public partial class PhotoStickerPannerView : ComponentResource
         GD.Print("OnMouseExited");
     }
 
-    protected void SetZoomLevel(float level)
+    protected float GetZoomLevel()
+    {
+        Vector2 rectSize = TextureRect.Size;
+        // Vector2 textureSize = TextureRect.Texture.GetSize();
+        Vector2 scrollSize = ScrollContainer.Size;
+        return MathF.Max(rectSize.X / scrollSize.X, rectSize.Y / scrollSize.Y);
+    }
+
+    protected void ChangeZoomLevel(float level)
     {
         /*
         TODO: 添加 zoom in 上限
         */
         // GD.Print($"TextureRect size: {TextureRect.Size}, ScrollContainer size: {ScrollContainer.Size}");
         TextureRect.UpdateMinimumSize();
-        ScrollContainer.GetMinimumSize();
+        ScrollContainer.GetCombinedMinimumSize();
         ScrollContainer.DrawFocusBorder = true;
         ScrollContainer.DrawFocusBorder = false;
+
+        float currentZoomLevel = GetZoomLevel();
+        if (currentZoomLevel * level > MaxZoomLevel)
+        {
+            level = MaxZoomLevel / currentZoomLevel;
+        }
+
         Vector2 rectSize = TextureRect.Size;
         // TODO: 参考图像自身的长宽比进行放大/缩小
         Vector2 textureSize = TextureRect.Texture.GetSize();
@@ -161,40 +212,18 @@ public partial class PhotoStickerPannerView : ComponentResource
         }
         */
         // Caluculate position
-        int scrollH = ScrollContainer.ScrollHorizontal;
-        int scrollV = ScrollContainer.ScrollVertical;
         Vector2 mousePosPanner = ScrollContainer.GetLocalMousePosition();
         Vector2 mousePosTexture = TextureRect.GetLocalMousePosition();
-        /*
-        GD.Print(scrollH);
-        GD.Print(scrollV);
-        GD.Print(mousePosPanner);
-        GD.Print(mousePosTexture);
-        */
         Vector2 ratioPos = mousePosTexture / customMinimumSize;
         // ratioPos = ratioPos.Clamp(Vector2.Zero, textureSize);
         Vector2 nextMousePosTexture = ratioPos * nextMinimumSize;
         Vector2 nextScroll = nextMousePosTexture - mousePosPanner;
         
-        GD.Print($"Set custom minimum size: {nextMinimumSize}");
         TextureRect.CustomMinimumSize = nextMinimumSize;
         TextureRect.UpdateMinimumSize();
-        // TextureRect.GetMinimumSize();
-        ScrollContainer.GetMinimumSize();
+        ScrollContainer.GetCombinedMinimumSize();
         ScrollContainer.DrawFocusBorder = true;
         ScrollContainer.DrawFocusBorder = false;
-        // ScrollContainer.HorizontalScrollMode = ScrollContainer.ScrollMode.Disabled;
-        // ScrollContainer.HorizontalScrollMode = ScrollContainer.ScrollMode.Reserve;
-        // ScrollContainer.VerticalScrollMode = ScrollContainer.ScrollMode.Disabled;
-        // ScrollContainer.VerticalScrollMode = ScrollContainer.ScrollMode.Reserve;
-        // ScrollContainer.GetMinimumSize();
-        // ScrollContainer.ScrollHorizontal = (int)nextMinimumSize.X;
-        // ScrollContainer.ScrollVertical = (int)nextMinimumSize.Y;
-        // await GDTask.NextFrame();
-        
-        // await ToSignal(ScrollContainer.GetTree(), SceneTree.SignalName.ProcessFrame);
-        // ScrollContainer.QueueRedraw();
-        // Callable.From(ScrollFollowMousePos).CallDeferred();
         ScrollFollowMousePos();
 
         void ScrollFollowMousePos()
@@ -207,10 +236,10 @@ public partial class PhotoStickerPannerView : ComponentResource
             if (Mathf.IsZeroApprox(vScrollBar.MaxValue))
                 vScrollBar.MaxValue = nextScroll.Y;
             */
-            GD.Print($"Scroll limit: ({hScrollBar.MaxValue}, {vScrollBar.MaxValue})");
+            // GD.Print($"Scroll limit: ({hScrollBar.MaxValue}, {vScrollBar.MaxValue})");
             ScrollContainer.ScrollHorizontal = Mathf.RoundToInt(Mathf.Clamp(nextScroll.X, hScrollBar.MinValue, hScrollBar.MaxValue));
             ScrollContainer.ScrollVertical = Mathf.RoundToInt(Mathf.Clamp(nextScroll.Y, vScrollBar.MinValue, vScrollBar.MaxValue));
-            GD.Print($"Scroll value change: {scrollH}, {scrollV} -> {ScrollContainer.ScrollHorizontal}, {ScrollContainer.ScrollVertical}");
+            // GD.Print($"Scroll value change: {scrollH}, {scrollV} -> {ScrollContainer.ScrollHorizontal}, {ScrollContainer.ScrollVertical}");
             ScrollContainer.DrawFocusBorder = false;
             CheckShouldResetMinimumSize();
         }
@@ -225,5 +254,20 @@ public partial class PhotoStickerPannerView : ComponentResource
             minimumSize = Vector2.Zero;
         }
         TextureRect.CustomMinimumSize = minimumSize;
+    }
+
+    public void SetPannerViewInit(Vector2 rectCustomMinimumSize, int hScroll, int vScroll)
+    {
+        Callable.From(DeferedSetPannerViewInit).CallDeferred();
+        void DeferedSetPannerViewInit()
+        {
+            TextureRect.CustomMinimumSize = rectCustomMinimumSize;
+            TextureRect.UpdateMinimumSize();
+            ScrollContainer.GetCombinedMinimumSize();
+            ScrollContainer.DrawFocusBorder = true;
+            ScrollContainer.DrawFocusBorder = false;
+            ScrollContainer.ScrollHorizontal = hScroll;
+            ScrollContainer.ScrollVertical = vScroll;
+        }
     }
 }
