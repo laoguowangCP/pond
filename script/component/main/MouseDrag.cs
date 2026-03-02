@@ -95,7 +95,7 @@ public partial class MouseDrag : ComponentResource
 
     public void OnWindowFocusExited()
     {
-        GD.Print("MouseDrag: window unfocus detected!");
+        // GD.Print("MouseDrag: window unfocus detected!");
         if (DragEntity != null)
         {
             if (DragEntity.TryGetComponent<DragEndOnFocusExited>(out var dragEndOnFocusExited))

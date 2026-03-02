@@ -92,6 +92,9 @@ public class SaveRoot : SaveNodeBase
     public SaveRoot(bool isLeaf = true) {}
     public string Version = "0.1";
     public string Time;
+    public Vector2I InitWindowSize;
+    public Vector2I InitWindowPos;
+    // public Vector4I WindowRect;
 }
 
 public class SaveSticker : SaveNodeBase

@@ -20,4 +20,6 @@ public class Name
     public static readonly StringName SN_CtrlMinus = "ctrl_minus";
     public static readonly StringName SN_CtrlMouseLeft = "ctrl_mouse_left";
     public static readonly StringName SN_CtrlMouseRight = "ctrl_mouse_right";
+    public static readonly StringName SN_ShiftMouseLeft = "shift_mouse_left";
+    public static readonly StringName SN_MouseLeft = "mouse_left";
 }

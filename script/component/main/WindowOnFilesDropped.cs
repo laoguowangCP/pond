@@ -79,6 +79,12 @@ public partial class WindowOnFilesDropped : ComponentResource
                 // Handle audio
                 HandleDropFileAudio(file);
             }
+            else
+            {
+                // Godot file_dropped not supported
+                // Fallback plain text
+                HandleDropFileFallbackPlainText(file);
+            }
         }
         else
         {

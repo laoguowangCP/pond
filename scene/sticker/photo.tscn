@@ -167,6 +167,7 @@ stretch_mode = 5
 [node name="Label" type="Label" parent="EntityControl/PanelContainer/VBoxContainer" unique_id=1135957601]
 layout_mode = 2
 mouse_filter = 0
+mouse_force_pass_scroll_events = false
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 12
 text = "Image info"

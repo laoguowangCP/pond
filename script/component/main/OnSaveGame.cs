@@ -6,6 +6,7 @@ using System.Text.Unicode;
 using Godot;
 using LGWCP.NiceGD;
 using LGWCP.Util.Save;
+using LGWCP.Util.WinApiNative;
 
 namespace LGWCP.Pond;
 
@@ -62,6 +63,10 @@ public partial class OnSaveGame : ComponentResource
         GD.Print("Save!");
 
         SaveRoot.Time = DateTime.Now.ToString("yyyy MM-dd HH:mm:ss.ff");
+
+        SaveRoot.InitWindowSize = DisplayServer.WindowGetSize();
+        SaveRoot.InitWindowPos = DisplayServer.WindowGetPosition();
+
         // Call save tick
         Nice.I.TryTick(TickGroupEnum.Save, new From(SaveRoot));
 
@@ -94,9 +99,26 @@ public partial class OnSaveGame : ComponentResource
 
         var str = File.ReadAllText(GameSaveFilePath);
         SaveRoot = JsonSerializer.Deserialize<SaveRoot>(str, JsonOptions);
+
+        Vector2I initWindowSize = SaveRoot.InitWindowSize;
+        if (initWindowSize.X <= 0 || initWindowSize.Y <= 0)
+        {
+            initWindowSize = new Vector2I(800, 450);
+        }
+        DisplayServer.WindowSetSize(initWindowSize);
+
+        /*
+        Vector2I initWindowPos = SaveRoot.InitWindowPos;
+        if (initWindowPos.Y <= 16)
+        {
+            initWindowPos.Y = 16;
+        }
+        DisplayServer.WindowSetPosition(initWindowPos);
+        */
+
         foreach (var save in SaveRoot.ListChildren)
         {
-            builder.BuildFromSaveNode(save, out var sticker);
+            builder.BuildFromSaveNode(save, out var _);
         }
         SaveRoot.Clear();
 

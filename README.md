@@ -32,7 +32,7 @@ An app to put anything on your desktop.
     - [x] 外部照片拖入转化为便签
     - [x] 将图像拖出窗口（ctrl+鼠标左键）
     - [x] 删除标签时删除图像文件。
-    - [ ] 缩放图像（在容器范围内）？有缩放的情况下调整便签大小该如何处理？放大触发 panner view，缩小最小到 panner 不触发（图片custom minimun size xy 都小于 ScrollContainer）。
+    - [x] 缩放图像（在容器范围内）？有缩放的情况下调整便签大小该如何处理？放大触发 panner view，缩小最小到 panner 不触发（图片custom minimun size xy 都小于 ScrollContainer）。
         - [x] 缩放，且放大时参考图片自身长宽比例。
         - [x] 便签尺寸完成变化后，检测是否触发了panner view，如果不再触发panner就需要将custom minimun size xy归零。
         - [x] 缩放时保持图片鼠标中心不变。
@@ -41,7 +41,8 @@ An app to put anything on your desktop.
         - [x] 缩放最大比例？
         - [x] 保存 custom minimum size 和 scroll position
         - [x] 读取 custom minimum size 和 scroll position
-- Sound Sticker 音乐便签：放各种音乐小片段，默认播放是互斥的，（可能切换屏幕/焦点就禁止播放？），或者可以锁定让一个音频可持续可后台播放（这个锁定也是互斥的）。可以勾选是否循环播放。
+    - [x] 使用外部软件打开。
+- Sound Sticker 音乐便签：放各种音乐小片段。
     - [x] 支持哪些格式？mp3 ogg wav
     - [x] 拖入音频文件创建标签。
     - [x] 序列化标签。
@@ -58,6 +59,15 @@ An app to put anything on your desktop.
     - [ ] 窗口失去焦点或控件失去焦点就停止播放？
     - [ ] BGM锁定：可以把音频锁定为背景音乐，离开窗口焦点也能持续播放，不会被其他音频打断（但是会暂时静音？）
     - [ ] 迷你模式，只保留名称和开始按钮？
+- Model Sticker 模型预览便签。
+- Tutorial Sticker 教程便签：
+    - [ ] 介绍 Tip sticker
+    - [ ] 介绍 Photot sticker
+    - [ ] 介绍 Sound sticker
+    - [ ] 勾选下次是否自动弹出教程便签
+- 管理菜单：右键面板弹出
+    - [ ] 切换窗口嵌入按键
+    - [ ] 创建说明手册便签
 - 窗口 DoDragDrop 把便签内容拖拽到外部
     - [x] 使用 ole native
     - [x] 引用 System.Windows.Forms ，csproj 里 TargetFramework 改为 net10.0-windows
@@ -65,10 +75,9 @@ An app to put anything on your desktop.
 - UI 主题
     - [x] 按钮默认状态添加描边
     - [ ] 让hover状态不那么明显，否则拖拽的时候会闪来闪去（各个状态设置同一个style box）
-- Tutorial Sticker 教程便签：
 - Manage Sticker 显示所有便签列表的便签？
 - 应用窗口问题，嵌入桌面模式
-    - [ ] 关闭时保存程序窗口尺寸和位置
+    - [ ] 关闭时保存程序窗口尺寸和位置，处理虚拟屏幕问题（godot 不支持，需要手动操作，最起码恢复窗口大小）。如果虚拟屏幕尺寸改变了，就不还原屏幕位置。
     - [x] 挂载桌面时，获取并使用正确的屏幕窗口位置，防止副屏在左上侧时的问题。
     - [x] 防止每次切换embed会让窗口积累偏移（切换无边框会略微改变窗口大小，但是不再有累积偏移）
     - [x] 窗口最大化下，切换无边框模式有问题。因此禁用窗口最大化（

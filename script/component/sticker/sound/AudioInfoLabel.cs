@@ -23,11 +23,22 @@ public partial class AudioInfoLabel : ComponentResource
     protected static readonly StringName SN_MouseLeft = "mouse_left";
     protected int ShowInfoIdx = 0;
 
-    public override void OnEntityReady()
+    public override bool OnHolderTryAdd(ComponentHolder holder)
     {
+        Holder = holder;
         Holder.TryGetNodeFromEntity<Label>(NP_Label, out Label);
         Label.GuiInput += OnGuiInput;
+        // GD.Print(System.Environment.StackTrace);
+        return true;
     }
+
+    /*
+    public override void OnEntityReady()
+    {
+        GD.Print("AudioInfoLabel ready.");
+        GD.Print(System.Environment.StackTrace);
+    }
+    */
 
     public override bool OnHolderTryRemove()
     {
@@ -39,15 +50,36 @@ public partial class AudioInfoLabel : ComponentResource
     {
         using (@event)
         {
-            if (Input.IsActionJustPressed(SN_CtrlMouseLeft))
+            if (@event is InputEventMouseButton mouseButton
+                && mouseButton.IsReleased())
             {
-                Holder.TryGetComponent<SoundStickerLoadAudio>(out var loadAudio);
-                // GD.Print(loadImage.ImageFile);
-                DragDropUtil.StartDragDrop(loadAudio.AudioFile);
-            }
-            else if (Input.IsActionJustPressed(SN_MouseLeft))
-            {
-                ScrollInfo();
+                if (mouseButton.ButtonIndex == MouseButton.Left
+                    && mouseButton.ShiftPressed)
+                {
+                    if (Holder.TryGetComponent<SoundStickerLoadAudio>(out var loadAudio))
+                    {
+                        DragDropUtil.StartDragDrop(loadAudio.AudioFile);
+                    }
+                }
+                else if (mouseButton.ButtonIndex == MouseButton.Left
+                    && mouseButton.CtrlPressed)
+                {
+                    if (Holder.TryGetComponent<SoundStickerLoadAudio>(out var loadAudio))
+                    {
+                        if (mouseButton.AltPressed)
+                        {
+                            OS.ShellShowInFileManager(loadAudio.AudioFile);
+                        }
+                        else
+                        {
+                            OS.ShellOpen(loadAudio.AudioFile);
+                        }
+                    }
+                }
+                else
+                {
+                    ScrollInfo();
+                }
             }
         }
     }

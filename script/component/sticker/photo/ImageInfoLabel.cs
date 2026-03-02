@@ -24,10 +24,12 @@ public partial class ImageInfoLabel : ComponentResource
     protected static readonly StringName SN_MouseLeft = "mouse_left";
     protected int ShowInfoIdx = 0;
 
-    public override void OnEntityReady()
+    public override bool OnHolderTryAdd(ComponentHolder holder)
     {
+        Holder = holder;
         Holder.TryGetNodeFromEntity<Label>(NP_ImageInfoLabel, out Label);
         Label.GuiInput += OnGuiInput;
+        return true;
     }
 
     public override bool OnHolderTryRemove()
@@ -40,15 +42,36 @@ public partial class ImageInfoLabel : ComponentResource
     {
         using (@event)
         {
-            if (Input.IsActionJustPressed(SN_CtrlMouseLeft))
+            if (@event is InputEventMouseButton mouseButton
+                && mouseButton.IsReleased())
             {
-                Holder.TryGetComponent<StickerPhotoLoadImage>(out var loadImage);
-                // GD.Print(loadImage.ImageFile);
-                DragDropUtil.StartDragDrop(loadImage.ImageFile);
-            }
-            else if (Input.IsActionJustPressed(SN_MouseLeft))
-            {
-                ScrollInfo();
+                if (mouseButton.ButtonIndex == MouseButton.Left
+                    && mouseButton.ShiftPressed)
+                {
+                    if (Holder.TryGetComponent<StickerPhotoLoadImage>(out var loadImage))
+                    {
+                        DragDropUtil.StartDragDrop(loadImage.ImageFile);
+                    }
+                }
+                else if (mouseButton.ButtonIndex == MouseButton.Left
+                    && mouseButton.CtrlPressed)
+                {
+                    if (Holder.TryGetComponent<StickerPhotoLoadImage>(out var loadImage))
+                    {
+                        if (mouseButton.AltPressed)
+                        {
+                            OS.ShellShowInFileManager(loadImage.ImageFile);
+                        }
+                        else
+                        {
+                            OS.ShellOpen(loadImage.ImageFile);
+                        }
+                    }
+                }
+                else
+                {
+                    ScrollInfo();
+                }
             }
         }
     }

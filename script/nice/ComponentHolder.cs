@@ -212,10 +212,17 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
 
         IsEntityReady = true;
 
+        /*
         var comps = KVComponents.Values.ToArray();
         for (int i = 0; i < comps.Length; ++i)
         {
             comps[i].OnEntityReady();
+        }
+        */
+
+        foreach (var comp in KVComponents.Values)
+        {
+            comp.OnEntityReady();
         }
         
         if (KVTagIdxabs != null)

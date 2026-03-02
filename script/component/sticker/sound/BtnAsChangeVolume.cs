@@ -45,20 +45,28 @@ public partial class BtnAsChangeVolume : ComponentResource
 
     protected void OnGuiInput(InputEvent @event)
     {
-        if (@event is InputEventMouseButton mouseEvent
-            && mouseEvent.IsReleased())
+        using (@event)
         {
-            if (mouseEvent.ButtonIndex == MouseButton.Left)
+            
+            if (Input.IsActionJustReleased(Name.SN_CtrlScrollUp))
             {
                 SetVolumeAdjust(IsVolumeAdjust, VolumeDb + 1);
             }
-            else if (mouseEvent.ButtonIndex == MouseButton.Right)
+            else if (Input.IsActionJustReleased(Name.SN_CtrlScrollDown))
             {
                 SetVolumeAdjust(IsVolumeAdjust, VolumeDb - 1);
             }
-            else if (mouseEvent.ButtonIndex == MouseButton.Middle)
+            else if (@event is InputEventMouseButton mouseEvent
+                && mouseEvent.IsReleased())
             {
-                SetVolumeAdjust(!IsVolumeAdjust, VolumeDb);
+                if (mouseEvent.ButtonIndex == MouseButton.Left)
+                {
+                    SetVolumeAdjust(!IsVolumeAdjust, VolumeDb);
+                }
+                else if (mouseEvent.ButtonIndex == MouseButton.Middle)
+                {
+                    SetVolumeAdjust(IsVolumeAdjust, 0);
+                }
             }
         }
     }
@@ -70,12 +78,12 @@ public partial class BtnAsChangeVolume : ComponentResource
         VolumeDb = volumeDb;
         if (isVolumeAdjust)
         {
-            Button.TooltipText = "Volume adjust on\n- Mouse middle: toggle volume adjust\n- Mouse left: volume up\n- Mouse right: volume down";
+            Button.TooltipText = "Volume adjust on\n- Click to toggle volume adjust\n- Ctrl + scroll up: volume up\n- Ctrl + scroll down: volume down";
             PlayPause.Player.VolumeDb = VolumeDb;
         }
         else
         {
-            Button.TooltipText = "volume adjust off\n- Mouse middle: toggle volume adjust\n- Mouse left: volume up\n- Mouse right: volume down";
+            Button.TooltipText = "volume adjust off\n- Click to toggle volume adjust\n- Ctrl + scroll up: volume up\n- Ctrl + scroll down: volume down";
             PlayPause.Player.VolumeDb = 0f;
         }
         if (VolumeDb >= 0f)

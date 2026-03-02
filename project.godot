@@ -25,6 +25,7 @@ config/icon="res://icon.svg"
 window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/size/transparent=true
+window/size/sharp_corners=true
 window/size/maximize_disabled=true
 window/energy_saving/keep_screen_on=false
 window/per_pixel_transparency/allowed=true
@@ -54,6 +55,11 @@ mouse_left={
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"canceled":false,"pressed":false,"double_click":false,"script":null)
 ]
 }
+mouse_right={
+"deadzone": 0.2,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":2,"position":Vector2(648, 22),"global_position":Vector2(653, 64),"factor":1.0,"button_index":2,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
 ctrl_scroll_up={
 "deadzone": 0.0,
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"command_or_control_autoremap":true,"alt_pressed":false,"shift_pressed":false,"button_mask":8,"position":Vector2(338, 7),"global_position":Vector2(343, 49),"factor":1.0,"button_index":4,"canceled":false,"pressed":true,"double_click":false,"script":null)
@@ -62,11 +68,6 @@ ctrl_scroll_up={
 ctrl_scroll_down={
 "deadzone": 0.0,
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"command_or_control_autoremap":true,"alt_pressed":false,"shift_pressed":false,"button_mask":16,"position":Vector2(256, 26),"global_position":Vector2(261, 68),"factor":1.0,"button_index":5,"canceled":false,"pressed":true,"double_click":false,"script":null)
-]
-}
-mouse_right={
-"deadzone": 0.2,
-"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":2,"position":Vector2(648, 22),"global_position":Vector2(653, 64),"factor":1.0,"button_index":2,"canceled":false,"pressed":true,"double_click":false,"script":null)
 ]
 }
 ctrl={
@@ -104,9 +105,10 @@ shift_scroll_down={
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":true,"ctrl_pressed":false,"meta_pressed":false,"button_mask":16,"position":Vector2(374, 11),"global_position":Vector2(379, 53),"factor":1.0,"button_index":5,"canceled":false,"pressed":true,"double_click":false,"script":null)
 ]
 }
-double_click_mouse_left={
+shift_mouse_left={
 "deadzone": 0.2,
-"events": []
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":true,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(245, 12),"global_position":Vector2(250, 54),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
 }
 
 [rendering]

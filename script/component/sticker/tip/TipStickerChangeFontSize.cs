@@ -31,8 +31,8 @@ public partial class TipStickerChangeFontSize : ComponentResource
         {40, 108}, {41, 120}, {42, 132}, {43, 150}, {44, 180}, {45, 240}, {46, 320}, {47, 400},
         {48, 512}, {49, 640}
     };
-    public const int DefaultFontSizeId = 16;
-    public int FontSizeId { get; protected set; } = 16;
+    public const int DefaultFontSizeId = 14;
+    public int FontSizeId { get; protected set; } = DefaultFontSizeId;
 
     public override void OnEntityReady()
     {

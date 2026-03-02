@@ -44,7 +44,8 @@ public partial class TipStickerUpdateUri : ComponentResource
         Match match;
 
         // Uri
-        match = Regexy.UriRegex.Match(text);
+        // Windows file
+        match = Regexy.WinFileRegex.Match(text);
         if (match.Success)
         {
             UriBtn.Visible = true;
@@ -54,8 +55,8 @@ public partial class TipStickerUpdateUri : ComponentResource
             return;
         }
 
-        // Windows file
-        match = Regexy.WinFileRegex.Match(text);
+        // Link
+        match = Regexy.UriRegex.Match(text);
         if (match.Success)
         {
             UriBtn.Visible = true;
