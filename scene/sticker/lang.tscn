@@ -1,0 +1,110 @@
+[gd_scene format=3 uid="uid://cboeibatps4sy"]
+
+[ext_resource type="Script" uid="uid://dt0w6j6oba4xu" path="res://script/nice/ComponentHolder.cs" id="1_dwr87"]
+[ext_resource type="Script" uid="uid://b2xcb4nsxu6qc" path="res://script/component/sticker/handle/BtnAsDragHandle.cs" id="2_liaxr"]
+[ext_resource type="Script" uid="uid://bh3822k43m58" path="res://script/component/sticker/lang/LangStickerRegist.cs" id="3_bmejw"]
+[ext_resource type="Script" uid="uid://7a0b3t17qkuf" path="res://script/component/sticker/handle/DragEndOnFocusExited.cs" id="6_ur3vp"]
+[ext_resource type="Script" uid="uid://dtbo6p3yyu7qa" path="res://script/component/main/KeepInDragAreaOnWindowSizeChanged.cs" id="8_ei0lv"]
+[ext_resource type="Script" uid="uid://bcxdwbyi3cxlm" path="res://script/component/sticker/StickerControlSize.cs" id="9_3jjki"]
+[ext_resource type="Script" uid="uid://blmc34v7jwftc" path="res://script/component/sticker/OnStickerRemove.cs" id="13_2ql0i"]
+[ext_resource type="Script" uid="uid://b5hdl0ok84t2m" path="res://script/component/sticker/OnStickerSizeChanged.cs" id="14_xaa6b"]
+[ext_resource type="Script" uid="uid://bo8uw0h2t47u7" path="res://script/component/sticker/EntityControlSizeClamp.cs" id="15_v03sv"]
+[ext_resource type="Script" uid="uid://de6f22o20s6ba" path="res://script/nice/component_res_ext/ComponentResExt16X.cs" id="16_7e54j"]
+[ext_resource type="Theme" uid="uid://liol3f3pxqvr" path="res://theme/main_theme.tres" id="17_vlyo6"]
+
+[sub_resource type="Resource" id="Resource_k4kkr"]
+resource_local_to_scene = true
+script = ExtResource("2_liaxr")
+metadata/_custom_type_script = "uid://b2xcb4nsxu6qc"
+
+[sub_resource type="Resource" id="Resource_0nigr"]
+resource_local_to_scene = true
+script = ExtResource("3_bmejw")
+metadata/_custom_type_script = "uid://bh3822k43m58"
+
+[sub_resource type="Resource" id="Resource_vw2ix"]
+resource_local_to_scene = true
+script = ExtResource("6_ur3vp")
+metadata/_custom_type_script = "uid://7a0b3t17qkuf"
+
+[sub_resource type="Resource" id="Resource_klwgr"]
+resource_local_to_scene = true
+script = ExtResource("8_ei0lv")
+metadata/_custom_type_script = "uid://dtbo6p3yyu7qa"
+
+[sub_resource type="Resource" id="Resource_xd4p0"]
+resource_local_to_scene = true
+script = ExtResource("9_3jjki")
+metadata/_custom_type_script = "uid://bcxdwbyi3cxlm"
+
+[sub_resource type="Resource" id="Resource_g7bgn"]
+resource_local_to_scene = true
+script = ExtResource("13_2ql0i")
+metadata/_custom_type_script = "uid://blmc34v7jwftc"
+
+[sub_resource type="Resource" id="Resource_t6i5s"]
+resource_local_to_scene = true
+script = ExtResource("14_xaa6b")
+metadata/_custom_type_script = "uid://b5hdl0ok84t2m"
+
+[sub_resource type="Resource" id="Resource_uychi"]
+resource_local_to_scene = true
+script = ExtResource("15_v03sv")
+MinSize = Vector2(128, 64)
+metadata/_custom_type_script = "uid://bo8uw0h2t47u7"
+
+[sub_resource type="Resource" id="Resource_y7nij"]
+resource_local_to_scene = true
+script = ExtResource("16_7e54j")
+Component00 = SubResource("Resource_k4kkr")
+Component01 = SubResource("Resource_0nigr")
+Component04 = SubResource("Resource_vw2ix")
+Component06 = SubResource("Resource_klwgr")
+Component07 = SubResource("Resource_xd4p0")
+Component11 = SubResource("Resource_g7bgn")
+Component12 = SubResource("Resource_t6i5s")
+Component15 = SubResource("Resource_uychi")
+metadata/_custom_type_script = "uid://de6f22o20s6ba"
+
+[node name="Tip" type="Node2D" unique_id=1177799898]
+z_as_relative = false
+
+[node name="ComponentHolder" type="Node" parent="." unique_id=1067633651]
+script = ExtResource("1_dwr87")
+Component00 = SubResource("Resource_y7nij")
+metadata/_custom_type_script = "uid://dt0w6j6oba4xu"
+
+[node name="EntityControl" type="VBoxContainer" parent="." unique_id=854097974]
+offset_right = 200.0
+offset_bottom = 73.0
+theme = ExtResource("17_vlyo6")
+
+[node name="DragHandleBtn" type="Button" parent="EntityControl" unique_id=1149168728]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+keep_pressed_outside = true
+
+[node name="PanelContainer" type="PanelContainer" parent="EntityControl" unique_id=1354626639]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EntityControl/PanelContainer" unique_id=952011626]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EntityControl/PanelContainer/VBoxContainer" unique_id=1596018922]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Choose language"
+
+[node name="OptionButton" type="OptionButton" parent="EntityControl/PanelContainer/VBoxContainer" unique_id=246200644]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+alignment = 1
+selected = 0
+item_count = 2
+popup/item_0/text = "Chinese"
+popup/item_0/id = 0
+popup/item_1/text = "English"
+popup/item_1/id = 1

@@ -25,6 +25,10 @@ public partial class SoundStickerLoadAudio : ComponentResource
     public void LoadFromFile(string file)
     {
         AudioFile = file;
+        if (!File.Exists(AudioFile))
+        {
+            return;
+        }
         string ext = Path.GetExtension(file).ToLowerInvariant();
         AudioStream stream;
         if (ext.Equals(".mp3"))

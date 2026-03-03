@@ -26,6 +26,15 @@ public partial class OnSaveGame : ComponentResource
 
     protected SaveRoot SaveRoot = new();
 
+    protected BgMainPopupMenu BgMainPopupMenu;
+    public bool IsRestoreWindowPositionOnStart = false;
+    public bool IsShowTooltip = true;
+
+    public override bool OnHolderTryAdd(ComponentHolder holder)
+    {
+        Holder = holder;
+        return true;
+    }
 
     public override void OnEntityReady()
     {
@@ -50,6 +59,8 @@ public partial class OnSaveGame : ComponentResource
         JsonOptions.AllowTrailingCommas = true;
         JsonOptions.WriteIndented = true;
         JsonOptions.Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.CjkUnifiedIdeographs);
+
+        Holder.TryGetComponent<BgMainPopupMenu>(out BgMainPopupMenu);
     }
 
     public void Save()
@@ -66,6 +77,8 @@ public partial class OnSaveGame : ComponentResource
 
         SaveRoot.InitWindowSize = DisplayServer.WindowGetSize();
         SaveRoot.InitWindowPos = DisplayServer.WindowGetPosition();
+        SaveRoot.IsRestoreWindowPositionOnStart = IsRestoreWindowPositionOnStart;
+        SaveRoot.IsShowTooltip = IsShowTooltip;
 
         // Call save tick
         Nice.I.TryTick(TickGroupEnum.Save, new From(SaveRoot));
@@ -107,14 +120,21 @@ public partial class OnSaveGame : ComponentResource
         }
         DisplayServer.WindowSetSize(initWindowSize);
 
-        /*
-        Vector2I initWindowPos = SaveRoot.InitWindowPos;
-        if (initWindowPos.Y <= 16)
+        IsRestoreWindowPositionOnStart = SaveRoot.IsRestoreWindowPositionOnStart;
+        IsShowTooltip = SaveRoot.IsShowTooltip;
+
+        if (IsRestoreWindowPositionOnStart)
         {
-            initWindowPos.Y = 16;
+            Vector2I initWindowPos = SaveRoot.InitWindowPos;
+            if (initWindowPos.Y <= 16)
+            {
+                initWindowPos.Y = 16;
+            }
+            DisplayServer.WindowSetPosition(initWindowPos);
         }
-        DisplayServer.WindowSetPosition(initWindowPos);
-        */
+        var popupMenu = BgMainPopupMenu.PopupMenu;
+        popupMenu.SetItemChecked(popupMenu.GetItemIndex(300), IsRestoreWindowPositionOnStart);
+        popupMenu.SetItemChecked(popupMenu.GetItemIndex(400), IsShowTooltip);
 
         foreach (var save in SaveRoot.ListChildren)
         {

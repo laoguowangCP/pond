@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Godot;
 using LGWCP.Extension;
 using LGWCP.NiceGD;
@@ -21,6 +22,8 @@ public partial class StickerBuilder : ComponentResource
     protected PackedScene PhotoStickerScene;
     [Export(PropertyHint.File)] protected string RP_SoundSticker = "res://scene/sticker/sound.tscn";
     protected PackedScene SoundStickerScene;
+    [Export(PropertyHint.File)] protected string RP_LanguageSticker = "res://scene/sticker/lang.tscn";
+    protected PackedScene LanguageStickerScene;
     protected HandleStickerInSceneTree HandleSticker;
 
     public override void OnEntityReady()
@@ -28,6 +31,7 @@ public partial class StickerBuilder : ComponentResource
         TipStickerScene = ResourceLoader.Load<PackedScene>(RP_TipSticker);
         PhotoStickerScene = ResourceLoader.Load<PackedScene>(RP_PhotoSticker);
         SoundStickerScene = ResourceLoader.Load<PackedScene>(RP_SoundSticker);
+        LanguageStickerScene = ResourceLoader.Load<PackedScene>(RP_LanguageSticker);
         Holder.TryGetComponent<HandleStickerInSceneTree>(out HandleSticker);
     }
 
@@ -99,6 +103,13 @@ public partial class StickerBuilder : ComponentResource
         return true;
     }
 
+    public bool BuildStickerLanguage(out Node2D sticker)
+    {
+        sticker = LanguageStickerScene.Instantiate<Node2D>();
+        HandleSticker.AddSticker(sticker);
+        return true;
+    }
+
     public bool BuildFromSaveNode(ISaveNode save, out Node2D sticker)
     {
         sticker = default;
@@ -124,7 +135,8 @@ public partial class StickerBuilder : ComponentResource
             }
         }
         else if (save is SaveStickerPhoto savePhoto
-            && !string.IsNullOrEmpty(savePhoto.ImageFile))
+            && !string.IsNullOrEmpty(savePhoto.ImageFile)
+            && File.Exists(savePhoto.ImageFile))
         {
             sticker = PhotoStickerScene.Instantiate<Node2D>();
             HandleSticker.AddSticker(sticker);
@@ -134,7 +146,8 @@ public partial class StickerBuilder : ComponentResource
             }
         }
         else if (save is SaveStickerSound saveSound
-            && !string.IsNullOrEmpty(saveSound.AudioFile))
+            && !string.IsNullOrEmpty(saveSound.AudioFile)
+            && File.Exists(saveSound.AudioFile))
         {
             sticker = SoundStickerScene.Instantiate<Node2D>();
             HandleSticker.AddSticker(sticker);

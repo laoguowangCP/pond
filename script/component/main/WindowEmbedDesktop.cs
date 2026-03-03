@@ -17,6 +17,32 @@ public partial class WindowEmbedDesktop : ComponentResource
 
     public bool IsEmbeded { get; protected set; } = false;
     protected Vector2I WindowPosBeforeEmbeded;
+    protected BgMainPopupMenu BgMainPopupMenu;
+
+    public override void OnEntityReady()
+    {
+        // DisplayServer.WindowSetFlag(DisplayServer.WindowFlags.Transparent, true);
+        // root.TransparentBg = true;
+        // Embed();
+        Holder.TryGetComponent<BgMainPopupMenu>(out BgMainPopupMenu);
+        // BgMainPopupMenu.PopupMenu.AddItem()
+        // BgMainPopupMenu.PopupMenu.IdPressed += OnIdPressed;
+    }
+
+    public void SwitchEmbed()
+    {
+        if (IsEmbeded)
+        {
+            // Embed
+            UnEmbed();
+        }
+        else 
+        {
+            // Embed
+            // WindowEmbedDesktop.EmbedAsWallPaper();
+            EmbedAsDesktopOverlay();
+        }
+    }
 
     public void EmbedAsWallPaper()
     {
@@ -167,12 +193,5 @@ public partial class WindowEmbedDesktop : ComponentResource
 
             return IntPtr.Zero;
         }
-    }
-
-    public override void OnEntityReady()
-    {
-        // DisplayServer.WindowSetFlag(DisplayServer.WindowFlags.Transparent, true);
-        // root.TransparentBg = true;
-        // Embed();
     }
 }

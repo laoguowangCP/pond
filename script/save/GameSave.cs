@@ -95,6 +95,9 @@ public class SaveRoot : SaveNodeBase
     public Vector2I InitWindowSize;
     public Vector2I InitWindowPos;
     // public Vector4I WindowRect;
+
+    public bool IsRestoreWindowPositionOnStart = false;
+    public bool IsShowTooltip = true;
 }
 
 public class SaveSticker : SaveNodeBase

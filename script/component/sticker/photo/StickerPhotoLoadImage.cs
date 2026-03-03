@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Godot;
 using LGWCP.NiceGD;
 
@@ -26,6 +27,10 @@ public partial class StickerPhotoLoadImage : ComponentResource
     public void LoadFromFile(string file)
     {
         ImageFile = file;
+        if (!File.Exists(ImageFile))
+        {
+            return;
+        }
         GD.Print("Load image file: ", file);
         var imageTexture = ImageTexture.CreateFromImage(Image.LoadFromFile(file));
         TextureRect.Texture = imageTexture;

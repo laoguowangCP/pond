@@ -14,14 +14,13 @@ metadata/_custom_type_script = "uid://dt0w6j6oba4xu"
 custom_minimum_size = Vector2(128, 128)
 offset_right = 714.0
 offset_bottom = 467.0
-scroll_offset = Vector2(-40, -40)
 
 [node name="GraphNode" type="GraphNode" parent="GraphEdit" unique_id=114342438]
 layout_mode = 0
-offset_left = 255.0
-offset_top = 83.0
-offset_right = 404.0
-offset_bottom = 196.0
+offset_left = 215.0
+offset_top = 43.0
+offset_right = 364.0
+offset_bottom = 156.0
 mouse_filter = 1
 position_offset = Vector2(215, 43)
 resizable = true

@@ -240,8 +240,10 @@ layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 18
+keep_pressed_outside = true
 
 [node name="SwitchWindowEmbedBtn" type="Button" parent="UICanvasLayer/BackgroundPanel/GridContainer" unique_id=1657201894]
+visible = false
 z_index = 100
 layout_mode = 2
 text = "Switch Window Embed"
@@ -265,17 +267,24 @@ text = "拖到此处删除"
 [node name="MainCanvasLayer" type="CanvasLayer" parent="." unique_id=1163269068]
 
 [node name="PopupMenu" type="PopupMenu" parent="." unique_id=827479570]
+transparent_bg = false
 oversampling_override = 1.0
-size = Vector2i(427, 148)
+size = Vector2i(427, 183)
+visible = true
+transparent = false
 theme = ExtResource("21_fdqew")
-item_count = 4
+hide_on_checkable_item_selection = false
+item_count = 5
 item_0/text = "Switch desktop embed mode"
-item_0/id = 0
+item_0/id = 100
 item_1/text = "Show tutorial stickers"
-item_1/id = 1
-item_2/text = "Dismiss tutorial stickers"
-item_2/id = 3
-item_2/disabled = true
+item_1/id = 200
+item_2/text = "Show language sticker"
+item_2/id = 201
 item_3/text = "Restore window position on start"
 item_3/checkable = 1
-item_3/id = 2
+item_3/id = 300
+item_4/text = "Show tooltip"
+item_4/checkable = 1
+item_4/checked = true
+item_4/id = 400

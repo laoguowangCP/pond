@@ -65,6 +65,9 @@ An app to put anything on your desktop.
     - [ ] 介绍 Photot sticker
     - [ ] 介绍 Sound sticker
     - [ ] 勾选下次是否自动弹出教程便签
+- Language Sticker 语言选择便签。
+    - [ ] 提示重启以应用语言？
+    - [ ] 下拉菜单选择语言
 - 管理菜单：右键面板弹出
     - [ ] 切换窗口嵌入按键
     - [ ] 创建说明手册便签
