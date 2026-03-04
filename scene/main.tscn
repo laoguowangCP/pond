@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dt0w6j6oba4xu" path="res://script/nice/ComponentHolder.cs" id="1_v0l8b"]
 [ext_resource type="Script" uid="uid://d2s3tj3435w8y" path="res://script/component/main/WindowEmbedDesktop.cs" id="2_v0l8b"]
-[ext_resource type="Script" uid="uid://b3i7ag4egov14" path="res://script/component/main/SwitchWindowEmbed.cs" id="3_brvut"]
+[ext_resource type="Script" uid="uid://b3i7ag4egov14" path="res://script/component/main/SwitchWindowEmbed.cs" id="4_0d4pv"]
 [ext_resource type="Script" uid="uid://de6f22o20s6ba" path="res://script/nice/component_res_ext/ComponentResExt16X.cs" id="4_0ha60"]
 [ext_resource type="Script" uid="uid://bfh3oapm3260b" path="res://script/component/main/MouseDrag.cs" id="4_4j5ol"]
 [ext_resource type="Script" uid="uid://co7pr1usi38v3" path="res://script/component/main/BgMainPopupMenu.cs" id="5_0d4pv"]
@@ -28,17 +28,6 @@ resource_local_to_scene = true
 script = ExtResource("2_v0l8b")
 metadata/_custom_type_script = "uid://d2s3tj3435w8y"
 
-[sub_resource type="Resource" id="Resource_0ha60"]
-resource_local_to_scene = true
-script = ExtResource("4_4j5ol")
-metadata/_custom_type_script = "uid://bfh3oapm3260b"
-
-[sub_resource type="Resource" id="Resource_4j5ol"]
-resource_local_to_scene = true
-script = ExtResource("3_brvut")
-NP_SwitchWindowEmbedBtn = NodePath("../UICanvasLayer/BackgroundPanel/GridContainer/SwitchWindowEmbedBtn")
-metadata/_custom_type_script = "uid://b3i7ag4egov14"
-
 [sub_resource type="Resource" id="Resource_vneqc"]
 resource_local_to_scene = true
 script = ExtResource("5_0d4pv")
@@ -46,25 +35,30 @@ NP_PopupMenu = NodePath("../PopupMenu")
 NP_BgPanel = NodePath("../UICanvasLayer/BackgroundPanel")
 metadata/_custom_type_script = "uid://co7pr1usi38v3"
 
-[sub_resource type="Resource" id="Resource_tqoya"]
+[sub_resource type="Resource" id="Resource_io27d"]
 resource_local_to_scene = true
 script = ExtResource("6_b5f6u")
 metadata/_custom_type_script = "uid://b4pydyhgu5n2v"
 
-[sub_resource type="Resource" id="Resource_k65ib"]
+[sub_resource type="Resource" id="Resource_mjuaj"]
 resource_local_to_scene = true
 script = ExtResource("7_tqoya")
 metadata/_custom_type_script = "uid://dnjt53k1vt2jq"
 
-[sub_resource type="Resource" id="Resource_jcbur"]
+[sub_resource type="Resource" id="Resource_gj7ui"]
 resource_local_to_scene = true
 script = ExtResource("8_k65ib")
 metadata/_custom_type_script = "uid://526kb8wbrkac"
 
-[sub_resource type="Resource" id="Resource_hybxs"]
+[sub_resource type="Resource" id="Resource_7xrs8"]
 resource_local_to_scene = true
 script = ExtResource("9_wscrc")
 metadata/_custom_type_script = "uid://8mr2lrobfe0r"
+
+[sub_resource type="Resource" id="Resource_7ty4q"]
+resource_local_to_scene = true
+script = ExtResource("4_0d4pv")
+metadata/_custom_type_script = "uid://b3i7ag4egov14"
 
 [sub_resource type="Resource" id="Resource_v2gmf"]
 resource_local_to_scene = true
@@ -102,7 +96,7 @@ resource_local_to_scene = true
 script = ExtResource("16_tv8i1")
 metadata/_custom_type_script = "uid://jeo38ahacivr"
 
-[sub_resource type="Resource" id="Resource_smf0o"]
+[sub_resource type="Resource" id="Resource_fa8t4"]
 resource_local_to_scene = true
 script = ExtResource("12_v2gmf")
 metadata/_custom_type_script = "uid://5yaurvnaac1x"
@@ -110,13 +104,12 @@ metadata/_custom_type_script = "uid://5yaurvnaac1x"
 [sub_resource type="Resource" id="Resource_p1hux"]
 resource_local_to_scene = true
 script = ExtResource("4_0ha60")
-Component00 = SubResource("Resource_0ha60")
-Component01 = SubResource("Resource_4j5ol")
-Component02 = SubResource("Resource_vneqc")
-Component03 = SubResource("Resource_tqoya")
-Component04 = SubResource("Resource_k65ib")
-Component05 = SubResource("Resource_jcbur")
-Component06 = SubResource("Resource_hybxs")
+Component00 = SubResource("Resource_vneqc")
+Component01 = SubResource("Resource_io27d")
+Component02 = SubResource("Resource_mjuaj")
+Component03 = SubResource("Resource_gj7ui")
+Component04 = SubResource("Resource_7xrs8")
+Component05 = SubResource("Resource_7ty4q")
 Component07 = SubResource("Resource_v2gmf")
 Component08 = SubResource("Resource_0vlqb")
 Component09 = SubResource("Resource_tv8i1")
@@ -124,7 +117,7 @@ Component10 = SubResource("Resource_gjnwh")
 Component11 = SubResource("Resource_fdqew")
 Component12 = SubResource("Resource_0d4pv")
 Component13 = SubResource("Resource_gn2wi")
-Component15 = SubResource("Resource_smf0o")
+Component14 = SubResource("Resource_fa8t4")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 
 [sub_resource type="Resource" id="Resource_gtqqq"]
@@ -142,12 +135,18 @@ resource_local_to_scene = true
 script = ExtResource("5_smf0o")
 metadata/_custom_type_script = "uid://703f4ecf48ha"
 
+[sub_resource type="Resource" id="Resource_rg6nf"]
+resource_local_to_scene = true
+script = ExtResource("4_4j5ol")
+metadata/_custom_type_script = "uid://bfh3oapm3260b"
+
 [sub_resource type="Resource" id="Resource_oldxj"]
 resource_local_to_scene = true
 script = ExtResource("4_0ha60")
 Component00 = SubResource("Resource_gtqqq")
 Component01 = SubResource("Resource_p8adh")
 Component02 = SubResource("Resource_4jm02")
+Component03 = SubResource("Resource_rg6nf")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gjnwh"]
@@ -241,13 +240,7 @@ size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 18
 keep_pressed_outside = true
-
-[node name="SwitchWindowEmbedBtn" type="Button" parent="UICanvasLayer/BackgroundPanel/GridContainer" unique_id=1657201894]
-visible = false
-z_index = 100
-layout_mode = 2
-text = "Switch Window Embed"
-text_overrun_behavior = 2
+text = "按住并拖动"
 
 [node name="DragDeleteButton" type="Button" parent="UICanvasLayer" unique_id=1223228907]
 z_index = 1000
@@ -262,7 +255,7 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxFlat_gjnwh")
 theme_override_styles/hover = SubResource("StyleBoxFlat_fdqew")
-text = "拖到此处删除"
+text = "BTN.DragHereToDelete"
 
 [node name="MainCanvasLayer" type="CanvasLayer" parent="." unique_id=1163269068]
 
@@ -274,17 +267,13 @@ visible = true
 transparent = false
 theme = ExtResource("21_fdqew")
 hide_on_checkable_item_selection = false
-item_count = 5
-item_0/text = "Switch desktop embed mode"
+item_count = 4
+item_0/text = "OPT.SwitchDesktopEmbedMode"
 item_0/id = 100
-item_1/text = "Show tutorial stickers"
+item_1/text = "OPT.ShowTutorialSticker"
 item_1/id = 200
-item_2/text = "Show language sticker"
+item_2/text = "OPT.ShowLanguageSticker"
 item_2/id = 201
-item_3/text = "Restore window position on start"
+item_3/text = "OPT.RestoreWindowPositionOnStart"
 item_3/checkable = 1
 item_3/id = 300
-item_4/text = "Show tooltip"
-item_4/checkable = 1
-item_4/checked = true
-item_4/id = 400

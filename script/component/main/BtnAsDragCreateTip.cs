@@ -23,8 +23,9 @@ public partial class BtnAsDragCreateTip : ComponentResource
     protected Vector2 DragBeginDisplacement;
     protected DragArea DragArea;
 
-    public override void OnEntityReady()
+    public override bool OnHolderTryAdd(ComponentHolder holder)
     {
+        Holder = holder;
         Holder.TryGetNodeFromEntity<Button>(NP_CreateBtn, out CreateBtn);
         CreateBtn.Text = "按住并拖动";
 
@@ -35,8 +36,14 @@ public partial class BtnAsDragCreateTip : ComponentResource
         CreateBtn.ButtonDown += OnButtonDown;
         CreateBtn.ButtonUp += OnButtonUp;
 
+        return true;
+    }
+
+    public override void OnEntityReady()
+    {
         Holder.TryGetComponent<DragArea>(out DragArea);
     }
+
 
     public override bool OnHolderTryRemove()
     {
@@ -112,13 +119,13 @@ public partial class BtnAsDragCreateTip : ComponentResource
 
     public void ButtonShow()
     {
-        CreateBtn.Text = "按住并拖动";
+        // CreateBtn.Text = "按住并拖动";
         CreateBtn.Modulate = new Color(0xffffffff);
     }
 
     public void ButtonHide()
     {
-        CreateBtn.Text = "";
+        // CreateBtn.Text = "";
         CreateBtn.Modulate = new Color(0xffffff00);
     }
 

@@ -60,11 +60,8 @@ public partial class TipStickerUpdateUri : ComponentResource
             UriBtn.Text = value;
             UriBtn.TooltipText = value;
             UriStr = value;
-            if (File.Exists(value)
-                || Directory.Exists(value))
-            {
-                FolderBtn.Visible = true;
-            }
+            FolderBtn.Visible = File.Exists(value)
+                || Directory.Exists(value);
             return;
         }
 
@@ -86,27 +83,11 @@ public partial class TipStickerUpdateUri : ComponentResource
 
     protected void OnUriBtnPressed()
     {
-        try
-        {
-            OS.ShellOpen(UriStr);
-        }
-        catch (Exception e)
-        {
-            // GD.Print(e.HResult);
-            throw;
-        }
+        OS.ShellOpen(UriStr);
     }
 
     private void OnFolderBtnPressed()
     {
-        try
-        {
-            OS.ShellShowInFileManager(UriStr);
-        }
-        catch (Exception e)
-        {
-            // GD.Print(e.HResult);
-            throw;
-        }
+        OS.ShellShowInFileManager(UriStr);
     }
 }

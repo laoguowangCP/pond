@@ -251,6 +251,7 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
     {
         if (comp != null && comp.OnHolderTryAdd(this))
         {
+            GD.Print(comp.ComponentType);
             if (KVComponents.TryAdd(comp.ComponentType, comp))
             {
                 // Add tick group

@@ -125,11 +125,11 @@ public partial class BgMainPopupMenu : ComponentResource
                 // Update text
                 if (LangSticker == null)
                 {
-                    PopupMenu.SetItemText(PopupMenu.GetItemIndex(201), "Show language sticker.");
+                    PopupMenu.SetItemText(PopupMenu.GetItemIndex(201), Tr(Name.SN_ShowLanguageSticker));
                 }
                 else
                 {
-                    PopupMenu.SetItemText(PopupMenu.GetItemIndex(201), "Dismiss language sticker.");
+                    PopupMenu.SetItemText(PopupMenu.GetItemIndex(201), Tr(Name.SN_DismissLanguageSticker));
                 }
 
                 Vector2 mousePos = BgPanel.GetGlobalMousePosition();

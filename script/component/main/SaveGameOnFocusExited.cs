@@ -22,7 +22,6 @@ public partial class SaveGameOnFocusExited : ComponentResource
     {
         // Hook when window unfocus, save stickers.
         var window = Holder.GetWindow();
-        // window.FocusEntered += OnWindowFocusEntered;
         window.FocusExited += OnWindowFocusExited;
     }
 

@@ -1,0 +1,7 @@
+key,_location,_description,?context ,en,es,zh,ja
+OPT.ShowLanguageSticker,script\name\Name.cs,选项 显示语言便签,,Show language sticker ,,显示语言便签,
+OPT.DismissLanguageSticker,script\name\Name.cs,选项 取消显示语言便签,,Dismiss language sticker ,,取消显示语言便签,
+OPT.SwitchDesktopEmbedMode,res://scene/main.tscn,选项 切换桌面嵌入模式,,Switch desktop embed mode,,切换桌面嵌入模式,
+OPT.ShowTutorialSticker,res://scene/main.tscn,,,Show tutorial sticker,,显示教程便签,
+OPT.DismissTutorialSticker,res://scene/main.tscn,,,Dismiss tutorial sticker,,取消显示教程便签,
+OPT.RestoreWindowPositionOnStart,res://scene/main.tscn,,,Restore window position on start,,启动时恢复窗口位置,

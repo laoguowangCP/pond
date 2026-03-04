@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dje0pt855ihrr"
+
+[deps]
+
+files=["res://fanyi/fanyi.en.translation", "res://fanyi/fanyi.en.translation", "res://fanyi/fanyi.en.translation", "res://fanyi/fanyi.zh.translation", "res://fanyi/fanyi.en.translation"]
+
+source_file="res://fanyi/fanyi.csv"
+dest_files=["res://fanyi/fanyi.en.translation", "res://fanyi/fanyi.en.translation", "res://fanyi/fanyi.en.translation", "res://fanyi/fanyi.zh.translation", "res://fanyi/fanyi.en.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true
