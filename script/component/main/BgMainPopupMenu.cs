@@ -116,25 +116,28 @@ public partial class BgMainPopupMenu : ComponentResource
 
     private void OnGuiInput(InputEvent @event)
     {
-        if (@event is InputEventMouseButton mouseButton)
+        using (@event)
         {
-            if (mouseButton.ButtonIndex == MouseButton.Right
-                && mouseButton.IsReleased())
+            if (@event is InputEventMouseButton mouseButton)
             {
-                // PopupMenu.Visible = true;
-                // Update text
-                if (LangSticker == null)
+                if (mouseButton.ButtonIndex == MouseButton.Right
+                    && mouseButton.IsReleased())
                 {
-                    PopupMenu.SetItemText(PopupMenu.GetItemIndex(201), Tr(Name.SN_ShowLanguageSticker));
-                }
-                else
-                {
-                    PopupMenu.SetItemText(PopupMenu.GetItemIndex(201), Tr(Name.SN_DismissLanguageSticker));
-                }
+                    // PopupMenu.Visible = true;
+                    // Update text
+                    if (LangSticker == null)
+                    {
+                        PopupMenu.SetItemText(PopupMenu.GetItemIndex(201), Tr(Name.SN_ShowLanguageSticker));
+                    }
+                    else
+                    {
+                        PopupMenu.SetItemText(PopupMenu.GetItemIndex(201), Tr(Name.SN_DismissLanguageSticker));
+                    }
 
-                Vector2 mousePos = BgPanel.GetGlobalMousePosition();
-                PopupMenu.Popup(new Rect2I(Mathf.RoundToInt(mousePos.X), Mathf.RoundToInt(mousePos.Y), 0, 0));
-                // PopupMenu.Popup();
+                    Vector2 mousePos = BgPanel.GetGlobalMousePosition();
+                    PopupMenu.Popup(new Rect2I(Mathf.RoundToInt(mousePos.X), Mathf.RoundToInt(mousePos.Y), 0, 0));
+                    // PopupMenu.Popup();
+                }
             }
         }
     }

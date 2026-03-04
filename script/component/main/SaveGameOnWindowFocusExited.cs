@@ -10,9 +10,9 @@ namespace LGWCP.Pond;
 /// </summary>
 [GlobalClass]
 [Tool]
-public partial class SaveGameOnFocusExited : ComponentResource
+public partial class SaveGameOnWindowFocusExited : ComponentResource
 {
-    public override Type ComponentType => typeof(SaveGameOnFocusExited);
+    public override Type ComponentType => typeof(SaveGameOnWindowFocusExited);
     public override TickGroupEnum TickGroup => TickGroupEnum.None;
     public override bool IsRegist => false;
 
@@ -21,15 +21,15 @@ public partial class SaveGameOnFocusExited : ComponentResource
     public override void OnEntityReady()
     {
         // Hook when window unfocus, save stickers.
-        var window = Holder.GetWindow();
-        window.FocusExited += OnWindowFocusExited;
+        // var window = Holder.GetWindow();
+        // window.FocusExited += OnWindowFocusExited;
     }
 
     public override bool OnHolderTryRemove()
     {
         // Unhook when window unfocus.
-        var window = Holder.GetWindow();
-        window.FocusExited -= OnWindowFocusExited;
+        // var window = Holder.GetWindow();
+        // window.FocusExited -= OnWindowFocusExited;
         return base.OnHolderTryRemove();
     }
 
