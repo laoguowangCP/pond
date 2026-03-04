@@ -61,6 +61,7 @@ An app to put anything on your desktop.
     - [ ] 迷你模式，只保留名称和开始按钮？
 - Model Sticker 模型预览便签。
 - Tutorial Sticker 教程便签：
+    - [ ] 跳转链接readme
     - [ ] 介绍 Tip sticker
     - [ ] 介绍 Photot sticker
     - [ ] 介绍 Sound sticker

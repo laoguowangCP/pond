@@ -50,10 +50,10 @@ public partial class AudioInfoLabel : ComponentResource
     {
         using (@event)
         {
-            if (@event is InputEventMouseButton mouseButton
-                && mouseButton.IsReleased())
+            if (@event is InputEventMouseButton mouseButton)
             {
                 if (mouseButton.ButtonIndex == MouseButton.Left
+                    && mouseButton.IsPressed()
                     && mouseButton.ShiftPressed)
                 {
                     if (Holder.TryGetComponent<SoundStickerLoadAudio>(out var loadAudio))
@@ -62,23 +62,26 @@ public partial class AudioInfoLabel : ComponentResource
                     }
                 }
                 else if (mouseButton.ButtonIndex == MouseButton.Left
-                    && mouseButton.CtrlPressed)
+                    && mouseButton.IsReleased())
                 {
-                    if (Holder.TryGetComponent<SoundStickerLoadAudio>(out var loadAudio))
+                    if (mouseButton.CtrlPressed)
                     {
-                        if (mouseButton.AltPressed)
+                        if (Holder.TryGetComponent<SoundStickerLoadAudio>(out var loadAudio))
                         {
-                            OS.ShellShowInFileManager(loadAudio.AudioFile);
-                        }
-                        else
-                        {
-                            OS.ShellOpen(loadAudio.AudioFile);
+                            if (mouseButton.AltPressed)
+                            {
+                                OS.ShellShowInFileManager(loadAudio.AudioFile);
+                            }
+                            else
+                            {
+                                OS.ShellOpen(loadAudio.AudioFile);
+                            }
                         }
                     }
-                }
-                else
-                {
-                    ScrollInfo();
+                    else
+                    {
+                        ScrollInfo();
+                    }
                 }
             }
         }

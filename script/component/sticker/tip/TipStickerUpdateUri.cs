@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Text.RegularExpressions;
 using Godot;
 using LGWCP.NiceGD;
@@ -13,20 +14,26 @@ public partial class TipStickerUpdateUri : ComponentResource
     public override Type ComponentType => typeof(TipStickerUpdateUri);
     public override TickGroupEnum TickGroup => TickGroupEnum.None;
     public override bool IsRegist => false;
-    protected static readonly NodePath NP_UriBtn = "./EntityControl/PanelContainer/VBoxContainer/LinkButton";
+    protected static readonly NodePath NP_UriBtn = "./EntityControl/PanelContainer/VBoxContainer/HBoxContainer/LinkButton";
     protected Button UriBtn;
+    protected static readonly NodePath NP_FolderBtn = "./EntityControl/PanelContainer/VBoxContainer/HBoxContainer/FolderButton";
+    protected Button FolderBtn;
     protected static NodePath NP_TextEdit = "./EntityControl/PanelContainer/VBoxContainer/TextEdit";
     protected TextEdit TextEdit;
     protected string UriStr;
 
-    public override void OnEntityReady()
+    public override bool OnHolderTryAdd(ComponentHolder holder)
     {
+        Holder = holder;
         Holder.TryGetNodeFromEntity<Button>(NP_UriBtn, out UriBtn);
+        Holder.TryGetNodeFromEntity<Button>(NP_FolderBtn, out FolderBtn);
         Holder.TryGetNodeFromEntity<TextEdit>(NP_TextEdit, out TextEdit);
 
         // TextEdit.TextChanged += OnTextEditTextChanged;
         TextEdit.FocusExited += UpdateUriFromTextEdit;
         UriBtn.Pressed += OnUriBtnPressed;
+        FolderBtn.Pressed += OnFolderBtnPressed;
+        return true;
     }
 
     public override bool OnHolderTryRemove()
@@ -48,10 +55,16 @@ public partial class TipStickerUpdateUri : ComponentResource
         match = Regexy.WinFileRegex.Match(text);
         if (match.Success)
         {
+            var value = match.Value;
             UriBtn.Visible = true;
-            UriBtn.Text = match.Value;
-            UriBtn.TooltipText = match.Value;
-            UriStr = match.Value;
+            UriBtn.Text = value;
+            UriBtn.TooltipText = value;
+            UriStr = value;
+            if (File.Exists(value)
+                || Directory.Exists(value))
+            {
+                FolderBtn.Visible = true;
+            }
             return;
         }
 
@@ -68,6 +81,7 @@ public partial class TipStickerUpdateUri : ComponentResource
 
         // GD.Print("Uri reg fail.");
         UriBtn.Visible = false;
+        FolderBtn.Visible = false;
     }
 
     protected void OnUriBtnPressed()
@@ -75,6 +89,19 @@ public partial class TipStickerUpdateUri : ComponentResource
         try
         {
             OS.ShellOpen(UriStr);
+        }
+        catch (Exception e)
+        {
+            // GD.Print(e.HResult);
+            throw;
+        }
+    }
+
+    private void OnFolderBtnPressed()
+    {
+        try
+        {
+            OS.ShellShowInFileManager(UriStr);
         }
         catch (Exception e)
         {

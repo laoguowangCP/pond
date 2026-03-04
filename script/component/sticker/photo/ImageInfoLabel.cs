@@ -42,10 +42,10 @@ public partial class ImageInfoLabel : ComponentResource
     {
         using (@event)
         {
-            if (@event is InputEventMouseButton mouseButton
-                && mouseButton.IsReleased())
+            if (@event is InputEventMouseButton mouseButton)
             {
                 if (mouseButton.ButtonIndex == MouseButton.Left
+                    && mouseButton.IsPressed()
                     && mouseButton.ShiftPressed)
                 {
                     if (Holder.TryGetComponent<StickerPhotoLoadImage>(out var loadImage))
@@ -54,23 +54,26 @@ public partial class ImageInfoLabel : ComponentResource
                     }
                 }
                 else if (mouseButton.ButtonIndex == MouseButton.Left
-                    && mouseButton.CtrlPressed)
+                    && mouseButton.IsReleased())
                 {
-                    if (Holder.TryGetComponent<StickerPhotoLoadImage>(out var loadImage))
+                    if (mouseButton.CtrlPressed)
                     {
-                        if (mouseButton.AltPressed)
+                        if (Holder.TryGetComponent<StickerPhotoLoadImage>(out var loadImage))
                         {
-                            OS.ShellShowInFileManager(loadImage.ImageFile);
-                        }
-                        else
-                        {
-                            OS.ShellOpen(loadImage.ImageFile);
+                            if (mouseButton.AltPressed)
+                            {
+                                OS.ShellShowInFileManager(loadImage.ImageFile);
+                            }
+                            else
+                            {
+                                OS.ShellOpen(loadImage.ImageFile);
+                            }
                         }
                     }
-                }
-                else
-                {
-                    ScrollInfo();
+                    else
+                    {
+                        ScrollInfo();
+                    }
                 }
             }
         }
