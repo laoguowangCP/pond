@@ -16,6 +16,7 @@ public partial class StickerPhotoLoadImage : ComponentResource
 
     // protected static readonly NodePath NP_TextureRect = "./EntityControl/PanelContainer/VBoxContainer/TextureRect";
     protected TextureRect TextureRect;
+    protected ImageTexture ImageTextureRes;
 
     public string ImageFile;
 
@@ -32,13 +33,21 @@ public partial class StickerPhotoLoadImage : ComponentResource
             return;
         }
         GD.Print("Load image file: ", file);
-        var imageTexture = ImageTexture.CreateFromImage(Image.LoadFromFile(file));
-        TextureRect.Texture = imageTexture;
+        using var image = Image.LoadFromFile(file);
+        ImageTextureRes = ImageTexture.CreateFromImage(image);
+        TextureRect.Texture = ImageTextureRes;
 
         if (Holder.TryGetComponent<ImageInfoLabel>(out var imageInfoLabel))
         {
-            imageInfoLabel.UpdateInfo(file, imageTexture);
+            imageInfoLabel.UpdateInfo(file, ImageTextureRes);
         }
+    }
+
+    public override bool OnHolderTryRemove()
+    {
+        TextureRect.Texture = null;
+        ImageTextureRes.Dispose();
+        return base.OnHolderTryRemove();
     }
 
     public Vector2 GetImageTextureSize()

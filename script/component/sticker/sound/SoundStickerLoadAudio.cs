@@ -15,11 +15,19 @@ public partial class SoundStickerLoadAudio : ComponentResource
 
     protected static readonly NodePath NP_Player = "./AudioStreamPlayer";
     protected AudioStreamPlayer Player;
+    protected AudioStream StreamRes;
     public string AudioFile { get; protected set; }
 
     public override void OnEntityReady()
     {
         Holder.TryGetNodeFromEntity<AudioStreamPlayer>(NP_Player, out Player);
+    }
+
+    public override bool OnHolderTryRemove()
+    {
+        Player.Stream = null;
+        StreamRes.Dispose();
+        return base.OnHolderTryRemove();
     }
 
     public void LoadFromFile(string file)
@@ -30,33 +38,32 @@ public partial class SoundStickerLoadAudio : ComponentResource
             return;
         }
         string ext = Path.GetExtension(file).ToLowerInvariant();
-        AudioStream stream;
         if (ext.Equals(".mp3"))
         {
-            stream = AudioStreamMP3.LoadFromFile(file);
+            StreamRes = AudioStreamMP3.LoadFromFile(file);
         }
         else if (ext.Equals(".ogg"))
         {
-            stream = AudioStreamOggVorbis.LoadFromFile(file);
+            StreamRes = AudioStreamOggVorbis.LoadFromFile(file);
         }
         else if (ext.Equals(".wav"))
         {
-            stream = AudioStreamOggVorbis.LoadFromFile(file);
+            StreamRes = AudioStreamOggVorbis.LoadFromFile(file);
         }
         else
         {
             return;
         }
-        Player.Stream = stream;
+        Player.Stream = StreamRes;
         
         if (Holder.TryGetComponent<AudioInfoLabel>(out var audioInfoLabel))
         {
-            audioInfoLabel.UpdateInfo(file, stream);
+            audioInfoLabel.UpdateInfo(file, StreamRes);
         }
 
         if (Holder.TryGetComponent<AudioPlayProgress>(out var audioPlayProgress))
         {
-            audioPlayProgress.ResetProgress(stream);
+            audioPlayProgress.ResetProgress(StreamRes);
         }
     }
 }

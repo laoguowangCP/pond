@@ -26,8 +26,7 @@ public partial class SoundStickerRemoveDeleteFile : ComponentResource
         OnStickerRemove.StickerRemove -= DeleteAudioFile;
         // Simply return true.
         // Or remove other component you want.
-        Holder = null;
-        return true;
+        return base.OnHolderTryRemove();
     }
 
     private void DeleteAudioFile()

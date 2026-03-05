@@ -48,11 +48,6 @@ public partial class AudioPlayProgress : ComponentResource
         HSliderAsProgress.ValueChanged += OnSliderValueChanged;
     }
 
-    public override bool OnHolderTryRemove()
-    {
-        return base.OnHolderTryRemove();
-    }
-
     public override void OnDeactivated()
     {
         GD.Print("AudioPlayProgress OnDeactivated, block count: ", BlockCount);

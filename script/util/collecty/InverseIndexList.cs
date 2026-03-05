@@ -99,10 +99,12 @@ public class InverseIndexList<T> : IEnumerable<T>, IDisposable
         GC.SuppressFinalize(this);
     }
 
+    /*
     ~InverseIndexList()
     {
         GD.Print("InverseIndexList destruction");
     }
+    */
 
     /*
     public struct Enumerator : IEnumerator<T>
