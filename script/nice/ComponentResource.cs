@@ -54,6 +54,7 @@ public abstract partial class ComponentResource : Resource, IComponent
     {
         Holder = null;
         // Simply return true.
+        Dispose();
         return true;
         // Or remove other component you want.
     }

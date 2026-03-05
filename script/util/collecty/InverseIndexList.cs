@@ -1,6 +1,9 @@
 using Faster.Collections.Pooled;
+using Godot;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace LGWCP.Util.Collecty;
 
@@ -9,16 +12,16 @@ namespace LGWCP.Util.Collecty;
 /// Not that useful for query.
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class InverseIndexList<T> : IEnumerable<T>
+public class InverseIndexList<T> : IEnumerable<T>, IDisposable
     where T : IInverseIndexable<T>
 {
-    public PooledList<T> Values { get; protected set; } = new();
-    // public List<T> Values { get; protected set; } = new();
-    public int Count => Values.Count;
+    protected PooledList<T> _values = new();
+    public PooledList<T> Values => _values;
+    public int Count => _values.Count;
     public T this[int index]
     {
-        get => Values[index];
-        set => Values[index] = value;
+        get => _values[index];
+        set => _values[index] = value;
     }
 
     public bool TryAdd(T idxab)
@@ -26,16 +29,16 @@ public class InverseIndexList<T> : IEnumerable<T>
         if (idxab.InverseIndex < 0)
         {
             /*
-            if (CurrentCount == Values.Count) // List is full
+            if (CurrentCount == _values.Count) // List is full
             {
-                Values.Add(idxab);
+                _values.Add(idxab);
             }
             else // List has slot on tail
             {
-                Values[CurrentCount] = idxab;
+                _values[CurrentCount] = idxab;
             }*/
             idxab.InverseIndex = Count;
-            Values.Add(idxab);
+            _values.Add(idxab);
             idxab.InverseIndexList = this;
             return true;
         }
@@ -51,11 +54,11 @@ public class InverseIndexList<T> : IEnumerable<T>
         if (idx < Count && idx >= 0)
         {
             // Swap
-            var last = Values[Count-1];
-            Values[idx] = last;
+            var last = _values[Count-1];
+            _values[idx] = last;
             last.InverseIndex = idx;
             idxab.InverseIndex = -1;
-            Values.RemoveAt(Count - 1);
+            _values.RemoveAt(Count - 1);
             idxab.InverseIndexList = null;
             return true;
         }
@@ -71,7 +74,7 @@ public class InverseIndexList<T> : IEnumerable<T>
         int yi = y.InverseIndex;
         if (xi >= 0 && xi < Count && yi > 0 && yi < Count)
         {
-            (Values[yi], Values[xi]) = (Values[xi], Values[yi]);
+            (_values[yi], _values[xi]) = (_values[xi], _values[yi]);
             x.InverseIndex = yi;
             y.InverseIndex = xi;
             return true;
@@ -84,9 +87,22 @@ public class InverseIndexList<T> : IEnumerable<T>
 
     // public Enumerator GetEnumerator() => new Enumerator(this);
 
-    IEnumerator<T> IEnumerable<T>.GetEnumerator() => Values.GetEnumerator();
+    IEnumerator<T> IEnumerable<T>.GetEnumerator() => _values.GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<T>)this).GetEnumerator();
+
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Dispose()
+    {
+        _values.Dispose();
+        GC.SuppressFinalize(this);
+    }
+
+    ~InverseIndexList()
+    {
+        GD.Print("InverseIndexList destruction");
+    }
 
     /*
     public struct Enumerator : IEnumerator<T>
@@ -97,7 +113,7 @@ public class InverseIndexList<T> : IEnumerable<T>
 
         public Enumerator(InverseIndexList<T> inverseIndexList)
         {
-            _vals = inverseIndexList.Values;
+            _vals = inverseIndexList._values;
             _cnt = inverseIndexList.CurrentCount;
             _pos = -1;
         }
@@ -119,5 +135,6 @@ public class InverseIndexList<T> : IEnumerable<T>
 
         public void Dispose() { }
     }*/
+
 }
 

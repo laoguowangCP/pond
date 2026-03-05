@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://co7pr1usi38v3" path="res://script/component/main/BgMainPopupMenu.cs" id="5_0d4pv"]
 [ext_resource type="Script" uid="uid://703f4ecf48ha" path="res://script/component/main/BackgroundClipboardPaste.cs" id="5_smf0o"]
 [ext_resource type="Script" uid="uid://b4pydyhgu5n2v" path="res://script/component/main/DragArea.cs" id="6_b5f6u"]
+[ext_resource type="Script" uid="uid://bib80myj3p0sp" path="res://script/component/main/TestStickerMemRecycle.cs" id="7_0d4pv"]
 [ext_resource type="Script" uid="uid://dnjt53k1vt2jq" path="res://script/component/main/WindowOnFilesDropped.cs" id="7_tqoya"]
 [ext_resource type="Script" uid="uid://526kb8wbrkac" path="res://script/component/main/OnSaveGame.cs" id="8_k65ib"]
 [ext_resource type="Script" uid="uid://8mr2lrobfe0r" path="res://script/component/main/SaveGameOnWindowFocusExited.cs" id="9_wscrc"]
@@ -133,6 +134,11 @@ resource_local_to_scene = true
 script = ExtResource("4_4j5ol")
 metadata/_custom_type_script = "uid://bfh3oapm3260b"
 
+[sub_resource type="Resource" id="Resource_7ty4q"]
+resource_local_to_scene = true
+script = ExtResource("7_0d4pv")
+metadata/_custom_type_script = "uid://bib80myj3p0sp"
+
 [sub_resource type="Resource" id="Resource_oldxj"]
 resource_local_to_scene = true
 script = ExtResource("4_0ha60")
@@ -140,6 +146,7 @@ Component00 = SubResource("Resource_gtqqq")
 Component01 = SubResource("Resource_p8adh")
 Component02 = SubResource("Resource_4jm02")
 Component03 = SubResource("Resource_rg6nf")
+Component15 = SubResource("Resource_7ty4q")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gjnwh"]

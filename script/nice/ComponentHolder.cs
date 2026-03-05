@@ -33,8 +33,8 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
 
     public PooledDictionary<Type, IComponent> KVComponents;
     // public readonly Dictionary<Type, IComponent> KVComponents;
-    public readonly int[] OscillatorsTickLocal;
-    public readonly InverseIndexList<IComponent>[] ComponentsTickLocal;
+    public readonly PooledList<int> OscillatorsTickLocal;
+    public readonly PooledList<InverseIndexList<IComponent>> ComponentsTickLocal;
     public TickGroupEnum TickingTickGroup = TickGroupEnum.Idle;
     public PooledDictionary<TagEnum, InverseIndexList<TagIndexable>> KVTagIdxabs;
     // public readonly Dictionary<TagEnum, InverseIndexList<TagIndexable>> KVTagIdxabs;
@@ -59,12 +59,17 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
         KVComponents = new();
         IsTickOrderStable = new bool[(int)TickGroupEnum.LocalGroupCount];
         Array.Fill<bool>(IsTickOrderStable, false);
-        OscillatorsTickLocal = new int[(int)TickGroupEnum.LocalGroupCount];
-        Array.Fill<int>(OscillatorsTickLocal, 0);
-        ComponentsTickLocal = new InverseIndexList<IComponent>[(int)TickGroupEnum.LocalGroupCount];
-        for (int i = 0; i < ComponentsTickLocal.Length; ++i)
+
+        OscillatorsTickLocal = new (capacity: (int)TickGroupEnum.LocalGroupCount);
+        for(int i = 0; i < (int)TickGroupEnum.LocalGroupCount; ++i)
         {
-            ComponentsTickLocal[i] = new();
+            OscillatorsTickLocal.Add(0);
+        }
+
+        ComponentsTickLocal = new (capacity: (int)TickGroupEnum.LocalGroupCount);
+        for (int i = 0; i < (int)TickGroupEnum.LocalGroupCount; ++i)
+        {
+            ComponentsTickLocal.Add(new());
         }
 
         TickContext.From = new From(this);
@@ -114,11 +119,39 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
     protected void DeferedFree()
     {
         // Remove all components
-        var components = KVComponents.Values.ToArray();
-        foreach (var comp in components)
+        // var comps = new PooledList<IComponent>(KVComponents.Values);
+        using(var kvComps = KVComponents.ToPooledList())
         {
-            TryRemoveComponent(comp);
+            foreach (var (_, comp) in kvComps)
+            {
+                TryRemoveComponent(comp);
+            }
         }
+
+        KVComponents?.Dispose();
+        
+        OscillatorsTickLocal?.Dispose();
+        foreach(var group in ComponentsTickLocal)
+        {
+            group?.Dispose();
+        }
+        ComponentsTickLocal?.Dispose();
+
+        if (KVTagIdxabs != null)
+        {
+            using(var kvTags = KVTagIdxabs.ToPooledList())
+            {
+                foreach (var (_, tags) in kvTags)
+                {
+                    tags?.Dispose();
+                }
+            }
+            KVTagIdxabs.Dispose();
+        }
+
+        TickAfterComponents.Dispose();
+        DirectDescendantHolders.Dispose();
+        InverseIndexList?.Dispose();
     }
 
     /*
@@ -212,14 +245,6 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
 
         IsEntityReady = true;
 
-        /*
-        var comps = KVComponents.Values.ToArray();
-        for (int i = 0; i < comps.Length; ++i)
-        {
-            comps[i].OnEntityReady();
-        }
-        */
-
         foreach (var comp in KVComponents.Values)
         {
             comp.OnEntityReady();
@@ -249,24 +274,33 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
 
     public bool TryAddComponent(IComponent comp)
     {
-        if (comp != null && comp.OnHolderTryAdd(this))
+        if (comp != null)
         {
-            GD.Print(comp.ComponentType);
-            if (KVComponents.TryAdd(comp.ComponentType, comp))
+            if (comp.OnHolderTryAdd(this))
             {
-                // Add tick group
-                AddTickGroup(comp);
-                // Regist Nice
-                if (comp.IsRegist)
+                if (KVComponents.TryAdd(comp.ComponentType, comp))
                 {
-                    Nice.I.Regist(comp);
-                }
+                    // Add tick group
+                    AddTickGroup(comp);
+                    // Regist Nice
+                    if (comp.IsRegist)
+                    {
+                        Nice.I.Regist(comp);
+                    }
 
-                if (IsEntityReady)
-                {
-                    comp.OnEntityReady();
+                    if (IsEntityReady)
+                    {
+                        comp.OnEntityReady();
+                    }
+                    // else, wait entity to be ready.
                 }
-                // else, wait entity to be ready.
+            }
+            else
+            {
+                // Comp dont want to be added, sheet or ext
+                // Remove immediately, this will trigger OnHolderTryRemove
+                // so component would be disposed or recycled correctly
+                TryRemoveComponent(comp);
             }
         }
 
@@ -377,6 +411,7 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
 
         void AddTickGroupMayDeferedPart()
         {
+            GD.Print((int)tickGroup);
             comp.TickOscillator = OscillatorsTickLocal[(int)tickGroup];
             ComponentsTickLocal[(int)tickGroup].TryAdd(comp);
             IsTickOrderStable[(int)tickGroup] = false;
