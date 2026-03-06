@@ -26,7 +26,7 @@ public partial class SoundStickerLoadAudio : ComponentResource
     public override bool OnHolderTryRemove()
     {
         Player.Stream = null;
-        StreamRes.Dispose();
+        StreamRes?.Dispose();
         return base.OnHolderTryRemove();
     }
 

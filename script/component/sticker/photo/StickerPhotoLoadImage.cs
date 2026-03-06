@@ -46,7 +46,7 @@ public partial class StickerPhotoLoadImage : ComponentResource
     public override bool OnHolderTryRemove()
     {
         TextureRect.Texture = null;
-        ImageTextureRes.Dispose();
+        ImageTextureRes?.Dispose();
         return base.OnHolderTryRemove();
     }
 
