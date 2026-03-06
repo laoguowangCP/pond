@@ -38,15 +38,6 @@ public partial class OnSaveGame : ComponentResource
 
     public override void OnEntityReady()
     {
-        /*
-        // Trying figure out BlitzMap hash problem
-        foreach(var (t, c) in Holder.KVComponents)
-        {
-            GD.Print(t, " ", c);
-            GD.Print(Holder.KVComponents.Keys.Contains(t));
-            GD.Print(Holder.KVComponents.TryGetValue(t, out var comp));
-        }
-        */
         GameSaveFileDir = OS.GetUserDataDir() + NameSave.Folder;
         GameSaveFilePath = OS.GetUserDataDir() + NameSave.Folder + NameSave.SaveFile;
         if (!File.Exists(GameSaveFilePath))
@@ -71,7 +62,6 @@ public partial class OnSaveGame : ComponentResource
         }
 
         IsSaving = true;
-        GD.Print("Save!");
 
         SaveRoot.Time = DateTime.Now.ToString("yyyy MM-dd HH:mm:ss.ff");
 
@@ -106,7 +96,6 @@ public partial class OnSaveGame : ComponentResource
             return;
         }
         IsLoading = true;
-        GD.Print("Load!");
 
         Holder.TryGetComponent<StickerBuilder>(out var builder);
 

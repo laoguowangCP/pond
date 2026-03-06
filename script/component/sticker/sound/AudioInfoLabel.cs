@@ -28,15 +28,13 @@ public partial class AudioInfoLabel : ComponentResource
         Holder = holder;
         Holder.TryGetNodeFromEntity<Label>(NP_Label, out Label);
         Label.GuiInput += OnGuiInput;
-        // GD.Print(System.Environment.StackTrace);
         return true;
     }
 
     /*
     public override void OnEntityReady()
     {
-        GD.Print("AudioInfoLabel ready.");
-        GD.Print(System.Environment.StackTrace);
+        
     }
     */
 
@@ -52,6 +50,7 @@ public partial class AudioInfoLabel : ComponentResource
         {
             if (@event is InputEventMouseButton mouseButton)
             {
+                /*
                 if (mouseButton.ButtonIndex == MouseButton.Left
                     && mouseButton.IsPressed()
                     && mouseButton.ShiftPressed)
@@ -82,6 +81,12 @@ public partial class AudioInfoLabel : ComponentResource
                     {
                         ScrollInfo();
                     }
+                }
+                */
+                if (mouseButton.ButtonIndex == MouseButton.Left
+                    && mouseButton.IsReleased())
+                {
+                    ScrollInfo();
                 }
             }
         }

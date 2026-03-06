@@ -11,7 +11,6 @@ public partial class ComponentHolderInspectorMod : EditorInspectorPlugin
     public override bool _CanHandle(GodotObject @object)
     {
         // We support all objects in this example.
-        // GD.Print("_CanHandle called!");
         if (@object is Node node)
         {
             if (node.Name == "ComponentHolder")
@@ -27,8 +26,6 @@ public partial class ComponentHolderInspectorMod : EditorInspectorPlugin
         string name, PropertyHint hintType, string hintString,
         PropertyUsageFlags usageFlags, bool wide)
     {
-        // GD.Print("_ParseProperty called!");
-        // GD.Print(type, " ", name, " ", hintType, " ", hintString);
         // hintString is property type
         if (hintString == "ComponentResource" && name == "Component00" && @object is ComponentHolder holder)
         {

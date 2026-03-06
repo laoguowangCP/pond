@@ -3,6 +3,7 @@ using System;
 using LGWCP.NiceGD;
 using System.Threading.Tasks;
 using GodotTask;
+using LGWCP.Util.WinApiNative;
 
 namespace LGWCP.Pond;
 
@@ -88,7 +89,28 @@ public partial class PhotoStickerPannerView : ComponentResource
             if (@event is InputEventMouseButton mouseButton
                 && mouseButton.ButtonIndex == MouseButton.Left)
             {
-                if (mouseButton.IsPressed() && mouseButton.DoubleClick)
+                if (mouseButton.ShiftPressed && mouseButton.IsPressed())
+                {
+                    if (Holder.TryGetComponent<StickerPhotoLoadImage>(out var loadImage))
+                    {
+                        DragDropUtil.StartDragDrop(loadImage.ImageFile);
+                    }
+                }
+                else if (mouseButton.CtrlPressed && mouseButton.IsPressed())
+                {
+                    if (Holder.TryGetComponent<StickerPhotoLoadImage>(out var loadImage))
+                    {
+                        if (mouseButton.AltPressed)
+                        {
+                            OS.ShellShowInFileManager(loadImage.ImageFile);
+                        }
+                        else
+                        {
+                            OS.ShellOpen(loadImage.ImageFile);
+                        }
+                    }
+                }
+                else if (mouseButton.IsPressed() && mouseButton.DoubleClick)
                 {
                     IsPanning = false;
                     if (GetZoomLevel() > 1.001f)
@@ -120,18 +142,6 @@ public partial class PhotoStickerPannerView : ComponentResource
         }
     }
 
-    private void OnMouseEntered()
-    {
-        // throw new NotImplementedException();
-        GD.Print("OnMouseEntered");
-    }
-
-    private void OnMouseExited()
-    {
-        // throw new NotImplementedException();
-        GD.Print("OnMouseExited");
-    }
-
     protected float GetZoomLevel()
     {
         Vector2 rectSize = TextureRect.Size;
@@ -142,10 +152,6 @@ public partial class PhotoStickerPannerView : ComponentResource
 
     protected void ChangeZoomLevel(float level)
     {
-        /*
-        TODO: 添加 zoom in 上限
-        */
-        // GD.Print($"TextureRect size: {TextureRect.Size}, ScrollContainer size: {ScrollContainer.Size}");
         TextureRect.UpdateMinimumSize();
         ScrollContainer.GetCombinedMinimumSize();
         ScrollContainer.DrawFocusBorder = true;
@@ -236,10 +242,8 @@ public partial class PhotoStickerPannerView : ComponentResource
             if (Mathf.IsZeroApprox(vScrollBar.MaxValue))
                 vScrollBar.MaxValue = nextScroll.Y;
             */
-            // GD.Print($"Scroll limit: ({hScrollBar.MaxValue}, {vScrollBar.MaxValue})");
             ScrollContainer.ScrollHorizontal = Mathf.RoundToInt(Mathf.Clamp(nextScroll.X, hScrollBar.MinValue, hScrollBar.MaxValue));
             ScrollContainer.ScrollVertical = Mathf.RoundToInt(Mathf.Clamp(nextScroll.Y, vScrollBar.MinValue, vScrollBar.MaxValue));
-            // GD.Print($"Scroll value change: {scrollH}, {scrollV} -> {ScrollContainer.ScrollHorizontal}, {ScrollContainer.ScrollVertical}");
             ScrollContainer.DrawFocusBorder = false;
             CheckShouldResetMinimumSize();
         }

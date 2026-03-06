@@ -53,7 +53,6 @@ public partial class WindowOnFilesDropped : ComponentResource
 
         if (files.Length != 1)
         {
-            GD.Print("Too much files dropped!");
             return;
         }
 
@@ -65,7 +64,6 @@ public partial class WindowOnFilesDropped : ComponentResource
         }
 
         string fileExt = Path.GetExtension(file).ToLowerInvariant();
-        GD.Print("HandleDropFileAudio: ", fileExt);
         if (File.Exists(file)
             && !string.IsNullOrEmpty(fileExt))
         {

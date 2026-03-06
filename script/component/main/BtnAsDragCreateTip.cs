@@ -27,7 +27,7 @@ public partial class BtnAsDragCreateTip : ComponentResource
     {
         Holder = holder;
         Holder.TryGetNodeFromEntity<Button>(NP_CreateBtn, out CreateBtn);
-        CreateBtn.Text = "按住并拖动";
+        CreateBtn.Text = Tr(Name.SN_HoldAndDrag);
 
         Holder.TryGetEntity<Node2D>(out Entity);
         CreateBtn.FocusMode = Control.FocusModeEnum.None;
@@ -119,27 +119,23 @@ public partial class BtnAsDragCreateTip : ComponentResource
 
     public void ButtonShow()
     {
-        // CreateBtn.Text = "按住并拖动";
         CreateBtn.Modulate = new Color(0xffffffff);
     }
 
     public void ButtonHide()
     {
-        // CreateBtn.Text = "";
         CreateBtn.Modulate = new Color(0xffffff00);
     }
 
     public void ButtonEnable()
     {
         CreateBtn.Visible = true;
-        // CreateBtn.Text = "按住并拖动";
         // CreateBtn.Modulate = new Color(0xffffffff);
     }
 
     public void ButtonDisable()
     {
         CreateBtn.Visible = false;
-        // CreateBtn.Text = "";
         // CreateBtn.Modulate = new Color(0xffffff00);
     }
 }

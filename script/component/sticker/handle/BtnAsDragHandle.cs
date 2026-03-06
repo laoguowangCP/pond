@@ -66,7 +66,6 @@ public partial class BtnAsDragHandle : ComponentResource
 
     public void DragBegin()
     {
-        // GD.Print(Entity.GetPath(), "DragBegin");
         if (Nice.I.TryGetRegistedComponentFirst<MouseDrag>(out var mouseDrag))
         {
             if (mouseDrag.RequestDragging(Entity, this, isManDelete: true))
@@ -84,7 +83,6 @@ public partial class BtnAsDragHandle : ComponentResource
 
     public void DragEnd()
     {
-        // GD.Print(Entity.GetPath(), "DragEnd");
         if (Nice.I.TryGetRegistedComponentFirst<MouseDrag>(out var mouseDrag))
         {
             if (mouseDrag.UnrequestDragging(Entity, isManDelete: true))
@@ -102,7 +100,6 @@ public partial class BtnAsDragHandle : ComponentResource
     {
         using (@event)
         {
-            // GD.Print(Entity.GetPath(), ": OnGuiInput");
             // Change node order
             if (Input.IsActionJustPressed(SN_MouseLeft))
             {
@@ -143,13 +140,11 @@ public partial class BtnAsDragHandle : ComponentResource
     /*
     public void OnMouseEntered()
     {
-        GD.Print("drag button mouse enter");
         DisplayServer.CursorSetShape(DisplayServer.CursorShape.PointingHand);
     }
 
     public void OnMouseExited()
     {
-        GD.Print("drag button mouse exit");
         DisplayServer.CursorSetShape(DisplayServer.CursorShape.Arrow);
     }
     */

@@ -32,7 +32,7 @@ public partial class StickerPhotoLoadImage : ComponentResource
         {
             return;
         }
-        GD.Print("Load image file: ", file);
+
         using var image = Image.LoadFromFile(file);
         ImageTextureRes = ImageTexture.CreateFromImage(image);
         TextureRect.Texture = ImageTextureRes;

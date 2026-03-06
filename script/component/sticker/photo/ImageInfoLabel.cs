@@ -44,6 +44,7 @@ public partial class ImageInfoLabel : ComponentResource
         {
             if (@event is InputEventMouseButton mouseButton)
             {
+                /*
                 if (mouseButton.ButtonIndex == MouseButton.Left
                     && mouseButton.IsPressed()
                     && mouseButton.ShiftPressed)
@@ -74,6 +75,12 @@ public partial class ImageInfoLabel : ComponentResource
                     {
                         ScrollInfo();
                     }
+                }
+                */
+                if (mouseButton.ButtonIndex == MouseButton.Left
+                    && mouseButton.IsReleased())
+                {
+                    ScrollInfo();
                 }
             }
         }

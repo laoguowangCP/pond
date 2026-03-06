@@ -36,9 +36,6 @@ public partial class ForegroundDragDelete : ComponentResource
     public override void Tick(TickContext ctx)
     {
         // Check if dragging to delele button area
-        // GD.Print(CtrlAsDragDelete.Position);
-        // GD.Print(CtrlAsDragDelete.GlobalPosition);
-        // GD.Print(CtrlAsDragDelete.GetRect());
         var mousePos = CtrlAsDragDelete.GetGlobalMousePosition();
         var ctrlPos = CtrlAsDragDelete.GlobalPosition;
         var ctrlSize = CtrlAsDragDelete.GetRect().Size;

@@ -38,36 +38,31 @@ public partial class EditorPropFindComponent : EditorProperty
         List<string> results = new();
         var tgtName = _tgtComponentTypeName.Text;
 
-        compPath.Push("00");
-        FindByTypeRecur(tgtName, _holder.Component00, compPath, results);
-        compPath.Pop();
-
-        compPath.Push("01");
-        FindByTypeRecur(tgtName, _holder.Component01, compPath, results);
-        compPath.Pop();
-
-        compPath.Push("02");
-        FindByTypeRecur(tgtName, _holder.Component02, compPath, results);
-        compPath.Pop();
-
-        compPath.Push("03");
-        FindByTypeRecur(tgtName, _holder.Component03, compPath, results);
-        compPath.Pop();
-
-        if (tgtName != "")
+        if (!String.IsNullOrEmpty(tgtName))
         {
-            GD.PrintRich("Find ", results.Count, " component(s), type name contains [u]", tgtName, "[/u]:");
-        }
-        else
-        {
-            GD.PrintRich("Find ", results.Count, " component(s):");
-        }
+            compPath.Push("00");
+            FindByTypeRecur(tgtName, _holder.Component00, compPath, results);
+            compPath.Pop();
+
+            compPath.Push("01");
+            FindByTypeRecur(tgtName, _holder.Component01, compPath, results);
+            compPath.Pop();
+
+            compPath.Push("02");
+            FindByTypeRecur(tgtName, _holder.Component02, compPath, results);
+            compPath.Pop();
+
+            compPath.Push("03");
+            FindByTypeRecur(tgtName, _holder.Component03, compPath, results);
+            compPath.Pop();
+            GD.PrintRich($"Find {results.Count} component(s), type name contains [u]{tgtName}[/u]:");
         
-        foreach (var result in results)
-        {
-            GD.PrintRich(result);
+            foreach (var result in results)
+            {
+                GD.PrintRich(result);
+            }
+            GD.Print();
         }
-        GD.Print();
     }
 
     protected void FindByTypeRecur(string tgtName, IComponent comp, Stack<string> compPath, List<string> results)

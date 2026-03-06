@@ -76,7 +76,7 @@ public partial class TipStickerUpdateUri : ComponentResource
             return;
         }
 
-        // GD.Print("Uri reg fail.");
+        // Uri reg fail
         UriBtn.Visible = false;
         FolderBtn.Visible = false;
     }

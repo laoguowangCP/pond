@@ -17,7 +17,7 @@ public partial class NicePlugin : EditorPlugin
     public override void _EnterTree()
     {
         // Initialization of the plugin goes here.
-        GD.Print("Nice plugin is activated.");
+        GD.Print("-------- Nice plugin is activated --------");
         _compHolderMod = new();
         AddInspectorPlugin(_compHolderMod);
     }

@@ -49,20 +49,16 @@ public partial class EditorPropEmptySlot : EditorProperty
 
         if (results.Count == 0)
         {
-            GD.PrintRich("Find ", results.Count, " empty slot(s).");
+            GD.PrintRich($"Find {results.Count} empty slot(s).\n");
         }
         else if (results.Count < 3)
         {
-            GD.PrintRich("Find ", results.Count, " empty slot(s), first at:");
-            GD.PrintRich(results[0]);
-            GD.Print("Consider add ComponentResExt for sufficient slots.");
+            GD.PrintRich($"Find {results.Count} empty slot(s), first at:\n{results[0]}\nConsider add ComponentResExt for sufficient slots.\n");
         }
         else
         {
-            GD.PrintRich("Find ", results.Count, " empty slot(s), first at:");
-            GD.PrintRich(results[0]);
+            GD.PrintRich($"Find {results.Count} empty slot(s), first at:\n{results[0]}\n");
         }
-        GD.Print();
     }
 
     public void GetEmptySlotRecur(IComponent comp, Stack<string> compPath, List<string> results)

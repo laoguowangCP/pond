@@ -102,7 +102,7 @@ public class InverseIndexList<T> : IEnumerable<T>, IDisposable
     /*
     ~InverseIndexList()
     {
-        GD.Print("InverseIndexList destruction");
+        // InverseIndexList destruction
     }
     */
 

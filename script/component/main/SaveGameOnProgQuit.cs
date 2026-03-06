@@ -30,7 +30,6 @@ public partial class SaveGameOnProgQuit : ComponentResource
 
     private void OnWindowCloseRequested()
     {
-        GD.Print("Window close requested.");
         // Use window close callback instead, or we'll poll notification in node script
         Holder.TryGetComponent<OnSaveGame>(out var onSaveGame);
         onSaveGame.Save();

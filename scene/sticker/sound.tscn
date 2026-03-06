@@ -192,6 +192,7 @@ text = "∞"
 [node name="BtnAsPlayPause" type="Button" parent="EntityControl/PanelContainer/VBoxContainer/HBoxContainer" unique_id=253503143]
 custom_minimum_size = Vector2(64, 36)
 layout_mode = 2
+tooltip_text = "TOOLTIP.SoundStickerPlayPause"
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 24
 text = "I>"

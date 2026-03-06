@@ -93,7 +93,6 @@ public partial class BtnAsResizeHandleDownLeft : ComponentResource
     {
         using (@event)
         {
-            // GD.Print(Entity.GetPath(), ": OnGuiInput");
             if (CheckDragging())
             {
                 // Update entity control size, also gonna change the pos

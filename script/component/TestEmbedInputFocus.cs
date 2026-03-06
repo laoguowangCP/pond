@@ -14,8 +14,5 @@ public partial class TestEmbedInputFocus : ComponentResource
     public override TickGroupEnum TickGroup => TickGroupEnum.Input;
     public override bool IsRegist => false;
 
-    public override void Tick(TickContext ctx)
-    {
-        GD.Print("Has input");
-    }
+    public override void Tick(TickContext ctx) {}
 }

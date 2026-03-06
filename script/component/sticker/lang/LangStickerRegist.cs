@@ -11,6 +11,9 @@ public partial class LangStickerRegist : ComponentResource
     public override Type ComponentType => typeof(LangStickerRegist);
     public override TickGroupEnum TickGroup => TickGroupEnum.None;
     public override bool IsRegist => false;
+
+    protected static readonly NodePath NP_OptionButton = "./EntityControl/PanelContainer/VBoxContainer/OptionButton";
+    protected OptionButton OptionButton;
     
     protected OnStickerRemove OnStickerRemove;
     
@@ -19,8 +22,16 @@ public partial class LangStickerRegist : ComponentResource
         Holder = holder;
         // Get nodes here
         // Add tags here.
+        Holder.TryGetNodeFromEntity<OptionButton>(NP_OptionButton, out OptionButton);
+        OptionButton.ItemSelected += OnItemSelected;
         return true;
     }
+
+    private void OnItemSelected(long index)
+    {
+        throw new NotImplementedException();
+    }
+
 
     public override void OnEntityReady()
     {

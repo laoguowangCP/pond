@@ -78,12 +78,12 @@ public partial class BtnAsChangeVolume : ComponentResource
         VolumeDb = volumeDb;
         if (isVolumeAdjust)
         {
-            Button.TooltipText = "Volume adjust on\n- Click to toggle volume adjust\n- Ctrl + scroll up: volume up\n- Ctrl + scroll down: volume down";
+            Button.TooltipText = Tr(Name.Tooltip_LoopModeOn);
             PlayPause.Player.VolumeDb = VolumeDb;
         }
         else
         {
-            Button.TooltipText = "volume adjust off\n- Click to toggle volume adjust\n- Ctrl + scroll up: volume up\n- Ctrl + scroll down: volume down";
+            Button.TooltipText = Tr(Name.ToolTip_VolumeAdjustOff);
             PlayPause.Player.VolumeDb = 0f;
         }
         if (VolumeDb >= 0f)

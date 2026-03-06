@@ -55,7 +55,6 @@ public partial class WindowEmbedDesktop : ComponentResource
         IntPtr godotW = new(godotWRaw);
 
         IntPtr workerW = GetWallpaperWindowHandle();
-        // GD.Print(workerW);
 
         User32Native.SetParent(godotW, workerW);
         // SetWindowLongPtr(wd.hWnd, GWLP_HWNDPARENT, (LONG_PTR)get_wp_host_hwnd());
@@ -71,7 +70,6 @@ public partial class WindowEmbedDesktop : ComponentResource
         var window = Holder.GetTree().Root.GetWindow();
         WindowPosBeforeEmbeded = window.Position;
 
-        // GD.Print("Window is maximized allowed: ", DisplayServer.WindowIsMaximizeAllowed());
         DisplayServer.WindowSetFlag(DisplayServer.WindowFlags.Borderless, true);
         // Holder.GetWindow().Borderless = true;
 
@@ -79,16 +77,12 @@ public partial class WindowEmbedDesktop : ComponentResource
         IntPtr godotW = new(godotWRaw);
 
         IntPtr workerW = GetDesktopOverlayWindowHandle();
-        // GD.Print(workerW);
 
         // Calculate virtual desktop position
         User32Native.GetWindowRect(godotW, out var lpRect);
         Vector2I windowPos = new(lpRect.Left, lpRect.Top);
-        /*
-        GD.Print(windowPos);
-        windowPos -= User32Native.GetVirtualScreenOrigin();
-        GD.Print(windowPos);
-        */
+
+        // windowPos -= User32Native.GetVirtualScreenOrigin();
 
         User32Native.SetParent(godotW, workerW);
         // SetWindowLongPtr(wd.hWnd, GWLP_HWNDPARENT, (LONG_PTR)get_wp_host_hwnd());
@@ -126,11 +120,9 @@ public partial class WindowEmbedDesktop : ComponentResource
         win11 26200 has changed in SendMessageTimeout part.
         */
         int osVer = OS.GetVersion().Split('.')[^1].ToInt();
-        GD.Print("OS version: ", osVer);
         IntPtr progman = User32Native.FindWindow("Progman", null);
         // Show background but unshow desktop icons
         User32Native.SendMessageTimeout(progman, User32Native.WM_SPAWN_WORKER, new IntPtr(0x0D), new IntPtr(0x01), User32Native.SendMessageTimeoutFlags.SMTO_NORMAL, 2000, out var result);
-        GD.Print(progman);
         return progman;
     }
 

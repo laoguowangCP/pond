@@ -5,7 +5,6 @@
 [ext_resource type="Script" uid="uid://de6f22o20s6ba" path="res://script/nice/component_res_ext/ComponentResExt16X.cs" id="4_0ha60"]
 [ext_resource type="Script" uid="uid://bfh3oapm3260b" path="res://script/component/main/MouseDrag.cs" id="4_4j5ol"]
 [ext_resource type="Script" uid="uid://co7pr1usi38v3" path="res://script/component/main/BgMainPopupMenu.cs" id="5_0d4pv"]
-[ext_resource type="Script" uid="uid://703f4ecf48ha" path="res://script/component/main/BackgroundClipboardPaste.cs" id="5_smf0o"]
 [ext_resource type="Script" uid="uid://b4pydyhgu5n2v" path="res://script/component/main/DragArea.cs" id="6_b5f6u"]
 [ext_resource type="Script" uid="uid://bib80myj3p0sp" path="res://script/component/main/TestStickerMemRecycle.cs" id="7_0d4pv"]
 [ext_resource type="Script" uid="uid://dnjt53k1vt2jq" path="res://script/component/main/WindowOnFilesDropped.cs" id="7_tqoya"]
@@ -124,11 +123,6 @@ resource_local_to_scene = true
 script = ExtResource("17_gjnwh")
 metadata/_custom_type_script = "uid://hyjhgu4x8ljf"
 
-[sub_resource type="Resource" id="Resource_4jm02"]
-resource_local_to_scene = true
-script = ExtResource("5_smf0o")
-metadata/_custom_type_script = "uid://703f4ecf48ha"
-
 [sub_resource type="Resource" id="Resource_rg6nf"]
 resource_local_to_scene = true
 script = ExtResource("4_4j5ol")
@@ -144,7 +138,6 @@ resource_local_to_scene = true
 script = ExtResource("4_0ha60")
 Component00 = SubResource("Resource_gtqqq")
 Component01 = SubResource("Resource_p8adh")
-Component02 = SubResource("Resource_4jm02")
 Component03 = SubResource("Resource_rg6nf")
 Component15 = SubResource("Resource_7ty4q")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"

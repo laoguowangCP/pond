@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using Godot;
 using LGWCP.NiceGD;
+using LGWCP.Util.WinApiNative;
 
 namespace LGWCP.Pond;
 
@@ -30,14 +31,17 @@ public partial class SoundStickerPlayPause : ComponentResource
         Holder.TryGetNodeFromEntity<AudioStreamPlayer>(NP_Player, out Player);
         Holder.TryGetNodeFromEntity<Button>(NP_BtnAsPlayPause, out BtnAsPlayPause);
 
-        BtnAsPlayPause.ButtonUp += OnPlayPausePressed;
+        // BtnAsPlayPause.ButtonUp += OnPlayPausePressed;
+        BtnAsPlayPause.GuiInput += OnGuiInput;
         Player.Finished += OnPlayerFinished;
         return true;
     }
 
+
     public override bool OnHolderTryRemove()
     {
-        BtnAsPlayPause.ButtonUp -= OnPlayPausePressed;
+        // BtnAsPlayPause.ButtonUp -= OnPlayPausePressed;
+        BtnAsPlayPause.GuiInput -= OnGuiInput;
         Player.Finished -= OnPlayerFinished;
         return base.OnHolderTryRemove();
     }
@@ -58,6 +62,47 @@ public partial class SoundStickerPlayPause : ComponentResource
         else
         {
             Player.Play();
+        }
+    }
+
+    private void OnGuiInput(InputEvent @event)
+    {
+        using (@event)
+        {
+            if (@event is InputEventMouseButton mouseButton)
+            {
+                if (mouseButton.ButtonIndex == MouseButton.Left
+                    && mouseButton.IsPressed()
+                    && mouseButton.ShiftPressed)
+                {
+                    if (Holder.TryGetComponent<SoundStickerLoadAudio>(out var loadAudio))
+                    {
+                        DragDropUtil.StartDragDrop(loadAudio.AudioFile);
+                    }
+                }
+                else if (mouseButton.ButtonIndex == MouseButton.Left
+                    && mouseButton.IsReleased())
+                {
+                    if (mouseButton.CtrlPressed)
+                    {
+                        if (Holder.TryGetComponent<SoundStickerLoadAudio>(out var loadAudio))
+                        {
+                            if (mouseButton.AltPressed)
+                            {
+                                OS.ShellShowInFileManager(loadAudio.AudioFile);
+                            }
+                            else
+                            {
+                                OS.ShellOpen(loadAudio.AudioFile);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        OnPlayPausePressed();
+                    }
+                }
+            }
         }
     }
 

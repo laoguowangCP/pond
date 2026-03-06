@@ -37,11 +37,13 @@ public partial class SaveStickerTipComponent : ComponentResource
         {
             Holder.TryGetEntity<Node2D>(out var entity);
             Holder.TryGetNodeFromEntity<Control>("./EntityControl", out var control);
-            SaveStickerTip tipSave = new(false);
-            tipSave.GlobalPosition = entity.GlobalPosition;
-            tipSave.Size = control.Size;
-            tipSave.FontSizeId = ChangeFontSize.FontSizeId;
-            tipSave.Text = TextEdit.Text;
+            SaveStickerTip tipSave = new(false)
+            {
+                GlobalPosition = entity.GlobalPosition,
+                Size = control.Size,
+                FontSizeId = ChangeFontSize.FontSizeId,
+                Text = TextEdit.Text
+            };
             save.TryAddListChildrenWithIdx(entity.GetIndex(), tipSave);
         }
     }

@@ -56,6 +56,13 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
 
     public ComponentHolder()
     {
+        #if DEBUG
+        if (Engine.IsEditorHint())
+        {
+            return;
+        }
+        #endif
+
         KVComponents = new();
         IsTickOrderStable = new bool[(int)TickGroupEnum.LocalGroupCount];
         Array.Fill<bool>(IsTickOrderStable, false);
@@ -201,18 +208,18 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
 
     public override void _Ready()
     {
+        // Deactive node loops by default
+        for (int i = 0; i < SetNodeActivitys.Length; ++i)
+        {
+            SetNodeActivitys[i](this, false);
+        }
+
         #if DEBUG
         if (Engine.IsEditorHint())
         {
             return;
         }
         #endif
-
-        // Deactive node loops by default
-        for (int i = 0; i < SetNodeActivitys.Length; ++i)
-        {
-            SetNodeActivitys[i](this, false);
-        }
 
         if (Component00 != null)
         {
@@ -411,7 +418,6 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
 
         void AddTickGroupMayDeferedPart()
         {
-            GD.Print((int)tickGroup);
             comp.TickOscillator = OscillatorsTickLocal[(int)tickGroup];
             ComponentsTickLocal[(int)tickGroup].TryAdd(comp);
             IsTickOrderStable[(int)tickGroup] = false;
@@ -951,7 +957,6 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
     /// </summary>
     public void TickGroupUnsuspend(IComponent comp)
     {
-        GD.Print("TickGroupUnsuspend");
         if (comp.Holder == this
             && comp.TickGroup != TickGroupEnum.None
             && comp.TickOscillator == Nice.TickOscillatorSuspend)

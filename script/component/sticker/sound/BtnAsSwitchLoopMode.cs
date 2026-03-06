@@ -49,13 +49,13 @@ public partial class BtnAsSwitchLoopMode : ComponentResource
         {
             // ↔↺↻⇌⇆⇋⇉
             // BtnAsSwitchLoopMode.Text = "∞";
-            Button.TooltipText = "loop on";
+            Button.TooltipText = Tr(Name.Tooltip_LoopModeOn);
         }
         else
         {
             // ⇥
             // BtnAsSwitchLoopMode.Text = "∞";
-            Button.TooltipText = "loop off";
+            Button.TooltipText = Tr(Name.Tooltip_LoopModeOff);
         }
     }
 

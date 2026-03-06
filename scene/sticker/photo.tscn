@@ -157,6 +157,7 @@ texture_filter = 6
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+tooltip_text = "TOOLTIP.PhotoStickerPannerView"
 mouse_filter = 0
 mouse_force_pass_scroll_events = false
 expand_mode = 1

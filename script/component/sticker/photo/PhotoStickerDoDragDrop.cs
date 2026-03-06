@@ -27,11 +27,9 @@ public partial class PhotoStickerDoDragDrop : ComponentResource
     {
         using (@event)
         {
-            // GD.Print(@event.AsText());
             if (Input.IsActionJustPressed(SN_CtrlMouseLeft))
             {
                 Holder.TryGetComponent<StickerPhotoLoadImage>(out var loadImage);
-                // GD.Print(loadImage.ImageFile);
                 DragDropUtil.StartDragDrop(loadImage.ImageFile);
             }
             /*
@@ -40,7 +38,6 @@ public partial class PhotoStickerDoDragDrop : ComponentResource
                 if (mouseButton.ButtonIndex == MouseButton.Left && mouseButton.Pressed)
                 {
                     Holder.TryGetComponent<StickerPhotoLoadImage>(out var loadImage);
-                    GD.Print(loadImage.ImageFile);
                     DragDropUtil.StartDragDrop(loadImage.ImageFile);
                 }
             }*/

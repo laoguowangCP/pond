@@ -52,7 +52,6 @@ public partial class ForegroundMouseDetect : ComponentResource
 
     public override void Tick(TickContext ctx)
     {
-        // GD.Print("Fg input: ", BlockCount);
         // InputEvent @event = ctx.AnyInput;
         // if (@event is InputEventMouseMotion)
         {
@@ -89,8 +88,6 @@ public partial class ForegroundMouseDetect : ComponentResource
         var createBtn = BtnAsDragCreateTip.GetCreateBtn;
         var ctrlPos = createBtn.GlobalPosition;
         var ctrlSize = createBtn.GetRect().Size;
-
-        // GD.Print(ctrlSize);
 
         if (mousePos.X >= ctrlPos.X
             && mousePos.X <= ctrlPos.X + ctrlSize.X

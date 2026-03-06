@@ -46,8 +46,6 @@ public partial class DragArea : ComponentResource
         var ctrlPos = MainPanel.GlobalPosition;
         var ctrlSize = MainPanel.GetRect().Size;
 
-        // GD.Print(ctrlSize);
-
         if (mousePos.X >= ctrlPos.X
             && mousePos.X <= ctrlPos.X + ctrlSize.X
             && mousePos.Y >= ctrlPos.Y
@@ -69,7 +67,6 @@ public partial class DragArea : ComponentResource
         // Since we wont move or zoom camera
         
         // var canvasXform = Holder.GetViewport().GlobalCanvasTransform;
-        // GD.Print("GlobalCanvasTransform: ", canvasXform.Origin);
         /*
         Vector2 halfWindowSize = 0.5f * windowSize;
         return pos.Clamp(

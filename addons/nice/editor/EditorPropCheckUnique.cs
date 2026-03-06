@@ -50,7 +50,7 @@ public partial class EditorPropCheckUnique : EditorProperty
         CheckUniqueRecur(kvComps, _holder.Component03, compPath, results);
         compPath.Pop();
 
-        GD.PrintRich("Find ", results.Count, " conflict component(s):");
+        GD.PrintRich($"Find {results.Count} conflict component(s):");
         foreach (var result in results)
         {
             GD.PrintRich(result);

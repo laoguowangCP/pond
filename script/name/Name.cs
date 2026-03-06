@@ -25,4 +25,11 @@ public class Name
 
     public static readonly StringName SN_ShowLanguageSticker = "OPT.ShowLanguageSticker";
     public static readonly StringName SN_DismissLanguageSticker = "OPT.DismissLanguageSticker";
+    public static readonly StringName SN_DragHereToDelete = "BTN.DragHereToDelete";
+    public static readonly StringName SN_HoldAndDrag = "BTN.HoldAndDrag";
+    public static readonly StringName SN_CreateNewTip = "BTN.CreateNewTip";
+    public static readonly StringName Tooltip_VolumeAdjustOn = "TOOLTIP.VolumeAdjustOn";
+    public static readonly StringName ToolTip_VolumeAdjustOff = "TOOLTIP.VolumeAdjustOff";
+    public static readonly StringName Tooltip_LoopModeOn = "TOOLTIP.LoopModeOn";
+    public static readonly StringName Tooltip_LoopModeOff = "TOOLTIP.LoopModeOff";
 }

@@ -32,7 +32,7 @@ public partial class TestWindowOnFilesDropped : ComponentResource
     {
         foreach (var file in files)
         {
-            GD.Print(file);
+            
         }
     }
 }

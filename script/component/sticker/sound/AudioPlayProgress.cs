@@ -50,14 +50,11 @@ public partial class AudioPlayProgress : ComponentResource
 
     public override void OnDeactivated()
     {
-        GD.Print("AudioPlayProgress OnDeactivated, block count: ", BlockCount);
         Holder.TickGroupSuspend(this);
     }
 
     public override void OnActivated()
     {
-        GD.Print("AudioPlayProgress OnActivated, block count: ", BlockCount);
-        // GD.Print(System.Environment.StackTrace);
         Holder.TickGroupUnsuspend(this);
     }
 
@@ -76,7 +73,6 @@ public partial class AudioPlayProgress : ComponentResource
             PlayPause.StreamPlayerSeek(t);
             LabelAsPlayedTime.Text = GetLabelTimeFormat(t);
         }
-        // GD.Print("Slider value changed: ", valueChanged, ", ", HSliderAsProgress.Value);
     }
 
     protected void OnSliderValueChanged(double value)
@@ -93,7 +89,6 @@ public partial class AudioPlayProgress : ComponentResource
     public override void Tick(TickContext ctx)
     {
         // float delta = ctx.AnyDelta;
-        // GD.Print("AudioPlayProgress tick.");
         if (!IsSliderDragging && PlayPause.Player.Playing)
         {
             // Slider not dragging, update value.

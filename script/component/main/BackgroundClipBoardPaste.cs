@@ -57,13 +57,11 @@ public partial class BackgroundClipboardPaste : ComponentResource
 
     private void OnFocusEntered()
     {
-        GD.Print("Background panel focus enter.");
         Holder.UnblockByTag(TagEnum.ShowDragArea);
     }
 
     private void OnFocusExited()
     {
-        GD.Print("Background panel focus exit.");
         Holder.BlockByTag(TagEnum.ShowDragArea);
     }
 
@@ -73,7 +71,6 @@ public partial class BackgroundClipboardPaste : ComponentResource
         /*
         if (Input.IsActionJustPressed("mouse_left"))
         {
-            GD.Print("BgPanel.GrabFocus");
             BgPanel.GrabFocus();
         }
         */
@@ -92,8 +89,6 @@ public partial class BackgroundClipboardPaste : ComponentResource
             // if (Input.IsActionJustReleased(SN_UiPaste)
             //     && MousePressedLock)
             {
-                // GD.Print("> Background ui paste with mouse pressed.");
-                // GD.Print(DisplayServer.ClipboardGet());
                 // Start paste from clip board
                 OnClipboardRead();
             }
