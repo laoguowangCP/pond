@@ -1,0 +1,12 @@
+[gd_resource type="FontVariation" format=3 uid="uid://cwsr6q6jc3usd"]
+
+[ext_resource type="FontFile" uid="uid://v5daw7ji46ev" path="res://theme/font/NotoSans-VariableFont_wdth,wght.ttf" id="1_23yx0"]
+[ext_resource type="FontVariation" uid="uid://rc0ascubfv70" path="res://theme/font/noto_var_sc.tres" id="2_tdbjo"]
+
+[resource]
+fallbacks = Array[Font]([ExtResource("2_tdbjo")])
+base_font = ExtResource("1_23yx0")
+variation_embolden = 0.5
+opentype_features = {
+1667329140: 0
+}

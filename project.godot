@@ -38,6 +38,10 @@ project/assembly_name="pond"
 
 enabled=PackedStringArray("res://addons/nice/plugin.cfg")
 
+[gui]
+
+theme/custom_font="uid://cwsr6q6jc3usd"
+
 [input]
 
 ctrl_mouse_left={
@@ -113,7 +117,7 @@ shift_mouse_left={
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://fanyi/fanyi.en.translation", "res://fanyi/fanyi.zh.translation")
+locale/translations=PackedStringArray("res://fanyi/fanyi.en.translation", "res://fanyi/fanyi.ja.translation", "res://fanyi/fanyi.zh.translation")
 locale/translations_pot_files=PackedStringArray("res://scene/sticker/tip.tscn", "res://scene/sticker/lang.tscn", "res://scene/sticker/photo.tscn", "res://scene/sticker/sound.tscn", "res://scene/main.tscn", "res://script/name/Name.cs")
 
 [rendering]

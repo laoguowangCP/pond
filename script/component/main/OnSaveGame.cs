@@ -70,6 +70,8 @@ public partial class OnSaveGame : ComponentResource
         SaveRoot.IsRestoreWindowPositionOnStart = IsRestoreWindowPositionOnStart;
         SaveRoot.IsShowTooltip = IsShowTooltip;
 
+        SaveRoot.TrLocale = TranslationServer.GetLocale();
+
         // Call save tick
         Nice.I.TryTick(TickGroupEnum.Save, new From(SaveRoot));
 
@@ -124,6 +126,14 @@ public partial class OnSaveGame : ComponentResource
         var popupMenu = BgMainPopupMenu.PopupMenu;
         popupMenu.SetItemChecked(popupMenu.GetItemIndex(300), IsRestoreWindowPositionOnStart);
         popupMenu.SetItemChecked(popupMenu.GetItemIndex(400), IsShowTooltip);
+        
+        // Localization
+        string trLocale = SaveRoot.TrLocale;
+        if (string.IsNullOrEmpty(trLocale))
+        {
+            trLocale = OS.GetLocale();
+        }
+        TranslationServer.SetLocale(trLocale);
 
         foreach (var save in SaveRoot.ListChildren)
         {

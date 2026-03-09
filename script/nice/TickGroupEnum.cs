@@ -16,6 +16,7 @@ public enum TickGroupEnum: int
     // -------- Custom tick --------
     ThermalGamePlay,
     Save,
+    SetLocale,
 
     // -------- Calculated constant group --------
     None, // None ticking group

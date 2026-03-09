@@ -6,10 +6,10 @@ uid="uid://dje0pt855ihrr"
 
 [deps]
 
-files=["res://fanyi/fanyi.en.translation", "res://fanyi/fanyi.en.translation", "res://fanyi/fanyi.en.translation", "res://fanyi/fanyi.zh.translation", "res://fanyi/fanyi.en.translation"]
+files=["res://fanyi/fanyi.en.translation", "res://fanyi/fanyi.es.translation", "res://fanyi/fanyi.zh.translation", "res://fanyi/fanyi.ja.translation"]
 
 source_file="res://fanyi/fanyi.csv"
-dest_files=["res://fanyi/fanyi.en.translation", "res://fanyi/fanyi.en.translation", "res://fanyi/fanyi.en.translation", "res://fanyi/fanyi.zh.translation", "res://fanyi/fanyi.en.translation"]
+dest_files=["res://fanyi/fanyi.en.translation", "res://fanyi/fanyi.es.translation", "res://fanyi/fanyi.zh.translation", "res://fanyi/fanyi.ja.translation"]
 
 [params]
 

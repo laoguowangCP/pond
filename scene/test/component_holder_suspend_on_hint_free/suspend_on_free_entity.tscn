@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://cq35h2ys854rp"]
+
+[ext_resource type="Script" uid="uid://dt0w6j6oba4xu" path="res://script/nice/ComponentHolder.cs" id="1_aftsf"]
+[ext_resource type="Script" uid="uid://li6tib0bmq5j" path="res://scene/test/component_holder_suspend_on_hint_free/FooCompToBeSuspended.cs" id="2_ilrn2"]
+
+[sub_resource type="Resource" id="Resource_cavyh"]
+resource_local_to_scene = true
+script = ExtResource("2_ilrn2")
+metadata/_custom_type_script = "uid://li6tib0bmq5j"
+
+[node name="SuspendOnFreeEntity" type="Node" unique_id=1660071238]
+
+[node name="ComponentHolder" type="Node" parent="." unique_id=1221487882]
+script = ExtResource("1_aftsf")
+Component00 = SubResource("Resource_cavyh")
+metadata/_custom_type_script = "uid://dt0w6j6oba4xu"

@@ -50,11 +50,13 @@ public partial class AudioPlayProgress : ComponentResource
 
     public override void OnDeactivated()
     {
+        // GD.Print($"{ComponentType}: deactivated");
         Holder.TickGroupSuspend(this);
     }
 
     public override void OnActivated()
     {
+        // GD.Print($"{ComponentType}: activated");
         Holder.TickGroupUnsuspend(this);
     }
 

@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://dgu05aabdle56"]
+
+[ext_resource type="Script" uid="uid://dt0w6j6oba4xu" path="res://script/nice/ComponentHolder.cs" id="1_ab6pw"]
+[ext_resource type="Script" uid="uid://b6prbrqnytn0u" path="res://scene/test/component_holder_suspend_on_hint_free/TestSuspendOnHintFree.cs" id="2_1egvq"]
+
+[sub_resource type="Resource" id="Resource_mt1q7"]
+resource_local_to_scene = true
+script = ExtResource("2_1egvq")
+metadata/_custom_type_script = "uid://b6prbrqnytn0u"
+
+[node name="ComponentHolderSuspendOnHintFree" type="Node" unique_id=1058990007]
+
+[node name="ComponentHolder" type="Node" parent="." unique_id=725262150]
+script = ExtResource("1_ab6pw")
+Component00 = SubResource("Resource_mt1q7")
+metadata/_custom_type_script = "uid://dt0w6j6oba4xu"

@@ -43,6 +43,8 @@ public partial class BtnAsResizeHandleDownRight : ComponentResource
 
         Holder.TryGetComponent<DragEndOnFocusExited>(out var dragEndOnFocusExited);
         dragEndOnFocusExited.DragEnd += DragEnd;
+        
+        HandleBtn.TooltipText = Tr(Name.Tooltip_StickerDragHandleBottomRight);
     }
 
     public override bool OnHolderTryRemove()

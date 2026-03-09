@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using LGWCP.NiceGD;
+using System.Collections.Generic;
 
 namespace LGWCP.Pond;
 
@@ -16,6 +17,17 @@ public partial class LangStickerRegist : ComponentResource
     protected OptionButton OptionButton;
     
     protected OnStickerRemove OnStickerRemove;
+
+    protected static Dictionary<string, int> KVLocaleItemId = new() {
+        {"zh", 0},
+        {"en", 1},
+        {"ja", 2}
+    };
+    protected static Dictionary<int, string> KVItemIdLocale = new() {
+        {0, "zh"},
+        {1, "en"},
+        {2, "ja"}
+    };
     
     public override bool OnHolderTryAdd(ComponentHolder holder)
     {
@@ -24,14 +36,9 @@ public partial class LangStickerRegist : ComponentResource
         // Add tags here.
         Holder.TryGetNodeFromEntity<OptionButton>(NP_OptionButton, out OptionButton);
         OptionButton.ItemSelected += OnItemSelected;
+        SelectItemByLocale();
         return true;
     }
-
-    private void OnItemSelected(long index)
-    {
-        throw new NotImplementedException();
-    }
-
 
     public override void OnEntityReady()
     {
@@ -40,6 +47,47 @@ public partial class LangStickerRegist : ComponentResource
         Holder.TryGetComponent<OnStickerRemove>(out OnStickerRemove);
         OnStickerRemove.StickerRemove += UnregistLangSticker;
     }
+
+    public override bool OnHolderTryRemove()
+    {
+        OnStickerRemove.StickerRemove -= UnregistLangSticker;
+        return base.OnHolderTryRemove();
+    }
+
+    private void SelectItemByLocale()
+    {
+        string locale = TranslationServer.GetLocale();
+        if (KVLocaleItemId.TryGetValue(locale, out int id))
+        {
+            OptionButton.Select(id);
+        }
+    }
+
+
+    private void OnItemSelected(long index)
+    {
+        /*
+        if (index == 0)
+        {
+            TranslationServer.SetLocale("zh");
+        }
+        else if (index == 1)
+        {
+            TranslationServer.SetLocale("en");
+        }
+        else if (index == 2)
+        {
+            TranslationServer.SetLocale("ja");
+        }
+        */
+        if (KVItemIdLocale.TryGetValue((int)index, out var locale))
+        {
+            TranslationServer.SetLocale(locale);
+        }
+        Nice.I.TryTick(TickGroupEnum.SetLocale, new From(this));
+    }
+
+
 
 
     private void UnregistLangSticker()

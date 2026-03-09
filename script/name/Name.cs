@@ -32,4 +32,8 @@ public class Name
     public static readonly StringName ToolTip_VolumeAdjustOff = "TOOLTIP.VolumeAdjustOff";
     public static readonly StringName Tooltip_LoopModeOn = "TOOLTIP.LoopModeOn";
     public static readonly StringName Tooltip_LoopModeOff = "TOOLTIP.LoopModeOff";
+    public static readonly StringName Tooltip_StickerDragHandle = "TOOLTIP.StickerDragHandle";
+    public static readonly StringName Tooltip_StickerDragHandleBottomLeft = "TOOLTIP.StickerDragHandleBottomLeft";
+    public static readonly StringName Tooltip_StickerDragHandleBottomMid = "TOOLTIP.StickerDragHandleBottomMid";
+    public static readonly StringName Tooltip_StickerDragHandleBottomRight = "TOOLTIP.StickerDragHandleBottomRight";
 }

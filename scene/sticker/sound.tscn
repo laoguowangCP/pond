@@ -17,6 +17,7 @@
 [ext_resource type="Script" uid="uid://bo8uw0h2t47u7" path="res://script/component/sticker/EntityControlSizeClamp.cs" id="9_23lgj"]
 [ext_resource type="Script" uid="uid://bru1fwv6gho6j" path="res://script/component/sticker/sound/SaveStickerSoundComponent.cs" id="9_x3438"]
 [ext_resource type="Script" uid="uid://bn0pvpb57e7lo" path="res://script/component/sticker/sound/BtnAsChangeVolume.cs" id="14_h6mgm"]
+[ext_resource type="Script" uid="uid://dtudjh8iqn18h" path="res://script/component/OnTrServerSetLocale.cs" id="15_isdu6"]
 
 [sub_resource type="Resource" id="Resource_5hqom"]
 resource_local_to_scene = true
@@ -78,6 +79,11 @@ resource_local_to_scene = true
 script = ExtResource("9_x3438")
 metadata/_custom_type_script = "uid://bru1fwv6gho6j"
 
+[sub_resource type="Resource" id="Resource_6khi5"]
+resource_local_to_scene = true
+script = ExtResource("15_isdu6")
+metadata/_custom_type_script = "uid://dtudjh8iqn18h"
+
 [sub_resource type="Resource" id="Resource_mdq4s"]
 resource_local_to_scene = true
 script = ExtResource("14_h6mgm")
@@ -104,7 +110,8 @@ Component08 = SubResource("Resource_x3438")
 Component09 = SubResource("Resource_4gv70")
 Component10 = SubResource("Resource_h6mgm")
 Component11 = SubResource("Resource_isdu6")
-Component12 = SubResource("Resource_mdq4s")
+Component13 = SubResource("Resource_6khi5")
+Component14 = SubResource("Resource_mdq4s")
 Component15 = SubResource("Resource_oqc2b")
 metadata/_custom_type_script = "uid://de6f22o20s6ba"
 
@@ -193,6 +200,7 @@ text = "∞"
 custom_minimum_size = Vector2(64, 36)
 layout_mode = 2
 tooltip_text = "TOOLTIP.SoundStickerPlayPause"
+tooltip_auto_translate_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 24
 text = "I>"
@@ -205,7 +213,7 @@ size_flags_horizontal = 3
 custom_minimum_size = Vector2(48, 36)
 layout_mode = 2
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 16
 toggle_mode = true
 button_mask = 0
 text = "+0db"

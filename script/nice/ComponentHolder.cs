@@ -44,6 +44,7 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
     protected PooledQueue<(IComponent, IComponent)> TickAfterComponents = new();
     // protected Queue<(IComponent, IComponent)> TickAfterComponents = new();
     protected bool IsFreeOnExitTree = false;
+    protected bool IsQueuedForFree = false;
 
     // Recursive free on exit tree
     protected ComponentHolder DirectAncestorHolder;
@@ -53,6 +54,9 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
 
     protected readonly bool[] IsTickOrderStable;
     protected int TickOrderSwapBudget = 8;
+
+    protected PooledList<IComponent> DeferredAddTickGroupComps = new();
+    protected PooledList<IComponent> DeferredRemoveTickGroupComps = new();
 
     public ComponentHolder()
     {
@@ -118,6 +122,7 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
 
         if (IsFreeOnExitTree)
         {
+            IsQueuedForFree = true;
             Callable.From(this.DeferedFree).CallDeferred();
         }
         DirectAncestorHolder?.RemoveDirectDescendantHolder(this);
@@ -159,6 +164,11 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
         TickAfterComponents.Dispose();
         DirectDescendantHolders.Dispose();
         InverseIndexList?.Dispose();
+
+        DeferredAddTickGroupComps.Clear();
+        DeferredAddTickGroupComps.Dispose();
+        DeferredRemoveTickGroupComps.Clear();
+        DeferredRemoveTickGroupComps.Dispose();
     }
 
     /*
@@ -180,11 +190,11 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
     {
         if (!IsFreeOnExitTree)
         {
-            foreach (var holder in DirectDescendantHolders)
-            {
-                holder.HintFreeOnExitTree();
-            }
             IsFreeOnExitTree = true;
+        }
+        foreach (var holder in DirectDescendantHolders)
+        {
+            holder.HintFreeOnExitTree();
         }
     }
 
@@ -192,11 +202,11 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
     {
         if (IsFreeOnExitTree)
         {
-            foreach (var holder in DirectDescendantHolders)
-            {
-                holder.CancelFreeOnExitTree();
-            }
             IsFreeOnExitTree = false;
+        }
+        foreach (var holder in DirectDescendantHolders)
+        {
+            holder.CancelFreeOnExitTree();
         }
     }
 
@@ -406,7 +416,8 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
             {
                 // Group is ticking, defered add
                 comp.TickOscillator = isUnsuspend ? Nice.TickOscillatorDeferedUnsuspend : Nice.TickOscillatorIdle;
-                Callable.From(AddTickGroupMayDeferedPart).CallDeferred();
+                // Callable.From(AddTickGroupMayDeferedPart).CallDeferred();
+                DeferredAddTickGroupComps.Add(comp);
             }
         }
         else if (tickGroup > TickGroupEnum.LowerCheckLocalGroup
@@ -418,10 +429,13 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
 
         void AddTickGroupMayDeferedPart()
         {
-            comp.TickOscillator = OscillatorsTickLocal[(int)tickGroup];
-            ComponentsTickLocal[(int)tickGroup].TryAdd(comp);
-            IsTickOrderStable[(int)tickGroup] = false;
-            CheckGroupEmptyAndSetActivity(tickGroup);
+            if (!IsQueuedForFree)
+            {
+                comp.TickOscillator = OscillatorsTickLocal[(int)tickGroup];
+                ComponentsTickLocal[(int)tickGroup].TryAdd(comp);
+                IsTickOrderStable[(int)tickGroup] = false;
+                CheckGroupEmptyAndSetActivity(tickGroup);
+            }
         }
     }
 
@@ -439,7 +453,8 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
             else
             {
                 // Group is ticking, defered remove
-                Callable.From(RemoveTickGroupMayDeferedPart).CallDeferred();
+                // Callable.From(RemoveTickGroupMayDeferedPart).CallDeferred();
+                DeferredRemoveTickGroupComps.Add(comp);
             }
         }
         else if (tickGroup > TickGroupEnum.LowerCheckLocalGroup
@@ -451,9 +466,11 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
 
         void RemoveTickGroupMayDeferedPart()
         {
-            // GD.Print($"{comp.ComponentType}, {comp.TickOscillator}");
-            ComponentsTickLocal[(int)tickGroup].TryRemove(comp);
-            CheckGroupEmptyAndSetActivity(tickGroup);
+            if (!IsQueuedForFree)
+            {
+                ComponentsTickLocal[(int)tickGroup].TryRemove(comp);
+                CheckGroupEmptyAndSetActivity(tickGroup);
+            }
         }
     }
 
@@ -860,6 +877,24 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
             }
         }
         TickingTickGroup = TickGroupEnum.Idle;
+
+        if (DeferredAddTickGroupComps.Count > 0)
+        {
+            for (int i = 0; i < DeferredAddTickGroupComps.Count; ++i)
+            {
+                AddTickGroup(DeferredAddTickGroupComps[i]);
+            }
+            DeferredAddTickGroupComps.Clear();
+        }
+
+        if (DeferredRemoveTickGroupComps.Count > 0)
+        {
+            for (int i = 0; i < DeferredRemoveTickGroupComps.Count; ++i)
+            {
+                AddTickGroup(DeferredRemoveTickGroupComps[i]);
+            }
+            DeferredRemoveTickGroupComps.Clear();
+        }
     }
     
     protected bool TryTickAfter(IComponent comp, out IComponent wait, int tickOscillator)
@@ -946,9 +981,14 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
         {
             RemoveTickGroup(comp, isSuspend: true);
         }
-        else
+    }
+
+    public void TickGroupSuspend<T>()
+        where T : IComponent
+    {
+        if (KVComponents.TryGetValue(typeof(T), out var comp))
         {
-            return;
+            TickGroupSuspend(comp);
         }
     }
 
@@ -963,9 +1003,14 @@ public partial class ComponentHolder : Node, IInverseIndexable<ComponentHolder>,
         {
             AddTickGroup(comp, isUnsuspend: true);
         }
-        else
+    }
+
+    public void TickGroupUnsuspend<T>()
+        where T : IComponent
+    {
+        if (KVComponents.TryGetValue(typeof(T), out var comp))
         {
-            return;
+            TickGroupUnsuspend(comp);
         }
     }
 }

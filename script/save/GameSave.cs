@@ -98,6 +98,8 @@ public class SaveRoot : SaveNodeBase
 
     public bool IsRestoreWindowPositionOnStart = false;
     public bool IsShowTooltip = true;
+
+    public string TrLocale;
 }
 
 public class SaveSticker : SaveNodeBase

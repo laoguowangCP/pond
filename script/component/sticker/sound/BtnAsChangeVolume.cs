@@ -35,11 +35,22 @@ public partial class BtnAsChangeVolume : ComponentResource
     {
         Holder.TryGetComponent<SoundStickerPlayPause>(out PlayPause);
         Button.GuiInput += OnGuiInput;
+
+        if (Holder.TryGetComponent<OnTrServerSetLocale>(out var onSetLocale))
+        {
+            onSetLocale.TrServerSetLocale += SetVolumeAdjustToolTip;
+        }
     }
 
     public override bool OnHolderTryRemove()
     {
         Button.GuiInput -= OnGuiInput;
+        
+        if (Holder.TryGetComponent<OnTrServerSetLocale>(out var onSetLocale))
+        {
+            onSetLocale.TrServerSetLocale -= SetVolumeAdjustToolTip;
+        }
+
         return base.OnHolderTryRemove();
     }
 
@@ -101,5 +112,17 @@ public partial class BtnAsChangeVolume : ComponentResource
     public void SetVolumeAdjustInitial(bool isVolumeAdjust, float volumeDb)
     {
         SetVolumeAdjust(isVolumeAdjust, volumeDb);
+    }
+
+    protected void SetVolumeAdjustToolTip()
+    {
+        if (IsVolumeAdjust)
+        {
+            Button.TooltipText = Tr(Name.Tooltip_LoopModeOn);
+        }
+        else
+        {
+            Button.TooltipText = Tr(Name.ToolTip_VolumeAdjustOff);
+        }
     }
 }
