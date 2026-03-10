@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Godot;
 using LGWCP.NiceGD;
+using LGWCP.Util.WinApiNative;
 
 namespace LGWCP.Pond;
 
@@ -26,6 +28,8 @@ public partial class BackgroundClipboardPaste : ComponentResource
 
     protected StringBuilder FileToBuilder = new();
     protected bool MousePressedLock = false;
+
+    protected List<string> ClipBoardFiles = new();
 
     public override bool OnHolderTryAdd(ComponentHolder holder)
     {
@@ -91,6 +95,7 @@ public partial class BackgroundClipboardPaste : ComponentResource
             {
                 // Start paste from clip board
                 OnClipboardRead();
+                OnSaveGame.Save();
             }
         }
     }
@@ -98,7 +103,15 @@ public partial class BackgroundClipboardPaste : ComponentResource
     // protected void OnFocusEntered
     protected void OnClipboardRead()
     {
-        if (DisplayServer.ClipboardHasImage())
+        User32Native.GetCopiedFiles(ref ClipBoardFiles);
+        if (Holder.TryGetComponent<WindowOnFilesDropped>(out var onFilesDropped))
+        {
+            foreach (var file in ClipBoardFiles)
+            {
+                onFilesDropped.HandleFileToSticker(file);
+            }
+        }
+        else if (DisplayServer.ClipboardHasImage())
         {
             Image image = DisplayServer.ClipboardGetImage();
             HandleClipboardReadImage(image);
@@ -110,6 +123,10 @@ public partial class BackgroundClipboardPaste : ComponentResource
         }
     }
 
+    protected void HandleClipboardGetFile(Image image)
+    {
+        
+    }
 
     protected void HandleClipboardReadImage(Image image)
     {

@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Text;
 using Godot;
 
 
@@ -85,6 +87,66 @@ public static class User32Native
         public int Top;
         public int Right;
         public int Bottom;
+    }
+
+    [DllImport("user32.dll", SetLastError = true)]
+    public static extern bool OpenClipboard(IntPtr hWndNewOwner);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    public static extern bool CloseClipboard();
+
+    [DllImport("user32.dll")]
+    public static extern bool IsClipboardFormatAvailable(uint format);
+
+    [DllImport("user32.dll")]
+    public static extern IntPtr GetClipboardData(uint uFormat);
+
+    private const uint CF_HDROP = 15;
+
+    public static void GetCopiedFiles(ref List<string> files)
+    {
+        files.Clear();
+        // 检查剪贴板中是否有文件数据
+        if (!User32Native.IsClipboardFormatAvailable(CF_HDROP))
+        {
+            return;
+        }
+
+        // 打开剪贴板 (传入 IntPtr.Zero 表示当前任务)
+        if (OpenClipboard(IntPtr.Zero))
+        {
+            try
+            {
+                // 获取文件数据句柄
+                IntPtr hDrop = GetClipboardData(CF_HDROP);
+                if (hDrop != IntPtr.Zero)
+                {
+                    // Windows 最大路径长度通常为 260
+                    StringBuilder sb = new();
+
+                    // 当第二个参数为 0xFFFFFFFF 时，返回的是文件数量
+                    uint fileCount = Shell32Native.DragQueryFile(hDrop, 0xFFFFFFFF, null, 0);
+                    
+                    for (uint i = 0; i < fileCount; ++i)
+                    {
+                        uint pathLength = Shell32Native.DragQueryFile(hDrop, i, null, 0);
+                        sb.EnsureCapacity((int)pathLength+1);
+                        if (Shell32Native.DragQueryFile(hDrop, i, sb, pathLength+1) > 0)
+                        {
+                            files.Add(sb.ToString());
+                            sb.Clear();
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                // 无论如何，最后必须释放/关闭剪贴板，否则其他程序将无法复制粘贴
+                CloseClipboard();
+            }
+        }
+        
+        return;
     }
 }
 

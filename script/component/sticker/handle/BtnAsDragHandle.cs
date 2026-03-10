@@ -48,6 +48,15 @@ public partial class BtnAsDragHandle : ComponentResource
         dragEndOnFocusExited.DragEnd += DragEnd;
 
         HandleBtn.TooltipText = Tr(Name.Tooltip_StickerDragHandle);
+        if (Holder.TryGetComponent<OnTrServerSetLocale>(out var onSetLocale))
+        {
+            onSetLocale.TrServerSetLocale += SetHandleTooltip;
+        }
+    }
+
+    private void SetHandleTooltip()
+    {
+        HandleBtn.TooltipText = Tr(Name.Tooltip_StickerDragHandle);
     }
 
     public override bool OnHolderTryRemove()

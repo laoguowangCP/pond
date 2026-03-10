@@ -46,6 +46,15 @@ public partial class BtnAsResizeHandleDownMid : ComponentResource
         dragEndOnFocusExited.DragEnd += DragEnd;
         
         HandleBtn.TooltipText = Tr(Name.Tooltip_StickerDragHandleBottomMid);
+        if (Holder.TryGetComponent<OnTrServerSetLocale>(out var onSetLocale))
+        {
+            onSetLocale.TrServerSetLocale += SetHandleTooltip;
+        }
+    }
+
+    private void SetHandleTooltip()
+    {
+        HandleBtn.TooltipText = Tr(Name.Tooltip_StickerDragHandleBottomMid);
     }
 
     public override bool OnHolderTryRemove()

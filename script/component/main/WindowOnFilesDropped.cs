@@ -51,12 +51,16 @@ public partial class WindowOnFilesDropped : ComponentResource
     {
         // TODO: Check in drag area
 
-        if (files.Length != 1)
+        foreach (var file in files)
         {
-            return;
+            HandleFileToSticker(file);
         }
 
-        string file = files[0];
+        OnSaveGame.Save();
+    }
+
+    public void HandleFileToSticker(string file)
+    {
         if (string.IsNullOrEmpty(file))
         {
             // Empty
@@ -90,10 +94,7 @@ public partial class WindowOnFilesDropped : ComponentResource
             // Fallback plain text
             HandleDropFileFallbackPlainText(file);
         }
-
-        OnSaveGame.Save();
     }
-
     
     protected void HandleDropFileFallbackPlainText(string text)
     {
