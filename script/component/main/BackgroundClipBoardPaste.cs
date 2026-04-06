@@ -103,9 +103,9 @@ public partial class BackgroundClipboardPaste : ComponentResource
     // protected void OnFocusEntered
     protected void OnClipboardRead()
     {
-        User32Native.GetCopiedFiles(ref ClipBoardFiles);
-        if (Holder.TryGetComponent<WindowOnFilesDropped>(out var onFilesDropped))
+        if (User32Native.GetCopiedFiles(ref ClipBoardFiles)) // Check available file in clipboard
         {
+            Holder.TryGetComponent<WindowOnFilesDropped>(out var onFilesDropped);
             foreach (var file in ClipBoardFiles)
             {
                 onFilesDropped.HandleFileToSticker(file);

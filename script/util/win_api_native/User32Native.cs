@@ -103,13 +103,13 @@ public static class User32Native
 
     private const uint CF_HDROP = 15;
 
-    public static void GetCopiedFiles(ref List<string> files)
+    public static bool GetCopiedFiles(ref List<string> files)
     {
         files.Clear();
         // 检查剪贴板中是否有文件数据
         if (!User32Native.IsClipboardFormatAvailable(CF_HDROP))
         {
-            return;
+            return false;
         }
 
         // 打开剪贴板 (传入 IntPtr.Zero 表示当前任务)
@@ -146,7 +146,7 @@ public static class User32Native
             }
         }
         
-        return;
+        return true;
     }
 }
 

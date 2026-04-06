@@ -18,7 +18,9 @@ config/name="pond"
 run/main_scene="uid://dp58xsa3dpcbo"
 config/features=PackedStringArray("4.6", "C#", "Forward Plus")
 run/low_processor_mode=true
-config/icon="res://icon.svg"
+config/icon="uid://bkdd5kt4q7hks"
+config/macos_native_icon="res://asset/pond_icon.icns"
+config/windows_native_icon="res://asset/pond_icon.ico"
 
 [display]
 
